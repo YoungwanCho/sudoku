@@ -13,7 +13,9 @@ namespace scene
         public void Start()
         {
             Debug.Log("Game Start()");
+            _modelCtrl = CreateModelController();
             _viewCtrl = CreateViewController();
+            
         }
 
 		public void Enter()
@@ -22,6 +24,11 @@ namespace scene
 
         public void Exit()
         {   
+        }
+
+        private controller.ModelController CreateModelController()
+        {
+            return new controller.ModelController();
         }
 
         private controller.ViewController CreateViewController()

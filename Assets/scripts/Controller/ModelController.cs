@@ -10,6 +10,7 @@ namespace controller
         public ModelController()
         {
             _board = new model.SquareBoard();
+            this.Initialize();
         }
 
         public void Initialize()
@@ -18,5 +19,10 @@ namespace controller
             _board.Initialize();
         }
 
-	}
+        public model.SquareCell FindCellByCoordinates(int column, int row)
+        {
+            return _board.FindCellByCoordinates(column, row);
+        }
+
+    }
 }

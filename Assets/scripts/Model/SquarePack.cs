@@ -4,13 +4,15 @@ namespace model
 {
     public class SquarePack
     {
+        public SquareCell[] CellArray { get { return _cellArray; } }
         private readonly int _orderIndex;
         private SquareCell[] _cellArray = new SquareCell[DefineData.MAX_CELL_COUNT];
 
         public SquarePack(int orderIndex)
         {
             this._orderIndex = orderIndex;
-            this.CreateCells();
+            this.CreateCells(orderIndex);
+            this.Initialize();
         }
 
         public void Initialize()
@@ -20,7 +22,6 @@ namespace model
             {
                 _cellArray.Initialize();
             }
-
         }
 
         public bool CheckDuplicateNumberValues()
@@ -28,13 +29,11 @@ namespace model
             return false;
         }
 
-
-
-        private void CreateCells()
+        private void CreateCells(int packIndex)
         {
             for (int i = 0; i < DefineData.MAX_CELL_COUNT; i++)
             {
-                _cellArray[i] = new SquareCell(i, 0, false);
+                _cellArray[i] = new SquareCell(packIndex, i);
             }
         }
     }
