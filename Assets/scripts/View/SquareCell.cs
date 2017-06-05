@@ -9,7 +9,12 @@ namespace view
         public Text numberValue_ = null;
         public Image backGroundImage_ = null;
 
+        private model.BoardCoordinate _boardCoordinate = null;
+
+        private int _packIndex = 0;
         private int _orderIdex = 0;
+        private int _column = 0;
+        private int _row = 0;
 
         public void Awake()
         {
@@ -25,17 +30,21 @@ namespace view
         //    Debug.Log("OnClick : " + name);
         //}
 
-        public void Initialize(int orderIndex)
+        public void Initialize(int packIndex, int orderIndex)
         {
+            this._packIndex = packIndex;
             this._orderIdex = orderIndex;
-            this.numberValue_.text = string.Empty;
-
+            this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
+            this._row = orderIndex / DefineData.MAX_ROW_COUNT;
+            this._boardCoordinate = new model.BoardCoordinate(packIndex, this._column, this._row);
+            //Debug.Log(string.Format("Name :{0} -  [{1}, {2}]", name, _boardCoordinate.column, _boardCoordinate.row));
             SetPosition(orderIndex);
         }
 
         public void UIUpdate(int numberValue, string imageName)
         {
             numberValue_.text = numberValue.ToString();
+            //numberValue_.text = string.Format("[{0}, {1}]", _boardCoordinate.column, _boardCoordinate.row);
             Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
             backGroundImage_.sprite = image;
         }

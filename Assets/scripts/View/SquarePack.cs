@@ -18,11 +18,13 @@ namespace view
 
         public void Initialize(int orderIndex)
         {
-            this._orderIndex = orderIndex;
+            _orderIndex = orderIndex;
             SetPosition(orderIndex);
+
             
             for(int i=0; i<_squareCells.Length; i++)
             {
+                _squareCells[i].Initialize(orderIndex, i);
                 _squareCells[i].UIUpdate(i, _orderIndex % 2 == 0 ? "cell_orange" : "cell_red");
             }
         }
@@ -43,7 +45,6 @@ namespace view
                 obj.transform.localScale = Vector3.one;
                 obj.name = string.Format("Cell {0}", i);
                 squareCells[i] = obj.GetComponent<view.SquareCell>();
-                squareCells[i].Initialize(i);
             }
             return squareCells;
         }
