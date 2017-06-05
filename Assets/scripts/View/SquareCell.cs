@@ -54,8 +54,8 @@ namespace view
             float startX = -((imageRect.sizeDelta.x * DefineData.MAX_COLUMN_COUNT) + (DefineData.MAX_COLUMN_COUNT + 1)) * 0.5f;
             float startY = ((imageRect.sizeDelta.y * DefineData.MAX_ROW_COUNT) + (DefineData.MAX_ROW_COUNT + 1)) * 0.5f;
 
-            float posX = startX + ((imageRect.sizeDelta.x * column) + (column + 1) + (imageRect.sizeDelta.x * 0.5f));
-            float posY = startY - ((imageRect.sizeDelta.y * row) - (row + 1) - (imageRect.sizeDelta.y * 0.5f));
+            float posX = startX + (imageRect.sizeDelta.x * 0.5f) + ((imageRect.sizeDelta.x * column) + (column + 1));
+            float posY = startY - (imageRect.sizeDelta.y * 0.5f) - ((imageRect.sizeDelta.y * row) - (row + 1));
 
             this.transform.localPosition = new Vector3(posX, posY, 0);
         }

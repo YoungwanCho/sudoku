@@ -62,8 +62,8 @@ namespace view
             float startX = -totalWidth * 0.5f + (packWdith * 0.5f);
             float startY = totalHeight * 0.5f - (packHeight * 0.5f);
 
-            float posX = startX + (packWdith * column + (column + 1));
-            float posY = startY - (packHeight * row - (row + 1));
+            float posX = startX + ((packWdith * column) + (column + 1));
+            float posY = startY - ((packHeight * row) - (row + 1));
 
             this.transform.localPosition = new Vector3(posX, posY, 0);
 
