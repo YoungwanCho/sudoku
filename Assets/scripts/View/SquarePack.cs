@@ -6,6 +6,7 @@ namespace view
 {
     public class SquarePack : MonoBehaviour
     {
+        public SquareCell[] SquareCells { get { return _squareCells; } }
         private view.SquareCell[] _squareCells = null;
         private int _orderIndex = 0; //@TODO: 생성자를 사용하지 않고 한번만 할당 하도록 수정
         private BoxCollider2D _collider = null;
@@ -16,7 +17,7 @@ namespace view
             _collider = this.gameObject.AddComponent<BoxCollider2D>();
         }
 
-        public void Initialize(int orderIndex)
+        public void Initialize(controller.InputController.OnClick onClickCell, int orderIndex)
         {
             _orderIndex = orderIndex;
             SetPosition(orderIndex);
@@ -24,7 +25,7 @@ namespace view
             
             for(int i=0; i<_squareCells.Length; i++)
             {
-                _squareCells[i].Initialize(orderIndex, i);
+                _squareCells[i].Initialize(onClickCell, orderIndex, i);
                 _squareCells[i].UIUpdate(i, _orderIndex % 2 == 0 ? "cell_orange" : "cell_red");
             }
         }

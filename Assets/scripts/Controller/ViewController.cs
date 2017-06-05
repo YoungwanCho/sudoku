@@ -7,13 +7,14 @@ namespace controller
     {
         private view.SquareBoard _board = null;
 
-        public void Start()
+        public void Awake()
         {
             _board = CreateSquareBoard();
         }
 
-        public void Initialize()
+        public void Initialize(controller.InputController.OnClick OnClickCell)
         {
+            _board.Initialize(OnClickCell);
         }
 
         private view.SquareBoard CreateSquareBoard()
@@ -28,5 +29,9 @@ namespace controller
             return obj.GetComponent<view.SquareBoard>();
         }
 
+        public view.SquareCell FindCellByCoordinates(int column, int row)
+        {
+            return _board.FindCellByCoordinates(column, row);
+        }
     }
 }

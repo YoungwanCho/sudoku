@@ -6,10 +6,13 @@ namespace view
 {
     public class SquareCell : MonoBehaviour
     {
+        public model.BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
         public Text numberValue_ = null;
         public Image backGroundImage_ = null;
 
         private model.BoardCoordinate _boardCoordinate = null;
+
+        private Button _button = null;
 
         private int _packIndex = 0;
         private int _orderIdex = 0;
@@ -21,17 +24,19 @@ namespace view
             BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
             collider.size = DefineData.CELLSIZE;
 
-            //Button btn = this.gameObject.AddComponent<Button>();
-            //btn.onClick.AddListener(OnClick);
+            _button = this.gameObject.AddComponent<Button>();
         }
 
-        //public void OnClick()
-        //{
-        //    Debug.Log("OnClick : " + name);
-        //}
-
-        public void Initialize(int packIndex, int orderIndex)
+        public void Initialize(controller.InputController.OnClick onClickCell, int packIndex, int orderIndex)
         {
+            _button.onClick.AddListener
+            (
+                delegate
+                {
+                    onClickCell(_boardCoordinate.column, _boardCoordinate.row);
+                }
+            );
+
             this._packIndex = packIndex;
             this._orderIdex = orderIndex;
             this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
