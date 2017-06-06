@@ -8,12 +8,11 @@ namespace model
         public int NumberValue { get { return this._numberValue; } }
         public BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
 
+        private readonly BoardCoordinate _boardCoordinate;
         private readonly int _packIndex;
         private readonly int _orderIndex;
         private readonly int _column;
         private readonly int _row;
-
-        private readonly BoardCoordinate _boardCoordinate;
 
         private int _numberValue = 0;
         private bool _isOpenValue = false;

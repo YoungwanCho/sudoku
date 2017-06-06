@@ -17,7 +17,7 @@ namespace view
             _collider = this.gameObject.AddComponent<BoxCollider2D>();
         }
 
-        public void Initialize(controller.InputController.OnClick onClickCell, int orderIndex)
+        public void Initialize(controller.GameController.OnClick onClickCell, int orderIndex)
         {
             _orderIndex = orderIndex;
             SetPosition(orderIndex);

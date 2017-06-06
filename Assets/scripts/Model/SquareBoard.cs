@@ -4,6 +4,11 @@ namespace model
 {
     public class SquareBoard
     {
+        private model.SquarePack _selectPack = null;
+        private model.SquareCell _selectCell = null;
+        private model.SquareCell[] _equalColumnCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
+        private model.SquareCell[] _equalRowCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
+
         private model.SquarePack[] _squarePacks = new model.SquarePack[DefineData.MAX_PACK_COUNT];
 
         public SquareBoard()
@@ -19,6 +24,33 @@ namespace model
             {
                 _squarePacks[i].Initialize();
             }
+        }
+
+        public void SelectCell(int column, int row)
+        {
+            if (_selectCell.NumberValue == 0) // ºóÄ­À» ¼±ÅÃÇÑ°æ¿ì
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        private void UpdateEqualColumnCell()
+        {
+
+        }
+
+        private void UpdateEqaulRowCell()
+        {
+
+        }
+
+        private void UpdateSelectPack(model.SquareCell selectCell)
+        {
+
         }
 
         public SquareCell FindCellByCoordinates(int column, int row)

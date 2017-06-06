@@ -12,7 +12,7 @@ namespace view
            _squarePacks = CreateSquarePack();
         }
 
-        public void Initialize(controller.InputController.OnClick onClickCell)
+        public void Initialize(controller.GameController.OnClick onClickCell)
         {
             for(int i=0; i< _squarePacks.Length; i++)
             {
