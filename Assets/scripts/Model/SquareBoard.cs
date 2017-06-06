@@ -8,7 +8,7 @@ namespace model
         private model.SquareCell _selectCell = null;
         private model.SquareCell[] _equalColumnCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
         private model.SquareCell[] _equalRowCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
-
+        private model.SquareCell[] _equalValueCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
         private model.SquarePack[] _squarePacks = new model.SquarePack[DefineData.MAX_PACK_COUNT];
 
         public SquareBoard()
@@ -28,6 +28,8 @@ namespace model
 
         public void SelectCell(int column, int row)
         {
+            _selectCell = FindCellByCoordinates(column, row);
+            UpdateSelectPack(_selectCell);
             if (_selectCell.NumberValue == 0) // ºóÄ­À» ¼±ÅÃÇÑ°æ¿ì
             {
 
@@ -36,24 +38,59 @@ namespace model
             {
 
             }
+            UpdateCellData(_selectCell);
         }
 
-        private void UpdateEqualColumnCell()
+        private void UpdateCellData(model.SquareCell selectCell)
         {
+            model.SquarePack targetPack = null;
+            model.SquareCell targetCell = null;
+            int equalColumnCount = 0;
+            int equalRowCount = 0;
+            int equalValueCount = 0; 
+             
+            for(int i=0; i<_squarePacks.Length; i++)
+            {
+                targetPack = _squarePacks[i];
+                for (int j=0; j<targetPack.CellArray.Length; j++)
+                {
+                    targetCell = targetPack.CellArray[j];
 
+                    //if(targetCell.BoardCoorinate.column != column && targetCell.BoardCoorinate.row != row)
+                    //{
+                    //    continue;
+                    //}
+                    if(targetCell.BoardCoorinate.column == selectCell.BoardCoorinate.column && targetCell.BoardCoorinate.row == selectCell.BoardCoorinate.row) // ¼¿·ºÆ®¼¿ ÀÌ¶ó¸é ÆÐ½º (°´Ã¼ ÀÌÄ÷¿¬»êÇÏÀÚ)
+                    {
+                        continue;
+                    }
+                    
+                    if(targetCell.BoardCoorinate.column == selectCell.BoardCoorinate.column)
+                    {
+                        _equalColumnCells[equalColumnCount] = targetCell;
+                        equalColumnCount++;
+                    }
+                    else if(targetCell.BoardCoorinate.row == selectCell.BoardCoorinate.row)
+                    {
+                        _equalRowCells[equalRowCount] = targetCell;
+                        equalRowCount++;
+                    }
+                    
+                    if(targetCell.NumberValue == selectCell.NumberValue)
+                    {
+                        _equalValueCells[equalValueCount] = targetCell;
+                        equalValueCount++;
+                    }                      
+                }
+            }
         }
 
-        private void UpdateEqaulRowCell()
+        private void UpdateSelectPack(model.SquareCell cell)
         {
-
+           _selectPack= _squarePacks[cell.PackIndex]; 
         }
 
-        private void UpdateSelectPack(model.SquareCell selectCell)
-        {
-
-        }
-
-        public SquareCell FindCellByCoordinates(int column, int row)
+        private SquareCell FindCellByCoordinates(int column, int row)
         {
             SquareCell cell = null;
 

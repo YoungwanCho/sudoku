@@ -6,6 +6,7 @@ namespace model
     {
         public int OrderIndex { get { return this._orderIndex; } }
         public int NumberValue { get { return this._numberValue; } }
+        public int PackIndex { get { return this._packIndex; } }
         public BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
 
         private readonly BoardCoordinate _boardCoordinate;

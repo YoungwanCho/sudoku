@@ -7,7 +7,6 @@ namespace controller
     public class GameController : MonoBehaviour
     {
         public delegate void OnClick(int n, int n2);
-
         private scene.Game _game = null;
 
         private model.SquareBoard _modelBoard = null;
@@ -47,7 +46,6 @@ namespace controller
         {
             UnityEngine.Debug.Log("OnClick Input Button Value : " + value);
         }
-
 
         private view.SquareBoard CreateSquareBoard()
         {
