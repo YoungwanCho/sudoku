@@ -30,8 +30,9 @@ namespace model
 
         public void Initialize(int numberValue, bool isOpenValue)
         {
-            this._isOpenValue = isOpenValue;
             this._numberValue = numberValue;
+            this._isOpenValue = isOpenValue;
+
         }
 
     }

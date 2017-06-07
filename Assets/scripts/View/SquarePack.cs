@@ -26,7 +26,7 @@ namespace view
             for(int i=0; i<_squareCells.Length; i++)
             {
                 _squareCells[i].Initialize(onClickCell, orderIndex, i);
-                _squareCells[i].UIUpdate(i, _orderIndex % 2 == 0 ? "cell_orange" : "cell_red");
+                //_squareCells[i].UpdateText(i);
             }
         }
 

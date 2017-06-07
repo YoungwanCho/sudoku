@@ -4,9 +4,9 @@ namespace model
 {
     public class SquarePack
     {
-        public SquareCell[] CellArray { get { return _cellArray; } }
+        public SquareCell[] SquareCells { get { return _squareCells; } }
         private readonly int _orderIndex;
-        private SquareCell[] _cellArray = new SquareCell[DefineData.MAX_CELL_COUNT];
+        private SquareCell[] _squareCells = new SquareCell[DefineData.MAX_CELL_COUNT];
 
         public SquarePack(int orderIndex)
         {
@@ -18,9 +18,9 @@ namespace model
         public void Initialize()
         {
             Debug.Log("SquarePack Model Init");
-            for (int i = 0; i < _cellArray.Length; i++)
+            for (int i = 0; i < _squareCells.Length; i++)
             {
-                _cellArray.Initialize();
+                _squareCells.Initialize();
             }
         }
 
@@ -33,7 +33,7 @@ namespace model
         {
             for (int i = 0; i < DefineData.MAX_CELL_COUNT; i++)
             {
-                _cellArray[i] = new SquareCell(packIndex, i);
+                _squareCells[i] = new SquareCell(packIndex, i);
             }
         }
     }

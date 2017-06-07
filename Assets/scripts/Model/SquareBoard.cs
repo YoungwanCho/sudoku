@@ -4,6 +4,11 @@ namespace model
 {
     public class SquareBoard
     {
+        public model.SquareCell[] EqualColumnCells { get { return _equalColumnCells; } }
+        public model.SquareCell[] EqaulRowCells { get { return _equalRowCells; } }
+        public model.SquareCell[] EqaulValueCells { get { return _equalValueCells; } }
+        public model.SquarePack[] SquarePack { get { return _squarePacks; } }
+
         private model.SquarePack _selectPack = null;
         private model.SquareCell _selectCell = null;
         private model.SquareCell[] _equalColumnCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
@@ -26,7 +31,7 @@ namespace model
             }
         }
 
-        public void SelectCell(int column, int row)
+        public void SelectCell(int column, int row, System.Action CallBack)
         {
             _selectCell = FindCellByCoordinates(column, row);
             UpdateSelectPack(_selectCell);
@@ -39,6 +44,7 @@ namespace model
 
             }
             UpdateCellData(_selectCell);
+            CallBack();
         }
 
         private void UpdateCellData(model.SquareCell selectCell)
@@ -52,9 +58,9 @@ namespace model
             for(int i=0; i<_squarePacks.Length; i++)
             {
                 targetPack = _squarePacks[i];
-                for (int j=0; j<targetPack.CellArray.Length; j++)
+                for (int j=0; j<targetPack.SquareCells.Length; j++)
                 {
-                    targetCell = targetPack.CellArray[j];
+                    targetCell = targetPack.SquareCells[j];
 
                     //if(targetCell.BoardCoorinate.column != column && targetCell.BoardCoorinate.row != row)
                     //{
@@ -97,15 +103,15 @@ namespace model
             int packColumn = column / DefineData.MAX_COLUMN_COUNT;
             int packRow = row / DefineData.MAX_ROW_COUNT;
 
-            int packOrderIndex = (packColumn * DefineData.MAX_ROW_COUNT) + packRow;
+            int packOrderIndex = (packRow * DefineData.MAX_ROW_COUNT) + packColumn;
 
-            int cellColumn = packColumn;
-            int cellRow = packRow;
+            int cellColumn = column % DefineData.MAX_COLUMN_COUNT;
+            int cellRow = row % DefineData.MAX_ROW_COUNT;
 
-            int cellOrderIndex = (cellColumn * DefineData.MAX_ROW_COUNT) + cellRow;
+            int cellOrderIndex = (cellRow * DefineData.MAX_ROW_COUNT) + cellColumn;
 
 
-            cell = _squarePacks[packOrderIndex].CellArray[cellOrderIndex];
+            cell = _squarePacks[packOrderIndex].SquareCells[cellOrderIndex];
 
             Debug.Log(string.Format("parameter : [{0}, {1}] - Cell Coordinate : [{2}, {3}]", 
                 column, row, cell.BoardCoorinate.column, cell.BoardCoorinate.row));

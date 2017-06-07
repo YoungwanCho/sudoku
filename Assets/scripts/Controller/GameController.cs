@@ -21,7 +21,7 @@ namespace controller
         // Use this for initialization
         void Start()
         {
-
+            OnClickCell(4, 4);
         }
 
         // Update is called once per frame
@@ -40,7 +40,14 @@ namespace controller
         public void OnClickCell(int column, int row)
         {
             UnityEngine.Debug.Log(string.Format("OnClick : [{0}, {1}]", column, row));
+            _modelBoard.SelectCell(column, row, UpdateView);
         }
+
+        public void UpdateView()
+        {
+            _viewBoard.UpdateBoardAim(this._modelBoard);
+            _viewBoard.UpdateBoardValue(this._modelBoard);
+        } 
 
         public void OnClickNumberButton(int value)
         {

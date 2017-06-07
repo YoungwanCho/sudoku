@@ -46,13 +46,41 @@ namespace view
             SetPosition(orderIndex);
         }
 
-        public void UIUpdate(int numberValue, string imageName)
+        public void UpdateTrim(string imageName, bool isZooming)
+        {
+            ChangeImage(imageName);
+
+            if(isZooming)
+            {
+                ChangeScale(1.1f);
+            }
+            else
+            {
+                ChangeScale(1.0f);
+            }
+        }
+
+        public void UpdateText(int numberValue)
         {
             numberValue_.text = numberValue.ToString();
             //numberValue_.text = string.Format("[{0}, {1}]", _boardCoordinate.column, _boardCoordinate.row);
+        }
+
+        public void UpdateText(string text) // ÁÂÇ¥ º¸±â ¿ë
+        {
+            numberValue_.text = text;
+        } 
+
+        private void ChangeScale(float scale)
+        {
+            this.transform.localScale = Vector3.one * scale;
+        } 
+
+        private void ChangeImage(string imageName)
+        {
             Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
             backGroundImage_.sprite = image;
-        }
+        } 
 
         private void SetPosition(int orderIndex)
         {
