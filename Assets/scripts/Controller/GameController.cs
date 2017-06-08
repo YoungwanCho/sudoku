@@ -7,7 +7,7 @@ namespace controller
     public class GameController : MonoBehaviour
     {
         public delegate void OnClick(int n, int n2);
-        public delegate void OnClickInputPad(UnityEngine.Object obj);
+        public delegate void OnClickInputNumberButton(UnityEngine.Object obj);
         private scene.Game _game = null;
 
         private model.SquareBoard _modelBoard = null;

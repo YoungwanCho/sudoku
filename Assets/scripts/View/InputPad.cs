@@ -5,28 +5,25 @@ using UnityEngine.UI;
 
 public class InputPad : MonoBehaviour
 {
-    private Button[] _inputValueButtons = new Button[DefineData.MAX_NUMBER_VALUE];
+    private InputNumberButton[] _numberButton = new InputNumberButton[DefineData.MAX_NUMBER_VALUE];
 
     public void Awake()
     {
-        CreateInputValueButtons();
+        CreateInputNumberButtons();
     }
 
-    public void Initialize(controller.GameController.OnClickInputPad onClickInputPad)
+    public void Initialize(controller.GameController.OnClickInputNumberButton onClickInputNumberButton)
     {
-        
-        for(int i=0; i<_inputValueButtons.Length; i++)
+        for(int i=0; i< _numberButton.Length; i++)
         {
-            //_inputValueButtons[i].onClick.AddListener(delegate { onClickInputPad); });
+            _numberButton[i].Initialize(onClickInputNumberButton, "cell_red", (i+1));
         }
     }
 
-    private void CreateInputValueButtons()
+    private void CreateInputNumberButtons()
     {
         GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
         GameObject obj = null;
-        Text text = null;
-        Image image = null;
 
         float totalWidth = (DefineData.MAX_NUMBER_VALUE * DefineData.NUMBERSIZE.x) + DefineData.MAX_NUMBER_VALUE;
 
@@ -39,12 +36,7 @@ public class InputPad : MonoBehaviour
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = (i + 1).ToString(); // 입력 값으로 사용
-            _inputValueButtons[i] = obj.GetComponent<Button>();
-            text = obj.GetComponentInChildren<Text>();
-            text.text = obj.name;
-            image = obj.GetComponentInChildren<Image>();
-            Sprite sprite = Resources.Load(string.Format("Image/{0}", "cell_red"), typeof(Sprite)) as Sprite;
-            image.sprite = sprite;
+            _numberButton[i] = obj.GetComponent<InputNumberButton>();
         }
     }
 }
