@@ -33,6 +33,14 @@ namespace controller
 
         }
 
+        private void OnGUI()
+        {
+            if(GUI.Button(new Rect(200, 200, 200, 200), "Save"))
+            {
+                new controller.MapEditor().MapSave(_modelBoard);                
+            }
+        }
+
         public void Initialize(scene.Game game)
         {
             this._game = game;
