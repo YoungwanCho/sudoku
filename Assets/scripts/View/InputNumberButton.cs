@@ -12,7 +12,7 @@ public class InputNumberButton : MonoBehaviour
     [SerializeField]
     private Text _text = null;
 
-    public void Initialize(controller.GameController.OnClickInputNumberButton onclick, string imageName, int number)
+    public void Initialize(controller.GameController.OnClickInputPad onclick, string imageName, int number)
     {
         _button.onClick.AddListener(delegate { onclick(this.gameObject); });
         _image.sprite = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;

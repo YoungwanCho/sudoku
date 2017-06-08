@@ -12,7 +12,7 @@ public class InputPad : MonoBehaviour
         CreateInputNumberButtons();
     }
 
-    public void Initialize(controller.GameController.OnClickInputNumberButton onClickInputNumberButton)
+    public void Initialize(controller.GameController.OnClickInputPad onClickInputNumberButton)
     {
         for(int i=0; i< _numberButton.Length; i++)
         {

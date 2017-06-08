@@ -7,7 +7,7 @@ namespace controller
     public class GameController : MonoBehaviour
     {
         public delegate void OnClick(int n, int n2);
-        public delegate void OnClickInputNumberButton(UnityEngine.Object obj);
+        public delegate void OnClickInputPad(UnityEngine.Object obj);
         private scene.Game _game = null;
 
         private model.SquareBoard _modelBoard = null;
@@ -49,7 +49,11 @@ namespace controller
 
         public void OnClickInputValueButton(UnityEngine.Object obj)
         {
+            
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
+            int number = System.Int32.Parse(obj.name);
+            _modelBoard.InputNumber(number);
+            UpdateView();
         }
 
         public void UpdateView()

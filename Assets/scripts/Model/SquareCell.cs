@@ -7,6 +7,7 @@ namespace model
         public int OrderIndex { get { return this._orderIndex; } }
         public int NumberValue { get { return this._numberValue; } }
         public int PackIndex { get { return this._packIndex; } }
+        public bool IsOpenValue { get { return this._isOpenValue; } }
         public BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
 
         private readonly BoardCoordinate _boardCoordinate;
@@ -35,5 +36,9 @@ namespace model
 
         }
 
+        public void UpdateNumberValue(int number)
+        {
+            this._numberValue = number;
+        }
     }
 }

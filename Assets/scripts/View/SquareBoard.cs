@@ -37,8 +37,8 @@ namespace view
                 {
                     targetCell = targetPack.SquareCells[j];
                     modelCell = modelPack.SquareCells[j];
-                    //targetCell.UpdateText(modelCell.NumberValue);
-                    targetCell.UpdateText(string.Format("[{0},{1}]", modelCell.BoardCoorinate.column, modelCell.BoardCoorinate.row));
+                    targetCell.UpdateText(modelCell.NumberValue);
+                    //targetCell.UpdateText(string.Format("[{0},{1}]", modelCell.BoardCoorinate.column, modelCell.BoardCoorinate.row));
                 }
             }
         } 
@@ -72,7 +72,7 @@ namespace view
                     isEqualColumn = false;
                     isEqualRow = false;
 
-                    for (int k = 0; k < modelSquareBoard.EqaulValueCells.Length; k++)
+                    for (int k = 0; k < modelSquareBoard.EqaulValueCells.Count; k++)
                     {
                         if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)

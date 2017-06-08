@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace model
 {
@@ -6,14 +7,15 @@ namespace model
     {
         public model.SquareCell[] EqualColumnCells { get { return _equalColumnCells; } }
         public model.SquareCell[] EqaulRowCells { get { return _equalRowCells; } }
-        public model.SquareCell[] EqaulValueCells { get { return _equalValueCells; } }
+        public List<model.SquareCell> EqaulValueCells { get { return _equalValueCells; } }
         public model.SquarePack[] SquarePack { get { return _squarePacks; } }
 
         private model.SquarePack _selectPack = null;
         private model.SquareCell _selectCell = null;
         private model.SquareCell[] _equalColumnCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
         private model.SquareCell[] _equalRowCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
-        private model.SquareCell[] _equalValueCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
+        private List<model.SquareCell> _equalValueCells = new List<SquareCell>();
+        
         private model.SquarePack[] _squarePacks = new model.SquarePack[DefineData.MAX_PACK_COUNT];
 
         public SquareBoard()
@@ -47,15 +49,26 @@ namespace model
             CallBack();
         }
 
+        public void InputNumber(int number)
+        {
+            if (_selectCell == null || _selectCell.IsOpenValue)
+                return;
+
+            _selectCell.UpdateNumberValue(number);
+
+
+
+        }
+
         private void UpdateCellData(model.SquareCell selectCell)
         {
             model.SquarePack targetPack = null;
             model.SquareCell targetCell = null;
             int equalColumnCount = 0;
             int equalRowCount = 0;
-            int equalValueCount = 0; 
-             
-            for(int i=0; i<_squarePacks.Length; i++)
+            _equalValueCells.Clear();
+
+            for (int i=0; i<_squarePacks.Length; i++)
             {
                 targetPack = _squarePacks[i];
                 for (int j=0; j<targetPack.SquareCells.Length; j++)
@@ -84,8 +97,7 @@ namespace model
                     
                     if(targetCell.NumberValue == selectCell.NumberValue)
                     {
-                        _equalValueCells[equalValueCount] = targetCell;
-                        equalValueCount++;
+                        _equalValueCells.Add(targetCell);
                     }                      
                 }
             }
