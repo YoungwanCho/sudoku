@@ -55,7 +55,8 @@ namespace model
             if (_selectCell == null) return;
             if (_selectCell.IsOpenValue) //@TODO: 입력셀이 아닌경우 표시!
             {
-                Debug.Log(string.Format("빈칸이 아닙니다."));
+                Debug.Log(string.Format("입력셀이 아닙니다."));
+                return;
             }
             
             _selectCell.UpdateNumberValue(number);
