@@ -12,15 +12,14 @@ namespace model
         {
             this._orderIndex = orderIndex;
             this.CreateCells(orderIndex);
-            this.Initialize();
         }
 
-        public void Initialize()
+        public void Initialize(int[] stageNumberArr)
         {
             Debug.Log("SquarePack Model Init");
             for (int i = 0; i < _squareCells.Length; i++)
             {
-                _squareCells.Initialize();
+                _squareCells[i].Initialize(stageNumberArr[i]);
             }
         }
 

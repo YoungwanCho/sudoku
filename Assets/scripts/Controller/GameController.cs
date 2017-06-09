@@ -13,13 +13,15 @@ namespace controller
         private model.SquareBoard _modelBoard = null;
         private view.SquareBoard _viewBoard = null;
         private InputPad _inputPad = null;
+        private model.StageData _stageData = null;
 
         public void Awake()
         {
             _modelBoard = new model.SquareBoard();
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
-        } 
+            _stageData = LoadStageData("stage1");
+        }
 
         // Use this for initialization
         void Start()
@@ -35,16 +37,26 @@ namespace controller
 
         private void OnGUI()
         {
-            if(GUI.Button(new Rect(200, 200, 200, 200), "Save"))
+            if(GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
             {
-                new controller.MapEditor().MapSave(_modelBoard);                
+                new controller.StageEditor().MapSave(_modelBoard);                
+            }
+
+            if(GUI.Button(new Rect(400, 200, 200, 200), "Empty Cell "))
+            { 
+                OnClickInputValueButton(new GameObject("0"));
+            }
+
+            if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
+            {
+                LoadStageData("stage1");
             }
         }
 
         public void Initialize(scene.Game game)
         {
             this._game = game;
-            _modelBoard.Initialize();
+            _modelBoard.Initialize(_stageData);
             _viewBoard.Initialize(this.OnClickCell);
             _inputPad.Initialize(OnClickInputValueButton);
         } 
@@ -95,6 +107,12 @@ namespace controller
             obj.transform.localScale = Vector3.one;
             obj.name = "InputPad";
             return obj.AddComponent<InputPad>();
+        }
+
+        private model.StageData LoadStageData(string stageName)
+        {
+            controller.StageData data = new controller.StageData();
+            return data.LoadStageData(stageName);
         }
 
 

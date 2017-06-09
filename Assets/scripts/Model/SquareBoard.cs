@@ -21,15 +21,16 @@ namespace model
         public SquareBoard()
         {
             CreatePacks();
-            this.Initialize();
         }
 
-        public void Initialize()
+        public void Initialize(model.StageData stageData)
         {
-            Debug.Log("Square Board Model Init");
+            int[] packNumberArr = new int[DefineData.MAX_CELL_COUNT];
+
             for (int i = 0; i < _squarePacks.Length; i++)
             {
-                _squarePacks[i].Initialize();
+                packNumberArr = GetNumberValueOfPackFromStageData(stageData, i);
+                _squarePacks[i].Initialize(packNumberArr);
             }
         }
 
@@ -51,13 +52,24 @@ namespace model
 
         public void InputNumber(int number)
         {
-            if (_selectCell == null || _selectCell.IsOpenValue)
-                return;
-
+            if (_selectCell == null) return;
+            if (_selectCell.IsOpenValue) //@TODO: ÀÔ·Â¼¿ÀÌ ¾Æ´Ñ°æ¿ì Ç¥½Ã!
+            {
+                Debug.Log(string.Format("ºóÄ­ÀÌ ¾Æ´Õ´Ï´Ù."));
+            }
+            
             _selectCell.UpdateNumberValue(number);
+        }
 
-
-
+        private int[] GetNumberValueOfPackFromStageData(model.StageData stagedata, int packIndex)
+        {
+            int[] numberArr = new int[DefineData.MAX_CELL_COUNT];
+            int startIndex = packIndex * DefineData.MAX_CELL_COUNT;
+            for(int i = 0; i< DefineData.MAX_CELL_COUNT; i++)
+            {  
+                numberArr[i] = stagedata.cellDataList[startIndex + i].number;             
+            }
+            return numberArr;           
         }
 
         private void UpdateCellData(model.SquareCell selectCell)
@@ -95,7 +107,11 @@ namespace model
                         equalRowCount++;
                     }
                     
-                    if(targetCell.NumberValue == selectCell.NumberValue)
+                    if(selectCell.NumberValue == 0) // ºóÄ­ÀÌ¶ó¸é
+                    {
+                        continue;
+                    }
+                    else if(targetCell.NumberValue == selectCell.NumberValue)
                     {
                         _equalValueCells.Add(targetCell);
                     }                      

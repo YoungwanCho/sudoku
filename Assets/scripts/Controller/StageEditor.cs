@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace controller
 {
-    class MapEditor
+    class StageEditor
     {
         public void MapSave(model.SquareBoard board)
         {
-            var mapData = new model.MapData();
+            model.StageData stageData = new model.StageData();
 
             model.SquarePack targetPack = null;
             model.SquareCell targetCell = null;
@@ -23,14 +23,14 @@ namespace controller
                     targetCell = targetPack.SquareCells[j];
                     column = targetCell.BoardCoorinate.column;
                     row = targetCell.BoardCoorinate.row;
-                    mapData.mapData[column, row].column = column;
-                    mapData.mapData[column, row].row = row;
-                    mapData.mapData[column, row].column = targetCell.NumberValue;
+
+                    stageData.cellDataList.Add(new model.CellData( column, row, targetCell.NumberValue));
                 }
             }
 
-            string str = JsonUtility.ToJson(mapData, prettyPrint: true);
-            using (FileStream fs = new FileStream("Assets/Resources/MapData.txt", FileMode.Create))
+            string str = JsonUtility.ToJson(stageData, prettyPrint: true);
+            Debug.Log(str);
+            using (FileStream fs = new FileStream("Assets/Resources/stage1.json", FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {
