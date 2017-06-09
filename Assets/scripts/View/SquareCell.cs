@@ -61,8 +61,8 @@ namespace view
         }
 
         public void UpdateText(int numberValue)
-        {
-            numberValue_.text = numberValue.ToString();
+        {            
+            numberValue_.text = numberValue == 0 ? string.Empty : numberValue.ToString();
             //numberValue_.text = string.Format("[{0}, {1}]", _boardCoordinate.column, _boardCoordinate.row);
         }
 

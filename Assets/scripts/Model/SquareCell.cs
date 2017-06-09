@@ -25,15 +25,12 @@ namespace model
             this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
             this._row = orderIndex / DefineData.MAX_ROW_COUNT;
             this._boardCoordinate = new BoardCoordinate(packIndex, this._column, this._row);
-
-            this.Initialize(orderIndex, false); //@TEST
         }
 
-        public void Initialize(int numberValue, bool isOpenValue)
+        public void Initialize(int numberValue)
         {
             this._numberValue = numberValue;
-            this._isOpenValue = isOpenValue;
-
+            this._isOpenValue = numberValue != 0;
         }
 
         public void UpdateNumberValue(int number)
