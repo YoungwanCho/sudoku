@@ -6,10 +6,10 @@ namespace model
     public class SquarePack
     {
         public SquareCell[] SquareCells { get { return _squareCells; } }
+                
+        private SquareCell[] _squareCells = new SquareCell[DefineData.MAX_CELL_COUNT];
 
         private readonly int _orderIndex;
-        private SquareCell[] _squareCells = new SquareCell[DefineData.MAX_CELL_COUNT];
-        //private List<SquareCell> _duplicateCells = new List<SquareCell>();
 
         public SquarePack(int orderIndex)
         {
@@ -41,16 +41,16 @@ namespace model
         public model.SquareCell[] GetRowCells(int row)
         {
             model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_ROW_COUNT];
-
+            int startIndex = DefineData.MAX_ROW_COUNT * row;
             for(int i=0; i<DefineData.MAX_ROW_COUNT; i++)
             {
-                cells[i] = _squareCells[row + i];
+                cells[i] = _squareCells[startIndex + i];
             }
 
             return cells;
         }
 
-        public bool isDuplicateNumber()
+        public void UpdateDuplicateInPack()
         {
             for (int i=0; i<_squareCells.Length; i++)
             {
@@ -60,11 +60,10 @@ namespace model
 
                     if (_squareCells[i].NumberValue == _squareCells[j].NumberValue)
                     {
-                        return true;
+                        _squareCells[i].UpdateDuplicateState(true);
                     }
                 }
             }
-            return false;
         }
 
         private void CreateCells(int packIndex)

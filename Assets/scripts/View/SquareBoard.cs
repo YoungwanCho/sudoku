@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace view
 {
@@ -37,8 +37,8 @@ namespace view
                 {
                     targetCell = targetPack.SquareCells[j];
                     modelCell = modelPack.SquareCells[j];
+
                     targetCell.UpdateText(modelCell.NumberValue);
-                    //targetCell.UpdateText(string.Format("[{0},{1}]", modelCell.BoardCoorinate.column, modelCell.BoardCoorinate.row));
                 }
             }
         } 
@@ -52,16 +52,6 @@ namespace view
             bool isEqualColumn;
             bool isEqualRow;
 
-            for(int i=0; i<modelSquareBoard.EqualColumnCells.Length; i++)
-            {
-                Debug.Log(string.Format("Column : [{0},{1}]", modelSquareBoard.EqualColumnCells[i].BoardCoorinate.column, modelSquareBoard.EqualColumnCells[i].BoardCoorinate.row));
-            }
-
-            for (int i = 0; i < modelSquareBoard.EqaulRowCells.Length; i++)
-            {
-                Debug.Log(string.Format("Row : [{0},{1}]", modelSquareBoard.EqaulRowCells[i].BoardCoorinate.column, modelSquareBoard.EqaulRowCells[i].BoardCoorinate.row));
-            }
-
             for (int i = 0; i < _squarePacks.Length; i++)
             {
                 targetPack = _squarePacks[i];
@@ -72,12 +62,18 @@ namespace view
                     isEqualColumn = false;
                     isEqualRow = false;
 
+                    if(modelSquareBoard.SquarePack[i].SquareCells[j].IsDuplicate)
+                    {
+                        targetCell.UpdateTrim("cell_black", false, Color.red);
+                        continue;
+                    }
+
                     for (int k = 0; k < modelSquareBoard.EqaulValueCells.Count; k++)
                     {
                         if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_orange", true);
+                            targetCell.UpdateTrim("cell_orange", true, Color.green);
                             isEqualValue = true;
                             break;
                         }
@@ -85,12 +81,12 @@ namespace view
 
                     if (isEqualValue) continue;
 
-                    for (int n = 0; n < modelSquareBoard.EqualColumnCells.Length; n++)
+                    for (int k = 0; k < modelSquareBoard.EqualColumnCells.Length; k++)
                     {
-                        if (modelSquareBoard.EqualColumnCells[n].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
-                            modelSquareBoard.EqualColumnCells[n].BoardCoorinate.row == targetCell.BoardCoorinate.row)
+                        if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
+                            modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_green", true);
+                            targetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].IsDuplicate ? Color.red : Color.black);
                             isEqualColumn = true;
                             break;
                         }
@@ -98,12 +94,12 @@ namespace view
 
                     if (isEqualColumn) continue;
 
-                    for (int n = 0; n < modelSquareBoard.EqaulRowCells.Length; n++)
+                    for (int k = 0; k < modelSquareBoard.EqaulRowCells.Length; k++)
                     {
-                        if (modelSquareBoard.EqaulRowCells[n].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
-                            modelSquareBoard.EqaulRowCells[n].BoardCoorinate.row == targetCell.BoardCoorinate.row)
+                        if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
+                            modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_green", true);
+                            targetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].IsDuplicate ? Color.red : Color.black);
                             isEqualRow = true;
                             break;
                         }
@@ -111,33 +107,11 @@ namespace view
 
                     if (isEqualRow) continue;
 
-                    targetCell.UpdateTrim("cell_lemon", false);
+                    targetCell.UpdateTrim("cell_lemon", false, Color.black);
                 }
             }
         }
         
-        //public SquareCell FindCellByCoordinates(int column, int row)
-        //{
-        //    SquareCell cell = null;
-
-        //    int packColumn = column / DefineData.MAX_COLUMN_COUNT;
-        //    int packRow = row / DefineData.MAX_ROW_COUNT;
-
-        //    int packOrderIndex = (packColumn * DefineData.MAX_ROW_COUNT) + packRow;
-
-        //    int cellColumn = packColumn;
-        //    int cellRow = packRow;
-
-        //    int cellOrderIndex = (cellColumn * DefineData.MAX_ROW_COUNT) + cellRow;
-
-        //    cell = _squarePacks[packOrderIndex].SquareCells[cellOrderIndex];
-
-        //    Debug.Log(string.Format("parameter : [{0}, {1}] - Cell Coordinate : [{2}, {3}]",
-        //        column, row, cell.BoardCoorinate.column, cell.BoardCoorinate.row));
-
-        //    return cell;
-        //}
-
         private view.SquarePack[] CreateSquarePack()
         {
             view.SquarePack[] squarePack = new view.SquarePack[DefineData.MAX_PACK_COUNT];

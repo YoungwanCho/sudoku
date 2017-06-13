@@ -46,18 +46,13 @@ namespace view
             SetPosition(orderIndex);
         }
 
-        public void UpdateTrim(string imageName, bool isZooming)
+        public void UpdateTrim(string imageName, bool isZooming, Color32 textColor)
         {
             ChangeImage(imageName);
 
-            if(isZooming)
-            {
-                ChangeScale(1.1f);
-            }
-            else
-            {
-                ChangeScale(1.0f);
-            }
+            ChangeScale(isZooming ? 1.1f : 1.0f);
+
+            ChangeTextColor(textColor);
         }
 
         public void UpdateText(int numberValue)
@@ -80,7 +75,12 @@ namespace view
         {
             Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
             backGroundImage_.sprite = image;
-        } 
+        }
+        
+        private void ChangeTextColor(Color32 color)
+        {
+            numberValue_.color = color;
+        }  
 
         private void SetPosition(int orderIndex)
         {

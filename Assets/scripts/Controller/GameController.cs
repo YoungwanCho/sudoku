@@ -56,15 +56,15 @@ namespace controller
         public void Initialize(scene.Game game)
         {
             this._game = game;
-            _modelBoard.Initialize(_stageData);
+            _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(OnClickInputValueButton);
+            _inputPad.Initialize(this.OnClickInputValueButton);
         } 
 
         public void OnClickCell(int column, int row)
         {
             UnityEngine.Debug.Log(string.Format("OnClick : [{0}, {1}]", column, row));
-            _modelBoard.SelectCell(column, row, UpdateView);
+            _modelBoard.SelectCell(column, row, this.UpdateView);
         }
 
         public void OnClickInputValueButton(UnityEngine.Object obj)

@@ -60,20 +60,33 @@ namespace model
             }
             
             _selectCell.UpdateNumberValue(number);
+            UpdateCellData(_selectCell);
+
+            _selectPack.UpdateDuplicateInPack();
+            this.UpdateDuplicateInAim(_selectCell);
+
+            model.SquarePack pack = null;
+            model.SquareCell cell = null;
+            for(int i=0; i<_squarePacks.Length; i++)
+            {
+                pack = _squarePacks[i];
+                for(int j=0; j<pack.SquareCells.Length; j++)
+                {
+                    cell = pack.SquareCells[j];
+                    if(cell.IsDuplicate)
+                    {
+                        Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
+                            cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
+                    }
+                }
+            }
         }
 
         public bool CheckGameSuccess()
         {
             for(int i=0; i<_squarePacks.Length; i++)
             {
-                if (_squarePacks[i].isDuplicateNumber())
-                {
-                    return false;
-                }
             }
-            
-
-            
             return true;
         }
 
@@ -101,102 +114,6 @@ namespace model
             return packs;
         }
 
-        private bool isDuplicateNumberOfRow(int boardRow)
-        {
-            int targetPackRow = boardRow / DefineData.MAX_ROW_COUNT;
-            int targetCellRow = boardRow % DefineData.MAX_ROW_COUNT;
-
-            model.SquarePack[] packs = this.GetRowPacks(targetPackRow);
-            model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
-            model.SquareCell[][] tempCells = null;
-
-            for(int i=0; i<packs.Length; i++)
-            {
-                tempCells[i] = packs[i].GetRowCells(targetCellRow);
-            }
-            
-            for(int i=0; i< cells.Length; i++)
-            {
-                cells[i] = tempCells[i / cells.Length][i % cells.Length];
-            }
-
-            for(int i=0;i<cells.Length; i++)
-            {
-                for(int j=0; j<cells.Length; j++)
-                {
-                    if (i == j)
-                        continue;
-
-                    if (cells[i] == cells[j])
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        private bool isDuplicationNumberOfColumn(int boardColumn)
-        {
-            int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
-            int targetCellRow = boardColumn % DefineData.MAX_COLUMN_COUNT;
-
-            model.SquarePack[] packs = this.GetColumnPacks(targetPackColumn);
-            model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
-            model.SquareCell[][] tempCells = null;
-
-            for(int i=0; i<packs.Length; i++)
-            {
-                tempCells[i] = packs[i].GetColumnCells(targetPackColumn);
-            }
-
-            for (int i = 0; i < cells.Length; i++)
-            {
-                cells[i] = tempCells[i / cells.Length][i % cells.Length];
-            }
-
-            for (int i = 0; i < cells.Length; i++)
-            {
-                for (int j = 0; j < cells.Length; j++)
-                {
-                    if (i == j)
-                        continue;
-
-                    if (cells[i] == cells[j])
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        //private void CheckDuplicatteAllColumnRow()
-        //{
-        //    model.SquareCell[] refCells = new SquareCell[DefineData.MAX_CELL_COUNT];
-        //    model.SquarePack targetPack = null;
-        //    model.SquareCell targetCell = null;
-        //    model.SquareCell[] refEqaulColumnCell = new SquareCell[DefineData.MAX_CELL_COUNT];
-        //    //model.SquareCell[] refEqu
-
-        //    for (int i=0; i<DefineData.MAX_CELL_COUNT; i++)
-        //    {
-        //        refCells[i] = FindCellByCoordinates(i, i);
-        //        for (int j = 0; j < _squarePacks.Length; j++)
-        //        {
-        //            targetPack = _squarePacks[j];
-        //            for (int k = 0; k < targetPack.SquareCells.Length; k++)
-        //            {
-        //                targetCell = targetPack.SquareCells[k];
-
-        //                if (refCells[i].BoardCoorinate.column == targetCell.BoardCoorinate.column
-        //                    && refCells[i].BoardCoorinate.row == targetCell.BoardCoorinate.row)
-        //                {
-
-        //                }
-
-
-        //            }
-        //        }
-        //    }
-        //}
-
         private int[] GetNumberValueOfPackFromStageData(model.StageData stagedata, int packIndex)
         {
             int[] numberArr = new int[DefineData.MAX_CELL_COUNT];
@@ -223,10 +140,6 @@ namespace model
                 {
                     targetCell = targetPack.SquareCells[j];
 
-                    //if(targetCell.BoardCoorinate.column != column && targetCell.BoardCoorinate.row != row)
-                    //{
-                    //    continue;
-                    //}
                     if(targetCell.BoardCoorinate.column == selectCell.BoardCoorinate.column && targetCell.BoardCoorinate.row == selectCell.BoardCoorinate.row) // 셀렉트셀 이라면 패스 (객체 이퀄연산하자)
                     {
                         continue;
@@ -255,28 +168,88 @@ namespace model
             }
         }
 
-        private bool CheckDuplicateNumberEqualColumnCell(int number)
+        private void UpdateDuplicateInAim(SquareCell selectCell)
         {
-            for(int i=0; i<_equalColumnCells.Length; i++)
-            {
-                if(_equalColumnCells[i].NumberValue == number)
-                {
-                    return true;
-                }
-            }
-            return false;
+            UpdateDuplicateNumberOfColumn(selectCell.BoardCoorinate.column);
+            UpdateDuplicateNumberOfRow(selectCell.BoardCoorinate.row);
         }
 
-        private bool CheckDuplicateNumberEqualRowCell(int number)
+        private void UpdateDuplicateNumberOfRow(int boardRow)
         {
-            for (int i = 0; i < _equalRowCells.Length; i++)
+            int targetPackRow = boardRow / DefineData.MAX_ROW_COUNT;
+            int targetCellRow = boardRow % DefineData.MAX_ROW_COUNT;
+
+            model.SquarePack[] packs = this.GetRowPacks(targetPackRow);
+            model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
+            model.SquareCell[,] tempCells = new model.SquareCell[3, 3];
+            model.SquareCell[] packCells = null;
+
+            for (int i = 0; i < packs.Length; i++)
             {
-                if (_equalRowCells[i].NumberValue == number)
+                packCells = packs[i].GetRowCells(targetCellRow);
+                for(int j=0; j<packCells.Length; j++)
                 {
-                    return true;
+                    tempCells[i, j] = packCells[j];
                 }
             }
-            return false;
+
+            for (int i = 0; i < DefineData.MAX_CELL_COUNT; i++)
+            {
+                cells[i] = tempCells[i / 3, i % 3];
+            }
+
+            for (int i = 0; i < cells.Length; i++)
+            {
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    if (i == j) // 인덱스가 같은 경우
+                        continue;
+
+                    if (cells[i].NumberValue == cells[j].NumberValue)
+                    {
+                        cells[j].UpdateDuplicateState(true);
+                    }
+                }
+            }
+        }
+
+        private void UpdateDuplicateNumberOfColumn(int boardColumn)
+        {
+            int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
+            int targetCellRow = boardColumn % DefineData.MAX_COLUMN_COUNT;
+
+            model.SquarePack[] packs = this.GetColumnPacks(targetPackColumn);
+            model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
+            model.SquareCell[,] tempCells = new SquareCell[3, 3];
+            model.SquareCell[] packCells = null;
+
+            for (int i = 0; i < packs.Length; i++)
+            {
+                packCells = packs[i].GetColumnCells(targetPackColumn);
+                for(int j=0; j<packCells.Length; j++)
+                {
+                    tempCells[i, j] = packCells[j];
+                }
+            }
+
+            for (int i = 0; i < DefineData.MAX_CELL_COUNT; i++)
+            {
+                cells[i] = tempCells[i / 3, i % 3];
+            }
+
+            for (int i = 0; i < cells.Length; i++)
+            {
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    if (i == j) // 인덱스가 같은경우
+                        continue;
+
+                    if (cells[i].NumberValue == cells[j].NumberValue)
+                    {
+                        cells[j].UpdateDuplicateState(true);
+                    }
+                }
+            }
         }
 
         private void UpdateSelectPack(model.SquareCell cell)
