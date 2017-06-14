@@ -46,9 +46,9 @@ namespace view
             SetPosition(orderIndex);
         }
 
-        public void UpdateTrim(string imageName, bool isZooming, Color textColor)
+        public void UpdateTrim(Color bgColor, bool isZooming, Color textColor)
         {
-            ChangeImage(imageName);
+            ChangeImage(bgColor);
 
             ChangeScale(isZooming ? 1.1f : 1.0f);
 
@@ -71,10 +71,11 @@ namespace view
             this.transform.localScale = Vector3.one * scale;
         } 
 
-        private void ChangeImage(string imageName)
+        private void ChangeImage(Color color)
         {
-            Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
-            backGroundImage_.sprite = image;
+            //Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
+            //backGroundImage_.sprite = image;
+            backGroundImage_.color = color;
         }
         
         private void ChangeTextColor(Color32 color)

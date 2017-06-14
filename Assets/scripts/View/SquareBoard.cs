@@ -53,6 +53,7 @@ namespace view
             bool isEqualValue;
             bool isEqualColumn;
             bool isEqualRow;
+            bool isSelectCell;
 
             for (int i = 0; i < _squarePacks.Length; i++)
             {
@@ -66,19 +67,29 @@ namespace view
                     isEqualValue = false;
                     isEqualColumn = false;
                     isEqualRow = false;
+                    isSelectCell = false;
 
                     if(!modelTargetCell.IsOpenValue && modelTargetCell.IsDuplicate)
                     {
-                        viewTargetCell.UpdateTrim("cell_black", false, modelTargetCell.GetTextColor());
+                        viewTargetCell.UpdateTrim(Color.black, false, modelTargetCell.GetTextColor());
                         continue;
                     }
+
+                    if (modelSquareBoard.SelectCell.BoardCoorinate.column == viewTargetCell.BoardCoorinate.column
+                        && modelSquareBoard.SelectCell.BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
+                    {
+                        viewTargetCell.UpdateTrim(Color.cyan, false, modelSquareBoard.SelectCell.GetTextColor());
+                        isSelectCell = true;
+                    }
+
+                    if (isSelectCell) continue;
 
                     for (int k = 0; k < modelSquareBoard.EqaulValueCells.Count; k++)
                     {
                         if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim("cell_orange", true, modelSquareBoard.EqaulValueCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.yellow, true, modelSquareBoard.EqaulValueCells[k].GetTextColor());
                             isEqualValue = true;
                             break;
                         }
@@ -91,7 +102,7 @@ namespace view
                         if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.cyan , true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
                             isEqualColumn = true;
                             break;
                         }
@@ -104,7 +115,7 @@ namespace view
                         if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.cyan, true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
                             isEqualRow = true;
                             break;
                         }
@@ -112,7 +123,8 @@ namespace view
 
                     if (isEqualRow) continue;
 
-                    viewTargetCell.UpdateTrim("cell_lemon", false, modelTargetCell.GetTextColor());
+                    viewTargetCell.UpdateTrim(Color.grey, false, modelTargetCell.GetTextColor());
+                    
                 }
             }
         }

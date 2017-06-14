@@ -5,10 +5,11 @@ namespace model
 {
     public class SquareBoard
     {
+        public List<model.SquareCell> EqaulValueCells { get { return _equalValueCells; } }
         public model.SquareCell[] EqualColumnCells { get { return _equalColumnCells; } }
         public model.SquareCell[] EqaulRowCells { get { return _equalRowCells; } }
-        public List<model.SquareCell> EqaulValueCells { get { return _equalValueCells; } }
         public model.SquarePack[] SquarePack { get { return _squarePacks; } }
+        public model.SquareCell SelectCell { get { return _selectCell; } }
 
         private model.SquarePack _selectPack = null;
         private model.SquareCell _selectCell = null;
@@ -34,7 +35,7 @@ namespace model
             }
         }
 
-        public void SelectCell(int column, int row, System.Action CallBack)
+        public void OnSellectCell(int column, int row, System.Action CallBack)
         {
             _selectCell = FindCellByCoordinates(column, row);
             UpdateSelectPack(_selectCell);

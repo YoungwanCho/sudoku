@@ -64,7 +64,7 @@ namespace controller
         public void OnClickCell(int column, int row)
         {
             UnityEngine.Debug.Log(string.Format("OnClick : [{0}, {1}]", column, row));
-            _modelBoard.SelectCell(column, row, this.UpdateView);
+            _modelBoard.OnSellectCell(column, row, this.UpdateView);
         }
 
         public void OnClickInputValueButton(UnityEngine.Object obj)
