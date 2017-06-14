@@ -58,7 +58,7 @@ namespace model
                 {
                     if (i == j) continue;
 
-                    if (_squareCells[i].NumberValue == _squareCells[j].NumberValue)
+                    if (_squareCells[i].NumberValue == 0 || _squareCells[i].NumberValue == _squareCells[j].NumberValue)
                     {
                         _squareCells[i].UpdateDuplicateState(true);
                     }

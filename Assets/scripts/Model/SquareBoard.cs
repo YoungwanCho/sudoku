@@ -205,7 +205,7 @@ namespace model
                     if (i == j) // 인덱스가 같은 경우
                         continue;
 
-                    if (cells[i].NumberValue == cells[j].NumberValue)
+                    if (cells[i].NumberValue == 0 || cells[i].NumberValue == cells[j].NumberValue)
                     {
                         cells[j].UpdateDuplicateState(true);
                     }
@@ -244,7 +244,7 @@ namespace model
                     if (i == j) // 인덱스가 같은경우
                         continue;
 
-                    if (cells[i].NumberValue == cells[j].NumberValue)
+                    if (cells[i].NumberValue == 0 || cells[i].NumberValue == cells[j].NumberValue)
                     {
                         cells[j].UpdateDuplicateState(true);
                     }
