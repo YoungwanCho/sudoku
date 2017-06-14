@@ -14,6 +14,7 @@ namespace controller
         private view.SquareBoard _viewBoard = null;
         private InputPad _inputPad = null;
         private model.StageData _stageData = null;
+        private view.SituationBoard _situationBoard = null;
 
         public void Awake()
         {
@@ -21,6 +22,7 @@ namespace controller
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
             _stageData = LoadStageData("stage1");
+            _situationBoard = CreateSituationBoard();
         }
 
         // Use this for initialization
@@ -113,6 +115,18 @@ namespace controller
         {
             controller.StageData data = new controller.StageData();
             return data.LoadStageData(stageName);
+        }
+
+        private view.SituationBoard CreateSituationBoard()
+        {
+            GameObject prefabs = Resources.Load(DefineData.PREFAB_SITUATIONBOARD_PATH) as GameObject;
+            GameObject obj = Instantiate(prefabs, this.transform) as GameObject;
+            obj.transform.localPosition = new Vector3(0.0f, -800, 0.0f);
+            obj.transform.localRotation = Quaternion.identity;
+            obj.transform.localScale = Vector3.one;
+            obj.name = "SituationBoard";
+
+            return obj.GetComponent<view.SituationBoard>();
         }
 
 

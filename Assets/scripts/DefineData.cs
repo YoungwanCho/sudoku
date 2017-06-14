@@ -10,6 +10,7 @@ public static class DefineData
     public const string PREFAB_SQUARECELL_PATH = "Prefab/SquareCell";
     public const string PREFAB_SQUAREPACK_PATH = "Prefab/SquarePack";
     public const string PREFAB_SQUAREBOARD_PATH = "Prefab/SquareBoard";
+    public const string PREFAB_SITUATIONBOARD_PATH = "Prefab/SituationBoard";
 
     public const string PREFAB_INPUT_NUMBER_PAD_PATH = "Prefab/InputNumberButton";
 
