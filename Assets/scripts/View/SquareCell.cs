@@ -46,7 +46,7 @@ namespace view
             SetPosition(orderIndex);
         }
 
-        public void UpdateTrim(string imageName, bool isZooming, Color32 textColor)
+        public void UpdateTrim(string imageName, bool isZooming, Color textColor)
         {
             ChangeImage(imageName);
 

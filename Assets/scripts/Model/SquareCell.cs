@@ -62,5 +62,16 @@ namespace model
                 this._isDuplicate = isOn;
             }
         }
+
+        public Color GetTextColor()
+        {
+            if (_isOpenValue)
+                return Color.blue;
+
+            if (_isDuplicate)
+                return Color.red;
+
+            return Color.green;
+        }
     }
 }

@@ -45,8 +45,10 @@ namespace view
 
         public void UpdateBoardAim(model.SquareBoard modelSquareBoard)
         {
-            view.SquarePack targetPack = null;
-            view.SquareCell targetCell = null;
+            view.SquarePack viewTargetPack = null;
+            view.SquareCell viewTargetCell = null;
+            model.SquarePack modelTargetPack = null;
+            model.SquareCell modelTargetCell = null;
 
             bool isEqualValue;
             bool isEqualColumn;
@@ -54,26 +56,29 @@ namespace view
 
             for (int i = 0; i < _squarePacks.Length; i++)
             {
-                targetPack = _squarePacks[i];
-                for (int j = 0; j < targetPack.SquareCells.Length; j++)
+                viewTargetPack = _squarePacks[i];
+                modelTargetPack = modelSquareBoard.SquarePack[i];
+
+                for (int j = 0; j < viewTargetPack.SquareCells.Length; j++)
                 {
-                    targetCell = targetPack.SquareCells[j];
+                    viewTargetCell = viewTargetPack.SquareCells[j];
+                    modelTargetCell = modelTargetPack.SquareCells[j];
                     isEqualValue = false;
                     isEqualColumn = false;
                     isEqualRow = false;
 
-                    if(modelSquareBoard.SquarePack[i].SquareCells[j].IsDuplicate)
+                    if(!modelTargetCell.IsOpenValue && modelTargetCell.IsDuplicate)
                     {
-                        targetCell.UpdateTrim("cell_black", false, Color.red);
+                        viewTargetCell.UpdateTrim("cell_black", false, modelTargetCell.GetTextColor());
                         continue;
                     }
 
                     for (int k = 0; k < modelSquareBoard.EqaulValueCells.Count; k++)
                     {
-                        if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
-                            modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
+                        if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
+                            modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_orange", true, Color.green);
+                            viewTargetCell.UpdateTrim("cell_orange", true, modelSquareBoard.EqaulValueCells[k].GetTextColor());
                             isEqualValue = true;
                             break;
                         }
@@ -83,10 +88,10 @@ namespace view
 
                     for (int k = 0; k < modelSquareBoard.EqualColumnCells.Length; k++)
                     {
-                        if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
-                            modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
+                        if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
+                            modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].IsDuplicate ? Color.red : Color.black);
+                            viewTargetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
                             isEqualColumn = true;
                             break;
                         }
@@ -96,10 +101,10 @@ namespace view
 
                     for (int k = 0; k < modelSquareBoard.EqaulRowCells.Length; k++)
                     {
-                        if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == targetCell.BoardCoorinate.column &&
-                            modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == targetCell.BoardCoorinate.row)
+                        if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
+                            modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            targetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqualColumnCells[k].IsDuplicate ? Color.red : Color.black);
+                            viewTargetCell.UpdateTrim("cell_green", true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
                             isEqualRow = true;
                             break;
                         }
@@ -107,10 +112,11 @@ namespace view
 
                     if (isEqualRow) continue;
 
-                    targetCell.UpdateTrim("cell_lemon", false, Color.black);
+                    viewTargetCell.UpdateTrim("cell_lemon", false, modelTargetCell.GetTextColor());
                 }
             }
         }
+
         
         private view.SquarePack[] CreateSquarePack()
         {
