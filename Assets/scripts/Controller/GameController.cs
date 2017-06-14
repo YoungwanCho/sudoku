@@ -8,20 +8,25 @@ namespace controller
     {
         public delegate void OnClick(int n, int n2);
         public delegate void OnClickInputPad(UnityEngine.Object obj);
+        public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber);
         private scene.Game _game = null;
 
+        private controller.DoController _doCtrl = null;
+
+        private model.StageData _stageData = null;
         private model.SquareBoard _modelBoard = null;
+        private view.SituationBoard _situationBoard = null;
         private view.SquareBoard _viewBoard = null;
         private InputPad _inputPad = null;
-        private model.StageData _stageData = null;
-        private view.SituationBoard _situationBoard = null;
+
 
         public void Awake()
         {
+            _doCtrl = new controller.DoController();
             _modelBoard = new model.SquareBoard();
+            _stageData = LoadStageData("stage1");
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
-            _stageData = LoadStageData("stage1");
             _situationBoard = CreateSituationBoard();
         }
 
@@ -46,7 +51,7 @@ namespace controller
 
             if(GUI.Button(new Rect(400, 200, 200, 200), "Empty Cell "))
             { 
-                OnClickInputValueButton(new GameObject("0"));
+                OnClickInputNumberButton(new GameObject("0"));
             }
 
             if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
@@ -60,7 +65,7 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputValueButton);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction);
         } 
 
         public void OnClickCell(int column, int row)
@@ -69,24 +74,30 @@ namespace controller
             _modelBoard.OnSellectCell(column, row, this.UpdateView);
         }
 
-        public void OnClickInputValueButton(UnityEngine.Object obj)
-        {
-            
+        public void OnClickInputNumberButton(UnityEngine.Object obj)
+        { 
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
             int number = System.Int32.Parse(obj.name);
-            _modelBoard.InputNumber(number);
+            _modelBoard.InputNumber(number, this.UndoStackPush);
             UpdateView();
+        }
+
+        public void OnClickDoAction(UnityEngine.Object obj)
+        {
+            Debug.Log(string.Format("OnClick DoAction : {0}", obj.name));
+
+        }
+
+        public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber)
+        {
+            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber);
+            _doCtrl.UndoPush(undo);
         }
 
         public void UpdateView()
         {
             _viewBoard.UpdateBoardAim(this._modelBoard);
             _viewBoard.UpdateBoardValue(this._modelBoard);
-        } 
-
-        public void OnClickNumberButton(int value)
-        {
-            UnityEngine.Debug.Log("OnClick Input Button Value : " + value);
         }
 
         private view.SquareBoard CreateSquareBoard()

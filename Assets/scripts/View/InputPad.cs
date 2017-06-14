@@ -5,19 +5,26 @@ using UnityEngine.UI;
 
 public class InputPad : MonoBehaviour
 {
-    private InputNumberButton[] _numberButton = new InputNumberButton[DefineData.MAX_NUMBER_VALUE];
+    private InputBasicButton[] _numberButton = new InputBasicButton[DefineData.MAX_NUMBER_VALUE];
+
+    private InputBasicButton _undoButton = null;
+    private InputBasicButton _redoButton = null;
 
     public void Awake()
     {
         CreateInputNumberButtons();
+        CreateInputDoActioButton();
     }
 
-    public void Initialize(controller.GameController.OnClickInputPad onClickInputNumberButton)
+    public void Initialize(controller.GameController.OnClickInputPad onClickInputNumberButton, controller.GameController.OnClickInputPad onClickDoAaction)
     {
         for(int i=0; i< _numberButton.Length; i++)
         {
-            _numberButton[i].Initialize(onClickInputNumberButton, "cell_red", (i+1));
+            _numberButton[i].Initialize(onClickInputNumberButton, "cell_red", (i+1).ToString());
         }
+
+        _undoButton.Initialize(onClickDoAaction, "cell_black", "Undo");
+        _redoButton.Initialize(onClickDoAaction,"cell_black", "Redo");
     }
 
     private void CreateInputNumberButtons()
@@ -36,7 +43,26 @@ public class InputPad : MonoBehaviour
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = (i + 1).ToString(); // 입력 값으로 사용
-            _numberButton[i] = obj.GetComponent<InputNumberButton>();
+            _numberButton[i] = obj.GetComponent<InputBasicButton>();
         }
     }
+
+    private void CreateInputDoActioButton()
+    {
+        GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
+        GameObject obj = obj = Instantiate(prefab, this.transform) as GameObject;
+        obj.transform.localPosition = new Vector3(-350.0f, -200.0f, 0.0f);
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+        obj.name = "Undo";
+        _undoButton = obj.GetComponent<InputBasicButton>();
+
+        obj = obj = Instantiate(prefab, this.transform) as GameObject;
+        obj.transform.localPosition = new Vector3(350.0f, -200.0f, 0.0f);
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+        obj.name = "Redo";
+        _redoButton = obj.GetComponent<InputBasicButton>();
+
+    } 
 }

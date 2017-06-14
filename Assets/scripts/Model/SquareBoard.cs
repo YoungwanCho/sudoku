@@ -51,7 +51,7 @@ namespace model
             CallBack();
         }
 
-        public void InputNumber(int number)
+        public void InputNumber(int number, controller.GameController.DoStack UndoStackPush)
         {
             if (_selectCell == null) return;
             if (_selectCell.IsOpenValue) //@TODO: 입력셀이 아닌경우 표시!
@@ -59,9 +59,13 @@ namespace model
                 Debug.Log(string.Format("입력셀이 아닙니다."));
                 return;
             }
-            
+
+            int previusNumber = _selectCell.NumberValue;
+
             _selectCell.UpdateNumberValue(number);
             UpdateCellData(_selectCell);
+           
+            UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue);
 
             _selectPack.UpdateDuplicateInPack();
             this.UpdateDuplicateInAim(_selectCell);
@@ -81,6 +85,11 @@ namespace model
                     }
                 }
             }
+        }
+
+        public void Undo()
+        {
+
         }
 
         public bool CheckGameSuccess()
