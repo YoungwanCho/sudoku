@@ -69,7 +69,7 @@ namespace view
                     isEqualRow = false;
                     isSelectCell = false;
 
-                    if(!modelTargetCell.IsOpenValue && modelTargetCell.IsDuplicate)
+                    if(!modelTargetCell.IsOpenValue &&( modelTargetCell.IsDuplicatePack || modelTargetCell.IsDuplicateColumn || modelTargetCell.IsDuplicateRow))
                     {
                         viewTargetCell.UpdateTrim(Color.black, false, modelTargetCell.GetTextColor());
                         continue;
@@ -78,7 +78,7 @@ namespace view
                     if (modelSquareBoard.SelectCell.BoardCoorinate.column == viewTargetCell.BoardCoorinate.column
                         && modelSquareBoard.SelectCell.BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                     {
-                        viewTargetCell.UpdateTrim(Color.cyan, false, modelSquareBoard.SelectCell.GetTextColor());
+                        viewTargetCell.UpdateTrim(Color.magenta, false, modelSquareBoard.SelectCell.GetTextColor());
                         isSelectCell = true;
                     }
 
@@ -102,7 +102,7 @@ namespace view
                         if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim(Color.cyan , true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.magenta, true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
                             isEqualColumn = true;
                             break;
                         }
@@ -115,7 +115,7 @@ namespace view
                         if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim(Color.cyan, true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.magenta, true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
                             isEqualRow = true;
                             break;
                         }

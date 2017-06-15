@@ -52,17 +52,45 @@ namespace model
 
         public void UpdateDuplicateInPack()
         {
+            List<SquareCell> duplicateCells = new List<SquareCell>();
+            bool isDuplicate = false;
             for (int i=0; i<_squareCells.Length; i++)
             {
-                for (int j = 0; j < _squareCells.Length; j++)
+                if (_squareCells[i].NumberValue == 0)
+                {
+                    continue;
+                }
+
+                for (int j = i; j < _squareCells.Length; j++)
                 {
                     if (i == j) continue;
-
-                    if (_squareCells[i].NumberValue == 0 || _squareCells[i].NumberValue == _squareCells[j].NumberValue)
+                    if (_squareCells[i].NumberValue == _squareCells[j].NumberValue)
                     {
-                        _squareCells[i].UpdateDuplicateState(true);
+                        if (!duplicateCells.Contains(_squareCells[i]))
+                        {
+                            duplicateCells.Add(_squareCells[i]);
+                        }
+
+                        if (!duplicateCells.Contains(_squareCells[j]))
+                        {
+                            duplicateCells.Add(_squareCells[j]);
+                        }
                     }
                 }
+            }
+
+            for (int i = 0; i < _squareCells.Length; i++)
+            {
+                isDuplicate = false;
+                for (int j = 0;  j < duplicateCells.Count; j++)
+                {
+                    if (_squareCells[i] == duplicateCells[j])
+                    {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                _squareCells[i].UpdateDuplicatePack(isDuplicate);
             }
         }
 

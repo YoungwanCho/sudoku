@@ -78,7 +78,7 @@ namespace model
                 for(int j=0; j<pack.SquareCells.Length; j++)
                 {
                     cell = pack.SquareCells[j];
-                    if(cell.IsDuplicate)
+                    if(cell.IsDuplicatePack)
                     {
                         Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
                             cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
@@ -186,6 +186,8 @@ namespace model
 
         private void UpdateDuplicateNumberOfRow(int boardRow)
         {
+            List<model.SquareCell> duplicateCells = new List<SquareCell>();
+            bool isDuplicate = false;
             int targetPackRow = boardRow / DefineData.MAX_ROW_COUNT;
             int targetCellRow = boardRow % DefineData.MAX_ROW_COUNT;
 
@@ -210,21 +212,51 @@ namespace model
 
             for (int i = 0; i < cells.Length; i++)
             {
-                for (int j = 0; j < cells.Length; j++)
+                if (cells[i].NumberValue ==0)
+                {
+                    continue;
+                }
+                for (int j = i; j < cells.Length; j++)
                 {
                     if (i == j) // 인덱스가 같은 경우
                         continue;
 
-                    if (cells[i].NumberValue == 0 || cells[i].NumberValue == cells[j].NumberValue)
+                    if (cells[i].NumberValue == cells[j].NumberValue)
                     {
-                        cells[j].UpdateDuplicateState(true);
+                        if(!duplicateCells.Contains(cells[i]))
+                        {
+                            duplicateCells.Add(cells[i]);
+                        }
+
+                        if(!duplicateCells.Contains(cells[j]))
+                        {
+                            duplicateCells.Add(cells[j]);
+                        }
+                    }             
+                }
+            }
+
+
+            for (int i = 0; i < cells.Length; i++)
+            {
+                isDuplicate = false;
+
+                for (int j = 0; j < duplicateCells.Count; j++)
+                {
+                    if(cells[i] == duplicateCells[j])
+                    {
+                        isDuplicate = true;
+                        break;
                     }
                 }
+                cells[i].UpdateDuplicateRow(isDuplicate);
             }
         }
 
         private void UpdateDuplicateNumberOfColumn(int boardColumn)
         {
+            List<model.SquareCell> duplicateCells = new List<SquareCell>();
+            bool isDuplicate = false;
             int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
             int targetCellRow = boardColumn % DefineData.MAX_COLUMN_COUNT;
 
@@ -249,16 +281,42 @@ namespace model
 
             for (int i = 0; i < cells.Length; i++)
             {
-                for (int j = 0; j < cells.Length; j++)
+                if(cells[i].NumberValue ==0)
+                {
+                    continue;
+                }
+                for (int j = i; j < cells.Length; j++)
                 {
                     if (i == j) // 인덱스가 같은경우
                         continue;
 
-                    if (cells[i].NumberValue == 0 || cells[i].NumberValue == cells[j].NumberValue)
+                    if(cells[i].NumberValue == cells[j].NumberValue)
                     {
-                        cells[j].UpdateDuplicateState(true);
+                        if(!duplicateCells.Contains(cells[i]))
+                        {
+                            duplicateCells.Add(cells[i]);
+                        }
+
+                        if(!duplicateCells.Contains(cells[j]))
+                        {
+                            duplicateCells.Add(cells[j]);
+                        }
                     }
                 }
+            }
+
+            for (int i = 0; i < cells.Length; i++)
+            {
+                isDuplicate = false;
+                for (int j = 0; j < duplicateCells.Count; j++)
+                {
+                    if (cells[i] == duplicateCells[j])
+                    {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                cells[i].UpdateDuplicateColumn(isDuplicate);
             }
         }
 
