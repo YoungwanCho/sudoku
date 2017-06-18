@@ -64,8 +64,11 @@ namespace model
 
             _selectCell.UpdateNumberValue(number);
             UpdateCellData(_selectCell);
-           
-            UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue);
+
+            if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStac에 추가하지 않는다.
+            {
+                UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue);
+            }
 
             _selectPack.UpdateDuplicateInPack();
             this.UpdateDuplicateInAim(_selectCell);
@@ -85,11 +88,6 @@ namespace model
                     }
                 }
             }
-        }
-
-        public void Undo()
-        {
-
         }
 
         public bool CheckGameSuccess()

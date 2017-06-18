@@ -85,7 +85,45 @@ namespace controller
         public void OnClickDoAction(UnityEngine.Object obj)
         {
             Debug.Log(string.Format("OnClick DoAction : {0}", obj.name));
+            if (obj.name == "Undo")
+            {
+                if (_doCtrl.GetUndoStackCount() <= 0)
+                {
+                    return;
+                }
 
+                model.Do peek = _doCtrl.UndoPop();
+                peek.PrintDo();
+                int column = peek.boardCoordinate.column;
+                int row = peek.boardCoordinate.row;
+                OnClickCell(column, row);
+                int previusNumber = peek.previusNumber;
+                int currentNumber = peek.currentNumber;
+                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber);
+                _doCtrl.RedoPush(redo);
+                _modelBoard.InputNumber(previusNumber, null);
+                //UpdateView();
+            }
+            else if (obj.name == "Redo")
+            {
+                if (_doCtrl.GetRedoStackCount() <= 0)
+                {
+                    return;
+                }
+
+                model.Do peek = _doCtrl.RedoPop();
+                peek.PrintDo();
+                int column = peek.boardCoordinate.column;
+                int row = peek.boardCoordinate.row;
+                OnClickCell(column, row);
+                int previusNumber = peek.previusNumber;
+                int currentNumber = peek.currentNumber;
+                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber);
+                _doCtrl.UndoPush(undo);
+                _modelBoard.InputNumber(previusNumber, null);
+                //UpdateView();             
+            }
+            UpdateView();
         }
 
         public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber)
