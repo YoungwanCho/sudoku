@@ -10,6 +10,7 @@ namespace model
         public model.SquareCell[] EqaulRowCells { get { return _equalRowCells; } }
         public model.SquarePack[] SquarePack { get { return _squarePacks; } }
         public model.SquareCell SelectCell { get { return _selectCell; } }
+        public int EmptyCellCount { get { return _emptyCellCount; } }
 
         private model.SquarePack _selectPack = null;
         private model.SquareCell _selectCell = null;
@@ -19,6 +20,8 @@ namespace model
         
         private model.SquarePack[] _squarePacks = new model.SquarePack[DefineData.MAX_PACK_COUNT];
 
+        private int _emptyCellCount = 0;
+
         public SquareBoard()
         {
             CreatePacks();
@@ -27,12 +30,22 @@ namespace model
         public void Initialize(model.StageData stageData)
         {
             int[] packNumberArr = new int[DefineData.MAX_CELL_COUNT];
-
+            int emptyCount = 0;
             for (int i = 0; i < _squarePacks.Length; i++)
             {
                 packNumberArr = GetNumberValueOfPackFromStageData(stageData, i);
                 _squarePacks[i].Initialize(packNumberArr);
+                
+                for(int j=0; j<packNumberArr.Length; j++)
+                {
+                    if(packNumberArr[j] == 0)
+                    {
+                        emptyCount++;
+                    }
+                }                
             }
+            this._emptyCellCount = emptyCount;
+            Debug.Log(string.Format("Init EmptyCellCount : {0}", this._emptyCellCount));
         }
 
         public void OnSellectCell(int column, int row, System.Action CallBack)
@@ -62,10 +75,19 @@ namespace model
 
             int previusNumber = _selectCell.NumberValue;
 
+            if(previusNumber == 0 && number != 0)
+            {
+                _emptyCellCount--;
+            }
+            else if(number == 0)
+            {
+                _emptyCellCount++;
+            }
+
             _selectCell.UpdateNumberValue(number);
             UpdateCellData(_selectCell);
 
-            if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStac에 추가하지 않는다.
+            if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStack에 추가하지 않는다.
             {
                 UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue);
             }

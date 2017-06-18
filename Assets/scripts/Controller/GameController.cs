@@ -18,8 +18,7 @@ namespace controller
         private view.SituationBoard _situationBoard = null;
         private view.SquareBoard _viewBoard = null;
         private InputPad _inputPad = null;
-
-
+        
         public void Awake()
         {
             _doCtrl = new controller.DoController();
@@ -136,6 +135,7 @@ namespace controller
         {
             _viewBoard.UpdateBoardAim(this._modelBoard);
             _viewBoard.UpdateBoardValue(this._modelBoard);
+            _situationBoard.UpdateEmptyCellCount(_modelBoard.EmptyCellCount);
         }
 
         private view.SquareBoard CreateSquareBoard()
