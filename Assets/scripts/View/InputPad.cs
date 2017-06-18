@@ -9,25 +9,41 @@ public class InputPad : MonoBehaviour
 
     private InputBasicButton _undoButton = null;
     private InputBasicButton _redoButton = null;
+    private InputBasicButton _memoButton = null;
 
     public void Awake()
     {
-        CreateInputNumberButtons();
-        CreateInputDoActioButton();
+        CreateNumberButton();
+        CreateDoActioButton();
+        CreateMemoButton();
     }
 
-    public void Initialize(controller.GameController.OnClickInputPad onClickInputNumberButton, controller.GameController.OnClickInputPad onClickDoAaction)
+    public void Initialize(controller.GameController.OnClickInputPad onClickNumberButton, 
+        controller.GameController.OnClickInputPad onClickDoAaction,
+        controller.GameController.OnClickInputPad onClickMemo)
     {
         for(int i=0; i< _numberButton.Length; i++)
         {
-            _numberButton[i].Initialize(onClickInputNumberButton, "cell_red", (i+1).ToString());
+            _numberButton[i].Initialize(onClickNumberButton, "cell_red", (i+1).ToString());
         }
 
         _undoButton.Initialize(onClickDoAaction, "cell_black", "Undo");
         _redoButton.Initialize(onClickDoAaction,"cell_black", "Redo");
+        _memoButton.Initialize(onClickMemo, "cell_green", "Memo");
     }
 
-    private void CreateInputNumberButtons()
+    private void CreateMemoButton()
+    {
+        GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
+        GameObject obj = Instantiate(prefab, this.transform) as GameObject;
+        obj.transform.localPosition = new Vector3(-480.0f, -200.0f, 0.0f);
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+        obj.name = "Memo";
+        _memoButton = obj.GetComponent<InputBasicButton>();
+    }
+
+    private void CreateNumberButton()
     {
         GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
         GameObject obj = null;
@@ -47,7 +63,7 @@ public class InputPad : MonoBehaviour
         }
     }
 
-    private void CreateInputDoActioButton()
+    private void CreateDoActioButton()
     {
         GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
         GameObject obj = obj = Instantiate(prefab, this.transform) as GameObject;

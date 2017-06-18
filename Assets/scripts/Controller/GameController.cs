@@ -64,7 +64,12 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo);
+        }
+        
+        public void OnClickMemo(UnityEngine.Object obj)
+        {
+            Debug.Log("OnClickMemo");
         } 
 
         public void OnClickCell(int column, int row)

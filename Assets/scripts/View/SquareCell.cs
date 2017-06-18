@@ -7,8 +7,11 @@ namespace view
     public class SquareCell : MonoBehaviour
     {
         public model.BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
-        public Text numberValue_ = null;
-        public Image backGroundImage_ = null;
+        public Text numberValue_;
+        public Image backGroundImage_;
+        public Transform memoParent_;
+
+        private Text[] _memoTextArray = new Text[DefineData.MAX_CELL_COUNT]; 
 
         private model.BoardCoordinate _boardCoordinate = null;
 
@@ -25,6 +28,7 @@ namespace view
             collider.size = DefineData.CELLSIZE;
 
             _button = this.gameObject.AddComponent<Button>();
+            //CreateMemoObject();
         }
 
         public void Initialize(controller.GameController.OnClick onClickCell, int packIndex, int orderIndex)
@@ -64,6 +68,12 @@ namespace view
         public void UpdateText(string text) // ÁÂÇ¥ º¸±â ¿ë
         {
             numberValue_.text = text;
+        }
+        
+        public void UpdateMemoText(int number)
+        {
+            int arrIndex = number - 1;
+            _memoTextArray[arrIndex].text = number.ToString();
         } 
 
         private void ChangeScale(float scale)
@@ -101,6 +111,20 @@ namespace view
             float posY = startY - (imageRect.sizeDelta.y * 0.5f) - ((imageRect.sizeDelta.y * row) - (row + 1));
 
             this.transform.localPosition = new Vector3(posX, posY, 0);
+        }
+
+        private void CreateMemoObject()
+        {
+            Transform trans = null;
+            
+            for(int i=0; i<_memoTextArray.Length; i++)
+            {
+                trans = Instantiate(new GameObject(), memoParent_).transform;
+                trans.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                trans.localRotation = Quaternion.identity;
+                trans.localScale = Vector3.one;
+                _memoTextArray[i] = trans.gameObject.AddComponent<Text>();
+            }
         }
 
     }

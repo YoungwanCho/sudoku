@@ -24,6 +24,8 @@ namespace model
         private bool _isDuplicatePack = false;
         private bool _isDuplicateColumn = false;
         private bool _isDuplicateRow = false;
+        private bool _isMemoMode = false;
+        private int[] _memoArray = new int[9];
 
         public SquareCell(int packIndex, int orderIndex)
         {
@@ -41,11 +43,37 @@ namespace model
             this._isDuplicatePack = false;
             this._isDuplicateColumn = false;
             this._isDuplicateRow = false;
+            InitMemoArray();
+
+        }
+
+        public void UpdateMemoArray(int number)
+        {
+            if (_isOpenValue || !(1 <= number && number <= 9))
+            {
+                return;
+            }
+
+            int arrIndex = number - 1;
+            int previusNumber = _memoArray[arrIndex];
+
+            if(previusNumber != number) // 입력처리
+            {
+                _memoArray[arrIndex] = number;
+            }
+            else // 취소처리
+            {
+                _memoArray[arrIndex] = 0;
+            }
+
+            this.UpdateMemoMode();            
         }
 
         public void UpdateNumberValue(int number)
         {
             this._numberValue = number;
+            InitMemoArray();
+            UpdateMemoMode();
         }
 
         public void UpdateDuplicatePack(bool isOn)
@@ -99,6 +127,28 @@ namespace model
             else
             {
                 this._isDuplicateRow = isOn;
+            }
+        }
+
+        private bool UpdateMemoMode()
+        {
+            _isMemoMode = false;
+            for (int i=0; i<_memoArray.Length; i++)
+            {
+                if (_memoArray[i] != 0)
+                {
+                    _isMemoMode = true;
+                    break;    
+                }
+            }
+            return _isMemoMode;
+        }
+
+        private void InitMemoArray()
+        {
+            for (int i = 0; i < _memoArray.Length; i++)
+            {
+                _memoArray[i] = 0;
             }
         }
 
