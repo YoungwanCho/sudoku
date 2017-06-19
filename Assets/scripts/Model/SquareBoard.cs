@@ -123,7 +123,7 @@ namespace model
         private model.SquarePack[] GetColumnPacks(int column)
         {
             model.SquarePack[] packs = new model.SquarePack[DefineData.MAX_COLUMN_COUNT];
-
+            
             for(int i=0; i<packs.Length; i++)
             {
                 packs[i] = _squarePacks[column + (DefineData.MAX_COLUMN_COUNT * i)];
@@ -135,10 +135,10 @@ namespace model
         private model.SquarePack[] GetRowPacks(int row)
         {
             model.SquarePack[] packs = new model.SquarePack[DefineData.MAX_ROW_COUNT];
-
+            int startOrderIndex = row * DefineData.MAX_ROW_COUNT;
             for(int i=0; i<packs.Length; i++)
             {
-                packs[i] = _squarePacks[row + i];
+                packs[i] = _squarePacks[startOrderIndex + i];
             }
 
             return packs;
