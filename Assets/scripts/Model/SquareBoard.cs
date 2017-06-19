@@ -64,20 +64,31 @@ namespace model
             CallBack();
         }
 
-        public void InputNumber(bool isMemoMode, int number, controller.GameController.DoStack UndoStackPush)
+        public void InputNumber(bool isMemoMode, int number, int[] memoArr, controller.GameController.DoStack UndoStackPush)
         {
+            Debug.Log(string.Format("InputNumber(isMemoMode:{0}, number:{1}, memoArr:{2}, UndoStackPush:{3})", isMemoMode, number, memoArr == null, UndoStackPush == null));
             if (_selectCell == null) return;
             if (_selectCell.IsOpenValue) //@TODO: 입력셀이 아닌경우 표시!
             {
                 Debug.Log(string.Format("입력셀이 아닙니다."));
                 return;
             }
-
+            int[] previusMemoArr = new int[_selectCell.MemoArray.Length];
+            System.Array.Copy(_selectCell.MemoArray, previusMemoArr, _selectCell.MemoArray.Length);
+             //= _selectCell.MemoArray.Clone();
             if (isMemoMode)
             {
-                int memoInputNumber = number;
-                number = 0;
-                _selectCell.UpdateMemoArray(memoInputNumber);
+                if (memoArr == null) // 인풋 넘버 버튼으로 누른경우
+                {
+                    int memoNumber = number;
+                    number = 0;
+                    
+                    _selectCell.UpdateMemoArray(memoNumber);
+                }
+                else // 언두 리두로 복구하는경우 
+                {
+                    _selectCell.UpdateMemoArray(memoArr);
+                }
             }
             else
             {
@@ -86,7 +97,8 @@ namespace model
 
             int previusNumber = _selectCell.NumberValue;
 
-            if (previusNumber == 0 && number != 0)
+            //@TODO: Memo 언두 예외처리
+            if (previusNumber == 0 && number != 0) 
             {
                 _emptyCellCount--;
             }
@@ -100,7 +112,7 @@ namespace model
 
             if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStack에 추가하지 않는다.
             {
-                UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue, _selectCell.IsMemoMode, _selectCell.MemoArray);
+                UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue, _selectCell.IsMemoMode, previusMemoArr);
             }
 
             _selectPack.UpdateDuplicateInPack();

@@ -71,6 +71,20 @@ namespace model
             this.UpdateMemoMode();            
         }
 
+        public void UpdateMemoArray(int[] memoArr) // 복구용
+        {
+            if(_isOpenValue)
+            {
+                return;
+            }
+
+            for(int i=0; i< _memoArray.Length; i++)
+            {
+                this._memoArray[i] = memoArr == null ? 0 : memoArr[i];
+            }
+            this.UpdateMemoMode();
+        }
+
         public void UpdateNumberValue(int number)
         {
             this._numberValue = number;

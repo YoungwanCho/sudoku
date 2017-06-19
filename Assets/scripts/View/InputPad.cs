@@ -30,6 +30,7 @@ public class InputPad : MonoBehaviour
         _undoButton.Initialize(onClickDoAaction, "cell_black", "Undo");
         _redoButton.Initialize(onClickDoAaction,"cell_black", "Redo");
         _memoButton.Initialize(onClickMemo, "cell_green", "Memo");
+        this.UpdateMemoButton(false);
     }
 
     public void UpdateMemoButton(bool isOn)
