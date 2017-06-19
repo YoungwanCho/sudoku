@@ -4,9 +4,11 @@ namespace model
 {
     public class SquareCell
     {
+        public int[] MemoArray { get { return this._memoArray; } }
         public int OrderIndex { get { return this._orderIndex; } }
         public int NumberValue { get { return this._numberValue; } }
         public int PackIndex { get { return this._packIndex; } }
+        public bool IsMemoMode { get { return this._isMemoMode; } }
         public bool IsOpenValue { get { return this._isOpenValue; } }
         public bool IsDuplicatePack { get { return this._isDuplicatePack; } }
         public bool IsDuplicateColumn { get { return this._isDuplicateColumn; } }
@@ -72,8 +74,13 @@ namespace model
         public void UpdateNumberValue(int number)
         {
             this._numberValue = number;
-            InitMemoArray();
-            UpdateMemoMode();
+
+            //if(!this.UpdateMemoMode())
+            //{
+            //    InitMemoArray();
+            //}
+            //InitMemoArray();
+            //UpdateMemoMode();
         }
 
         public void UpdateDuplicatePack(bool isOn)
@@ -90,9 +97,13 @@ namespace model
             }
             else
             {
-                //Debug.Log(string.Format("DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
-                //    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
                 this._isDuplicatePack = isOn;
+            }
+
+            if(_isDuplicatePack)
+            {
+                Debug.Log(string.Format("Pack DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
+                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
             }
         }
 
@@ -111,6 +122,12 @@ namespace model
             {
                 this._isDuplicateColumn = isOn;
             }
+
+            if(_isDuplicateColumn)
+            {
+                Debug.Log(string.Format("Column DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
+                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
+            }
         }
 
         public void UpdateDuplicateRow(bool isOn)
@@ -128,6 +145,12 @@ namespace model
             {
                 this._isDuplicateRow = isOn;
             }
+
+            if (_isDuplicateRow)
+            {
+                Debug.Log(string.Format("Row DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
+                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
+            }
         }
 
         private bool UpdateMemoMode()
@@ -138,18 +161,20 @@ namespace model
                 if (_memoArray[i] != 0)
                 {
                     _isMemoMode = true;
+                    Debug.Log(string.Format("Memo Mode Cell : [{0}, {1}]", this._boardCoordinate.column, _boardCoordinate.row));
                     break;    
                 }
             }
             return _isMemoMode;
         }
 
-        private void InitMemoArray()
+        public void InitMemoArray()
         {
             for (int i = 0; i < _memoArray.Length; i++)
             {
                 _memoArray[i] = 0;
             }
+            _isMemoMode = false;
         }
 
         public Color GetTextColor()

@@ -64,7 +64,7 @@ namespace model
             CallBack();
         }
 
-        public void InputNumber(int number, controller.GameController.DoStack UndoStackPush)
+        public void InputNumber(bool isMemoMode, int number, controller.GameController.DoStack UndoStackPush)
         {
             if (_selectCell == null) return;
             if (_selectCell.IsOpenValue) //@TODO: 입력셀이 아닌경우 표시!
@@ -73,13 +73,24 @@ namespace model
                 return;
             }
 
+            if (isMemoMode)
+            {
+                int memoInputNumber = number;
+                number = 0;
+                _selectCell.UpdateMemoArray(memoInputNumber);
+            }
+            else
+            {
+                _selectCell.InitMemoArray();
+            }
+
             int previusNumber = _selectCell.NumberValue;
 
-            if(previusNumber == 0 && number != 0)
+            if (previusNumber == 0 && number != 0)
             {
                 _emptyCellCount--;
             }
-            else if(number == 0)
+            else if (number == 0)
             {
                 _emptyCellCount++;
             }
@@ -89,7 +100,7 @@ namespace model
 
             if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStack에 추가하지 않는다.
             {
-                UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue);
+                UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue, _selectCell.IsMemoMode, _selectCell.MemoArray);
             }
 
             _selectPack.UpdateDuplicateInPack();
@@ -97,19 +108,19 @@ namespace model
 
             model.SquarePack pack = null;
             model.SquareCell cell = null;
-            for(int i=0; i<_squarePacks.Length; i++)
+            for (int i = 0; i < _squarePacks.Length; i++)
             {
                 pack = _squarePacks[i];
-                for(int j=0; j<pack.SquareCells.Length; j++)
+                for (int j = 0; j < pack.SquareCells.Length; j++)
                 {
                     cell = pack.SquareCells[j];
-                    if(cell.IsDuplicatePack)
+                    if (cell.IsDuplicatePack)
                     {
                         Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
                             cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
                     }
                 }
-            }
+            }            
         }
 
         public bool CheckGameSuccess()

@@ -38,7 +38,7 @@ namespace view
                     targetCell = targetPack.SquareCells[j];
                     modelCell = modelPack.SquareCells[j];
 
-                    targetCell.UpdateText(modelCell.NumberValue);
+                    targetCell.UpdateCell(modelCell);
                 }
             }
         } 

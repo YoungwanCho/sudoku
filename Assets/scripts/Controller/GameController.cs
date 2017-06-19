@@ -8,7 +8,7 @@ namespace controller
     {
         public delegate void OnClick(int n, int n2);
         public delegate void OnClickInputPad(UnityEngine.Object obj);
-        public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber);
+        public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isMemoMode, int[] memoArray);
         private scene.Game _game = null;
 
         private controller.DoController _doCtrl = null;
@@ -18,6 +18,7 @@ namespace controller
         private view.SituationBoard _situationBoard = null;
         private view.SquareBoard _viewBoard = null;
         private InputPad _inputPad = null;
+        private bool _isMemoMode = false;
         
         public void Awake()
         {
@@ -70,7 +71,10 @@ namespace controller
         public void OnClickMemo(UnityEngine.Object obj)
         {
             Debug.Log("OnClickMemo");
-        } 
+            UpdateMemoMode(!_isMemoMode);
+            Debug.Log(string.Format("MemoMode : {0}", _isMemoMode));
+  
+        }
 
         public void OnClickCell(int column, int row)
         {
@@ -79,11 +83,13 @@ namespace controller
         }
 
         public void OnClickInputNumberButton(UnityEngine.Object obj)
-        { 
+        {
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
-            int number = System.Int32.Parse(obj.name);
-            _modelBoard.InputNumber(number, this.UndoStackPush);
+            int number = System.Int32.Parse(obj.name);               
+            _modelBoard.InputNumber(_isMemoMode, number, this.UndoStackPush);
+            this.UpdateMemoMode(_isMemoMode);
             UpdateView();
+            
         }
 
         public void OnClickDoAction(UnityEngine.Object obj)
@@ -103,10 +109,9 @@ namespace controller
                 OnClickCell(column, row);
                 int previusNumber = peek.previusNumber;
                 int currentNumber = peek.currentNumber;
-                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber);
+                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isMemoMode, peek.memoArray);
                 _doCtrl.RedoPush(redo);
-                _modelBoard.InputNumber(previusNumber, null);
-                //UpdateView();
+                _modelBoard.InputNumber(peek.isMemoMode, previusNumber, null);
             }
             else if (obj.name == "Redo")
             {
@@ -122,17 +127,22 @@ namespace controller
                 OnClickCell(column, row);
                 int previusNumber = peek.previusNumber;
                 int currentNumber = peek.currentNumber;
-                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber);
+                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isMemoMode, peek.memoArray);
                 _doCtrl.UndoPush(undo);
-                _modelBoard.InputNumber(previusNumber, null);
-                //UpdateView();             
+                _modelBoard.InputNumber(peek.isMemoMode, previusNumber, null);          
             }
             UpdateView();
         }
 
-        public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber)
+        public void UpdateMemoMode(bool isOn)
         {
-            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber);
+            _isMemoMode = isOn;
+            _inputPad.UpdateMemoButton(_isMemoMode);
+        }
+
+        public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isMemoMode, int[] memoArray)
+        {
+            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber, isMemoMode, memoArray);
             _doCtrl.UndoPush(undo);
         }
 

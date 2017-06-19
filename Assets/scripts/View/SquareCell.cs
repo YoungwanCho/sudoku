@@ -9,9 +9,12 @@ namespace view
         public model.BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
         public Text numberValue_;
         public Image backGroundImage_;
+
+        [SerializeField]
         public Transform memoParent_;
 
-        private Text[] _memoTextArray = new Text[DefineData.MAX_CELL_COUNT]; 
+        [SerializeField]
+        private Text[] memoTextArray_ = new Text[DefineData.MAX_CELL_COUNT]; 
 
         private model.BoardCoordinate _boardCoordinate = null;
 
@@ -28,7 +31,6 @@ namespace view
             collider.size = DefineData.CELLSIZE;
 
             _button = this.gameObject.AddComponent<Button>();
-            //CreateMemoObject();
         }
 
         public void Initialize(controller.GameController.OnClick onClickCell, int packIndex, int orderIndex)
@@ -50,6 +52,18 @@ namespace view
             SetPosition(orderIndex);
         }
 
+        public void UpdateCell(model.SquareCell modelCell)
+        {
+            if(modelCell.IsMemoMode)
+            {
+                this.UpdateMemoText(modelCell.MemoArray);
+            }
+            else
+            {
+                this.UpdateText(modelCell.NumberValue);
+            }
+        }
+
         public void UpdateTrim(Color bgColor, bool isZooming, Color textColor)
         {
             ChangeImage(bgColor);
@@ -59,22 +73,23 @@ namespace view
             ChangeTextColor(textColor);
         }
 
-        public void UpdateText(int numberValue)
-        {            
+        private void UpdateText(int numberValue)
+        {
+            numberValue_.gameObject.SetActive(true);
+            memoParent_.gameObject.SetActive(false);            
             numberValue_.text = numberValue == 0 ? string.Empty : numberValue.ToString();
             //numberValue_.text = string.Format("[{0}, {1}]", _boardCoordinate.column, _boardCoordinate.row);
         }
-
-        public void UpdateText(string text) // ÁÂÇ¥ º¸±â ¿ë
+                
+        private void UpdateMemoText(int[] memoArray)
         {
-            numberValue_.text = text;
+            numberValue_.gameObject.SetActive(false);
+            memoParent_.gameObject.SetActive(true);
+            for(int i=0; i< memoTextArray_.Length; i++)
+            {
+                memoTextArray_[i].text = memoArray[i].ToString();
+            }
         }
-        
-        public void UpdateMemoText(int number)
-        {
-            int arrIndex = number - 1;
-            _memoTextArray[arrIndex].text = number.ToString();
-        } 
 
         private void ChangeScale(float scale)
         {
@@ -112,20 +127,5 @@ namespace view
 
             this.transform.localPosition = new Vector3(posX, posY, 0);
         }
-
-        private void CreateMemoObject()
-        {
-            Transform trans = null;
-            
-            for(int i=0; i<_memoTextArray.Length; i++)
-            {
-                trans = Instantiate(new GameObject(), memoParent_).transform;
-                trans.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                trans.localRotation = Quaternion.identity;
-                trans.localScale = Vector3.one;
-                _memoTextArray[i] = trans.gameObject.AddComponent<Text>();
-            }
-        }
-
     }
 }

@@ -32,6 +32,12 @@ public class InputPad : MonoBehaviour
         _memoButton.Initialize(onClickMemo, "cell_green", "Memo");
     }
 
+    public void UpdateMemoButton(bool isOn)
+    {
+        Color color = isOn ? Color.white : Color.gray;
+        _memoButton.UpdateButton(color);
+    }
+
     private void CreateMemoButton()
     {
         GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_NUMBER_PAD_PATH) as GameObject;
