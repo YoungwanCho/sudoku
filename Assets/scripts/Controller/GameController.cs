@@ -49,11 +49,6 @@ namespace controller
                 new controller.StageEditor().MapSave(_modelBoard);                
             }
 
-            if(GUI.Button(new Rect(400, 200, 200, 200), "Empty Cell "))
-            { 
-                OnClickInputNumberButton(new GameObject("0"));
-            }
-
             if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
             {
                 LoadStageData("stage1");
@@ -65,7 +60,13 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete);
+        }
+
+        public void OnClickDelete(UnityEngine.Object obj)
+        {
+            Debug.Log("OnClickDelete");
+            OnClickInputNumberButton(new GameObject("0"));
         }
         
         public void OnClickMemo(UnityEngine.Object obj)

@@ -70,22 +70,30 @@ namespace model
             if (_selectCell == null) return;
             if (_selectCell.IsOpenValue) //@TODO: 입력셀이 아닌경우 표시!
             {
-                Debug.Log(string.Format("입력셀이 아닙니다."));
+                Debug.Log(string.Format("Not Input Cell"));
                 return;
             }
             int previusNumber = _selectCell.NumberValue;
             bool isPreviusMemoMode = _selectCell.IsMemoMode;
             int[] previusMemoArr = new int[_selectCell.MemoArray.Length];
             System.Array.Copy(_selectCell.MemoArray, previusMemoArr, _selectCell.MemoArray.Length);
-             //= _selectCell.MemoArray.Clone();
             if (isMemoMode)
             {
+
                 if (memoArr == null) // 인풋 넘버 버튼으로 누른경우
                 {
-                    int memoNumber = number;
-                    number = 0;
-                    
-                    _selectCell.UpdateMemoArray(memoNumber);
+                    if (number == 0) //메모모드중 DeleteKey를 누른경우
+                    {
+                        Debug.Log("Input number Processing Delete");
+                        _selectCell.InitMemoArray();
+                    }
+                    else
+                    {
+                        int memoNumber = number;
+                        number = 0;
+
+                        _selectCell.UpdateMemoArray(memoNumber);
+                    }
                 }
                 else // 언두 리두로 복구하는경우 
                 {
@@ -107,12 +115,8 @@ namespace model
                     _emptyCellCount++;
                     Debug.Log(string.Format("MemoMode _emptyCellCount : {0}", _emptyCellCount));
                 }
-                else
-                {
-                    //_emptyCellCount--;
-                }
             }
-            else if(!isMemoMode)
+            else
             {
                 if (previusNumber == 0 && number != 0)
                 {
