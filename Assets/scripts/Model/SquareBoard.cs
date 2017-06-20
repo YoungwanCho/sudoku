@@ -141,29 +141,42 @@ namespace model
             _selectPack.UpdateDuplicateInPack();
             this.UpdateDuplicateInAim(_selectCell);
 
-            model.SquarePack pack = null;
-            model.SquareCell cell = null;
-            for (int i = 0; i < _squarePacks.Length; i++)
-            {
-                pack = _squarePacks[i];
-                for (int j = 0; j < pack.SquareCells.Length; j++)
-                {
-                    cell = pack.SquareCells[j];
-                    if (cell.IsDuplicatePack)
-                    {
-                        Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
-                            cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
-                    }
-                }
-            }            
+            //model.SquarePack pack = null;
+            //model.SquareCell cell = null;
+            //for (int i = 0; i < _squarePacks.Length; i++)
+            //{
+            //    pack = _squarePacks[i];
+            //    for (int j = 0; j < pack.SquareCells.Length; j++)
+            //    {
+            //        cell = pack.SquareCells[j];
+            //        if (cell.IsDuplicatePack)
+            //        {
+            //            Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
+            //                cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
+            //        }
+            //    }
+            //}            
         }
 
         public bool CheckGameSuccess()
         {
+            bool isSuccess = true;
+            model.SquarePack targetPack;
+            model.SquareCell targetCell;
             for(int i=0; i<_squarePacks.Length; i++)
             {
+                targetPack = _squarePacks[i];
+                for(int j=0; j<targetPack.SquareCells.Length; j++)
+                {
+                    targetCell = targetPack.SquareCells[j];
+                    if(targetCell.IsDuplicatePack || targetCell.IsDuplicateColumn || targetCell.IsDuplicateRow)
+                    {
+                        isSuccess = false;
+                        return isSuccess;
+                    }
+                }
             }
-            return true;
+            return isSuccess;
         }
 
         private model.SquarePack[] GetColumnPacks(int column)

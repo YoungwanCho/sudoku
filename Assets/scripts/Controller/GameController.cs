@@ -88,6 +88,14 @@ namespace controller
             _modelBoard.InputNumber(_isMemoMode, number, null, this.UndoStackPush);
             this.UpdateMemoMode(_isMemoMode);
             UpdateView();
+
+            if(_modelBoard.EmptyCellCount == 0)
+            {
+                if(_modelBoard.CheckGameSuccess())
+                {
+                    Debug.Log("Game Clear");
+                }
+            }
         }
 
         public void OnClickDoAction(UnityEngine.Object obj)
