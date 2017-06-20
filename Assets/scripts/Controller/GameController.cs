@@ -8,7 +8,7 @@ namespace controller
     {
         public delegate void OnClick(int n, int n2);
         public delegate void OnClickInputPad(UnityEngine.Object obj);
-        public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isMemoMode, int[] memoArray);
+        public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo);
         private scene.Game _game = null;
 
         private controller.DoController _doCtrl = null;
@@ -106,11 +106,13 @@ namespace controller
                 OnClickCell(column, row);
                 int previusNumber = peek.previusNumber;
                 int currentNumber = peek.currentNumber;
-                int[] previusMemoArr = new int[peek.memoArray.Length];
-                System.Array.Copy(peek.memoArray, previusMemoArr, peek.memoArray.Length);
-                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isMemoMode, previusMemoArr);
+                int[] previusMemoArr = new int[peek.previusMemoArray.Length];
+                int[] currentMemoArr = new int[peek.currentMemoArray.Length];
+                System.Array.Copy(peek.previusMemoArray, previusMemoArr, peek.previusMemoArray.Length);
+                System.Array.Copy(peek.currentMemoArray, currentMemoArr, peek.currentMemoArray.Length);
+                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isCurrentMemoMode, peek.isPreviusMemoMode, currentMemoArr, previusMemoArr);
                 _doCtrl.RedoPush(redo);
-                _modelBoard.InputNumber(peek.isMemoMode, previusNumber, peek.memoArray, null);
+                _modelBoard.InputNumber(peek.isPreviusMemoMode, previusNumber, peek.previusMemoArray, null);
             }
             else if (obj.name == "Redo")
             {
@@ -126,11 +128,13 @@ namespace controller
                 OnClickCell(column, row);
                 int previusNumber = peek.previusNumber;
                 int currentNumber = peek.currentNumber;
-                int[] previusMemoArr = new int[peek.memoArray.Length];
-                System.Array.Copy(peek.memoArray, previusMemoArr, peek.memoArray.Length);
-                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isMemoMode, previusMemoArr);
+                int[] previusMemoArr = new int[peek.previusMemoArray.Length];
+                int[] currentMemoArr = new int[peek.currentMemoArray.Length];
+                System.Array.Copy(peek.previusMemoArray, previusMemoArr, peek.previusMemoArray.Length);
+                System.Array.Copy(peek.currentMemoArray, currentMemoArr, peek.currentMemoArray.Length);
+                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isCurrentMemoMode, peek.isPreviusMemoMode, currentMemoArr, previusMemoArr);
                 _doCtrl.UndoPush(undo);
-                _modelBoard.InputNumber(peek.isMemoMode, previusNumber, peek.memoArray, null);          
+                _modelBoard.InputNumber(peek.isPreviusMemoMode, previusNumber, peek.previusMemoArray, null);        
             }
             UpdateView();
         }
@@ -142,9 +146,9 @@ namespace controller
             Debug.Log(string.Format("MemoMode : {0}", _isMemoMode));
         }
 
-        public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isMemoMode, int[] memoArray)
+        public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo)
         {
-            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber, isMemoMode, memoArray);
+            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber, isPreviusMemo, isCurrentMemo, previusMemo, currentMemo);
             _doCtrl.UndoPush(undo);
         }
 
