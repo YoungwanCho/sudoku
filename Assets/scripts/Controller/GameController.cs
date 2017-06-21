@@ -9,7 +9,7 @@ namespace controller
         public delegate void OnClick(int n, int n2);
         public delegate void OnClickInputPad(UnityEngine.Object obj);
         public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo);
-        private scene.Game _game = null;
+        private scene.InGame _game = null;
 
         private controller.DoController _doCtrl = null;
 
@@ -55,7 +55,7 @@ namespace controller
             }
         }
 
-        public void Initialize(scene.Game game)
+        public void Initialize(scene.InGame game)
         {
             this._game = game;
             _modelBoard.Initialize(this._stageData);

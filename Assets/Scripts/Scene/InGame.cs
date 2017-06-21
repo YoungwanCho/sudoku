@@ -5,12 +5,21 @@ using UnityEngine;
 namespace scene
 {
 
-    public class Game : MonoBehaviour, IScene
+    public class InGame : MonoBehaviour, IScene
     {
         private controller.GameController _gameController = null;
 
-        //private model.SquareCell _modelSelectCell = null;
-        //private view.SquareCell _viewSelectCell = null;
+        public void Enter()
+        {
+        }
+
+        public void Exit()
+        {
+        }
+
+        public void Initialize(SceneManager manager)
+        {
+        }
 
         public void Awake()
         {
@@ -23,13 +32,7 @@ namespace scene
             _gameController.Initialize(this);
         }
 
-        public void Enter()
-        {
-        }
 
-        public void Exit()
-        {   
-        }
 
         private controller.GameController CreateGameController()
         {
