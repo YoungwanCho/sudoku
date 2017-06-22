@@ -5,7 +5,6 @@ namespace view
 {
     public class SquareBoard : MonoBehaviour
     {
-
         private view.SquarePack[] _squarePacks = null;
 
         public void Awake()

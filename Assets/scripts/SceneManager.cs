@@ -13,18 +13,19 @@ public class SceneManager : MonoBehaviour
 
     public void Awake()
     {
-        
-        Initialize();
+        CreateAllScene();
+
     }
 
     public void Start()
     {
+        Initialize();
         ChangeScene(SCENE.MAINLOBBY);
     }
 
     private void Initialize()
     {
-        CreateAllScene();
+
 
         for (int i=0; i<_scenes.Length; i++)
         {
