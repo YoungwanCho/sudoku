@@ -11,6 +11,7 @@ public class InputPad : MonoBehaviour
     private InputBasicButton _redoButton = null;
     private InputBasicButton _memoButton = null;
     private InputBasicButton _deleteButton = null;
+    private InputBasicButton _quitButton = null;
 
     public void Awake()
     {
@@ -18,12 +19,14 @@ public class InputPad : MonoBehaviour
         CreateDoActioButton();
         CreateMemoButton();
         CreateDeleteButton();
+        CreateQuitButton();
     }
 
     public void Initialize(System.Action<GameObject> onClickNumberButton, 
         System.Action<GameObject> onClickDoAaction,
         System.Action<GameObject> onClickMemo,
-        System.Action<GameObject> onClickDelete)
+        System.Action<GameObject> onClickDelete,
+        System.Action<GameObject> onClickQuit)
     {
         for(int i=0; i< _numberButton.Length; i++)
         {
@@ -34,6 +37,7 @@ public class InputPad : MonoBehaviour
         _redoButton.Initialize(onClickDoAaction,"cell_black", "Redo");
         _memoButton.Initialize(onClickMemo, "cell_green", "Memo");
         _deleteButton.Initialize(onClickDelete, "cell_green", "Delete");
+        _quitButton.Initialize(onClickQuit, "cell_green", "Quit");
 
         this.UpdateMemoButton(false);
     }
@@ -42,6 +46,11 @@ public class InputPad : MonoBehaviour
     {
         Color color = isOn ? Color.white : Color.gray;
         _memoButton.UpdateButton(color);
+    }
+
+    private void CreateQuitButton()
+    {
+        _quitButton = InstantiateBasicButton("Quit", this.transform, new Vector3(0.0f, -350.0f, 0.0f), Quaternion.identity, Vector3.one);
     }
 
     private void CreateDeleteButton()

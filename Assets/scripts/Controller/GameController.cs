@@ -58,16 +58,22 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
         }
 
-        public void OnClickDelete(UnityEngine.Object obj)
+        public void OnClickQuit(GameObject obj)
+        {
+            Debug.Log("OnClick Quit Button");
+            _game.OnClickQuit(obj);
+        } 
+
+        public void OnClickDelete(GameObject obj)
         {
             Debug.Log("OnClickDelete");
             OnClickInputNumberButton(new GameObject("0"));
         }
         
-        public void OnClickMemo(UnityEngine.Object obj)
+        public void OnClickMemo(GameObject obj)
         {
             Debug.Log("OnClickMemo");
             UpdateMemoMode(!_isMemoMode);  
@@ -91,12 +97,13 @@ namespace controller
             {
                 if(_modelBoard.CheckGameSuccess())
                 {
+                    _game.ClearGame(null); //@TODO: 기록정보를 전달해준다!
                     Debug.Log("Game Clear");
                 }
             }
         }
 
-        public void OnClickDoAction(UnityEngine.Object obj)
+        public void OnClickDoAction(GameObject obj)
         {
             Debug.Log(string.Format("OnClick DoAction : {0}", obj.name));
             if (obj.name == "Undo")

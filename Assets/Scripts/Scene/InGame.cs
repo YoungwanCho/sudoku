@@ -7,8 +7,9 @@ namespace scene
 
     public class InGame : MonoBehaviour, IScene
     {
+        private SceneManager _sceneManager = null;
         private controller.GameController _gameController = null;
-
+        
         public void Enter()
         {
         }
@@ -19,24 +20,31 @@ namespace scene
 
         public void Initialize(SceneManager manager)
         {
+            _sceneManager = manager;
+            _gameController.Initialize(this);
         }
 
         public void Awake()
         {
-            Debug.Log("Game Start()");
             _gameController = CreateGameController();
         }
 
         public void Start()
         {
-            _gameController.Initialize(this);
         }
 
+        public void OnClickQuit(GameObject obj)
+        {
+            _sceneManager.ChangeScene(SceneManager.SCENE.MAINLOBBY);
+        }
 
+        public void ClearGame(GameObject obj)
+        {
+            _sceneManager.ChangeScene(SceneManager.SCENE.RESULT);
+        }
 
         private controller.GameController CreateGameController()
         {
-            //Debug.Log("CreateViewController");
             GameObject obj = Instantiate(new GameObject(), this.transform) as GameObject;
             obj.transform.localPosition = Vector3.zero;
             obj.transform.localRotation = Quaternion.identity;

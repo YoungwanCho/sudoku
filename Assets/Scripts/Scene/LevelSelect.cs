@@ -28,7 +28,7 @@ public class LevelSelect : MonoBehaviour, IScene
 
     // Use this for initialization
     void Start () {
-        _levelSelect.Initialize(this.LevelSelectButton);
+        _levelSelect.Initialize(this.OnClickLevelSelect);
 
     }
 	
@@ -37,7 +37,7 @@ public class LevelSelect : MonoBehaviour, IScene
 		
 	}
 
-    public void LevelSelectButton(GameObject obj)
+    public void OnClickLevelSelect(GameObject obj)
     {
         Debug.Log(string.Format("LevelSelectButton", obj.name));
         _sceneManager.ChangeScene(SceneManager.SCENE.INGAME);

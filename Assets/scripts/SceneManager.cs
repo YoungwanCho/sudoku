@@ -24,9 +24,7 @@ public class SceneManager : MonoBehaviour
     }
 
     private void Initialize()
-    {
-
-
+    { 
         for (int i=0; i<_scenes.Length; i++)
         {
             _scenes[i].Initialize(this);

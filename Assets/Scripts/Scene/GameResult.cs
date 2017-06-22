@@ -19,7 +19,7 @@ namespace scene
         public void Initialize(SceneManager manager)
         {
             _sceneManager = manager;
-            _view.Initialize(QuitButton);
+            _view.Initialize(OnClcikQuitButton);
         }
 
         public void Awake()
@@ -38,7 +38,7 @@ namespace scene
 
         }
 
-        public void QuitButton(GameObject obj)
+        public void OnClcikQuitButton(GameObject obj)
         {
             _sceneManager.ChangeScene(SceneManager.SCENE.MAINLOBBY);
         } 

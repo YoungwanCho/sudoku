@@ -27,10 +27,10 @@ public class MainLobby : MonoBehaviour, IScene
 
     public void Start()
     {
-        _mainLobby.Initialize(this.NewGameStart);
+        _mainLobby.Initialize(this.OnClickNewGameStart);
     }
 
-    public void NewGameStart(GameObject obj)
+    public void OnClickNewGameStart(GameObject obj)
     {
         _sceneManager.ChangeScene(SceneManager.SCENE.LEVELSELECT);
     }
