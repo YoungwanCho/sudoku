@@ -20,10 +20,10 @@ public class InputPad : MonoBehaviour
         CreateDeleteButton();
     }
 
-    public void Initialize(controller.GameController.OnClickInputPad onClickNumberButton, 
-        controller.GameController.OnClickInputPad onClickDoAaction,
-        controller.GameController.OnClickInputPad onClickMemo,
-        controller.GameController.OnClickInputPad onClickDelete)
+    public void Initialize(System.Action<GameObject> onClickNumberButton, 
+        System.Action<GameObject> onClickDoAaction,
+        System.Action<GameObject> onClickMemo,
+        System.Action<GameObject> onClickDelete)
     {
         for(int i=0; i< _numberButton.Length; i++)
         {

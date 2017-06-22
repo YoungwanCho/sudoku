@@ -6,8 +6,6 @@ namespace controller
 {
     public class GameController : MonoBehaviour
     {
-        public delegate void OnClick(int n, int n2);
-        public delegate void OnClickInputPad(UnityEngine.Object obj);
         public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo);
         private scene.InGame _game = null;
 
@@ -81,7 +79,7 @@ namespace controller
             _modelBoard.OnSellectCell(column, row, this.UpdateView);
         }
 
-        public void OnClickInputNumberButton(UnityEngine.Object obj)
+        public void OnClickInputNumberButton(GameObject obj)
         {
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
             int number = System.Int32.Parse(obj.name);               

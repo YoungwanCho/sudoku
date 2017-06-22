@@ -33,7 +33,7 @@ namespace view
             _button = this.gameObject.AddComponent<Button>();
         }
 
-        public void Initialize(controller.GameController.OnClick onClickCell, int packIndex, int orderIndex)
+        public void Initialize(System.Action<int, int> onClickCell, int packIndex, int orderIndex)
         {
             _button.onClick.AddListener
             (
