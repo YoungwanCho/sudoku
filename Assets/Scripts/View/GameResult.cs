@@ -12,8 +12,6 @@ namespace view
 
         private InputBasicButton _quitButton = null;
 
-        public System.Action<GameObject> _quitFunc = null;
-
         // Use this for initialization
         void Start()
         {
@@ -29,13 +27,7 @@ namespace view
         public void Initialize(System.Action<GameObject> quitFunc)
         {
             CreateQuitButton();
-            _quitFunc = quitFunc;
-            _quitButton.Initialize(OnClickQuitButton, "cell_green", "Quit");
-        }
-
-        public void OnClickQuitButton(UnityEngine.Object obj)
-        {
-            _quitFunc(obj as GameObject);
+            _quitButton.Initialize(quitFunc, "cell_green", "Quit");
         }
 
         public void UpdateClearTime(string time)

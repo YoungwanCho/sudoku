@@ -6,8 +6,6 @@ namespace view
     public class LevelSelect : MonoBehaviour
     {
         private InputBasicButton[] _levelSelectButton = new InputBasicButton[6];
-
-        private System.Action<GameObject> _levelSelectFunc = null;
         // Use this for initialization
 
         public void Awake()
@@ -28,17 +26,10 @@ namespace view
 
         public void Initialize(System.Action<GameObject> levelSelectFunc)
         {
-            _levelSelectFunc = levelSelectFunc;
             for (int i = 0; i < _levelSelectButton.Length; i++)
             {
-                _levelSelectButton[i].Initialize(OnClickLevelSelect, "cell_green", i.ToString());
+                _levelSelectButton[i].Initialize(levelSelectFunc, "cell_green", i.ToString());
             }
-        }
-
-        public void OnClickLevelSelect(UnityEngine.Object obj)
-        {
-            Debug.Log(string.Format("OnClickLevelSelct {0}", obj.name));
-            _levelSelectFunc(obj as GameObject);
         }
 
         private void CreateLevelSelectButton()

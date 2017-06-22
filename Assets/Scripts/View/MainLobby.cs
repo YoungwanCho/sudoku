@@ -12,9 +12,6 @@ namespace view
         public InputBasicButton optionButton_ = null;
         public InputBasicButton archiveButton_ = null;
 
-
-        private System.Action<GameObject> _newGameStartFunc;
-
         public void Awake()
         {
             CreateNewGameButton();
@@ -34,14 +31,7 @@ namespace view
 
         public void Initialize(System.Action<GameObject> NewGameStartFunc)
         {
-            _newGameStartFunc = NewGameStartFunc;
-            newGameButton.Initialize(OnClickNewGameStart, "cell_green", "New Game");
-        }
-
-        public void OnClickNewGameStart(Object obj)
-        {
-            Debug.Log(string.Format("OnClickNewGame {0}", obj.name));
-            _newGameStartFunc(obj as GameObject);
+            newGameButton.Initialize(NewGameStartFunc, "cell_green", "New Game");
         }
 
         private void CreateNewGameButton()
