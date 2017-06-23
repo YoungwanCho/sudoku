@@ -50,7 +50,7 @@ public class InputPad : MonoBehaviour
 
     private void CreateQuitButton()
     {
-        _quitButton = InstantiateBasicButton("Quit", this.transform, new Vector3(0.0f, -350.0f, 0.0f), Quaternion.identity, Vector3.one);
+        _quitButton = InstantiateBasicButton("Quit", this.transform, new Vector3(0.0f, -300.0f, 0.0f), Quaternion.identity, Vector3.one);
     }
 
     private void CreateDeleteButton()

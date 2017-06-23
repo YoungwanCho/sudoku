@@ -19,7 +19,7 @@ public class SceneManager : MonoBehaviour
 
     public void Start()
     {
-        Initialize();
+        //Initialize();
         ChangeScene(SCENE.MAINLOBBY);
     }
 
@@ -37,6 +37,10 @@ public class SceneManager : MonoBehaviour
         for (int i = 0; i < _scenes.Length; i++)
         {
             _sceneObjects[i].SetActive(i == sceneIndex);
+            if (i == sceneIndex)
+            {
+                _scenes[i].Initialize(this);
+            }
         }
     }
 
@@ -50,7 +54,7 @@ public class SceneManager : MonoBehaviour
         };
         for(int i=0; i< _scenes.Length; i++)
         {
-            _sceneObjects[i] = InstantiateScene(prefabPaths[i], sceneParent_);
+            _sceneObjects[i] = InstantiateScene(prefabPaths[i], this.transform);
             _scenes[i] = _sceneObjects[i].GetComponent<IScene>();
         }
     }

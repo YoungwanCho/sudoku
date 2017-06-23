@@ -31,7 +31,7 @@ namespace controller
         // Use this for initialization
         void Start()
         {
-            OnClickCell(4, 4);
+            
         }
 
         // Update is called once per frame
@@ -40,18 +40,18 @@ namespace controller
 
         }
 
-        private void OnGUI()
-        {
-            if(GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
-            {
-                new controller.StageEditor().MapSave(_modelBoard);                
-            }
+        //private void OnGUI()
+        //{
+        //    if(GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
+        //    {
+        //        new controller.StageEditor().MapSave(_modelBoard);                
+        //    }
 
-            if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
-            {
-                LoadStageData("stage1");
-            }
-        }
+        //    if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
+        //    {
+        //        LoadStageData("stage1");
+        //    }
+        //}
 
         public void Initialize(scene.InGame game)
         {
@@ -59,6 +59,8 @@ namespace controller
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
             _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
+            _doCtrl.Initialize();
+            OnClickCell(4, 4);
         }
 
         public void OnClickQuit(GameObject obj)
@@ -189,11 +191,13 @@ namespace controller
         private InputPad CreateInputPad()
         {
             GameObject obj = Instantiate(new GameObject(), this.transform);
+            obj.AddComponent<RectTransform>();
             obj.transform.localPosition = new Vector3(0.0f, -600.0f, 0.0f);
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "InputPad";
             obj.layer = LayerMask.NameToLayer("UI");
+
             return obj.AddComponent<InputPad>();
         }
 

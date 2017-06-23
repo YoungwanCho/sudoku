@@ -11,6 +11,12 @@ namespace controller
         private Stack<model.Do> _undoStack = new Stack<model.Do>();
         private Stack<model.Do> _redoStack = new Stack<model.Do>();
 
+        public void Initialize()
+        {
+            _undoStack.Clear();
+            _redoStack.Clear();
+        }
+
         public void UndoPush(model.Do undo)
         { 
             _undoStack.Push(undo);
