@@ -52,6 +52,7 @@ namespace scene
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "LevelSelct";
+            obj.layer = LayerMask.NameToLayer("UI");
             return obj.GetComponent<view.GameResult>();
         }
 

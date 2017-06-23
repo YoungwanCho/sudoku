@@ -5,7 +5,7 @@ using UnityEngine;
 public class SceneManager : MonoBehaviour
 {
     public enum SCENE {MAINLOBBY = 0, LEVELSELECT, INGAME, RESULT, MAX_COUNT}
-    public Transform sceneParent_;
+    public RectTransform sceneParent_;
 
     private SCENE _currentScene = SCENE.MAINLOBBY;
     private IScene[] _scenes = new IScene[(int)SCENE.MAX_COUNT];
@@ -63,6 +63,7 @@ public class SceneManager : MonoBehaviour
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
         obj.transform.localScale = Vector3.one;
+        obj.layer = LayerMask.NameToLayer("UI");
         return obj;
     }
 }

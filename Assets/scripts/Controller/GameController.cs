@@ -181,6 +181,7 @@ namespace controller
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "SquareBoard";
+            obj.layer = LayerMask.NameToLayer("UI");
 
             return obj.GetComponent<view.SquareBoard>();
         }
@@ -192,6 +193,7 @@ namespace controller
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "InputPad";
+            obj.layer = LayerMask.NameToLayer("UI");
             return obj.AddComponent<InputPad>();
         }
 
@@ -209,6 +211,7 @@ namespace controller
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "SituationBoard";
+            obj.layer = LayerMask.NameToLayer("UI");
 
             return obj.GetComponent<view.SituationBoard>();
         }

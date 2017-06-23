@@ -88,6 +88,7 @@ public class InputPad : MonoBehaviour
         obj.transform.localRotation = localRot;
         obj.transform.localScale = localScale;
         obj.name = objName;
+        obj.layer = LayerMask.NameToLayer("UI");
         return obj.GetComponent<InputBasicButton>();
     }
 }

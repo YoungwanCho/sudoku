@@ -50,6 +50,7 @@ namespace scene
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             obj.name = "GameController";
+            obj.layer = LayerMask.NameToLayer("UI");
             return obj.AddComponent<controller.GameController>();            
         }
 

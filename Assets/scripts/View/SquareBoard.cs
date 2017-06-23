@@ -142,7 +142,7 @@ namespace view
                 obj.transform.localRotation = Quaternion.identity;
                 obj.transform.localScale = Vector3.one;
                 obj.name = string.Format("Pack {0}", i);
-
+                obj.layer = LayerMask.NameToLayer("UI");
                 squarePack[i] = obj.GetComponent<view.SquarePack>();
             }
             return squarePack;

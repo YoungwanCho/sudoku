@@ -44,6 +44,7 @@ public class MainLobby : MonoBehaviour, IScene
         obj.transform.localRotation = Quaternion.identity;
         obj.transform.localScale = Vector3.one;
         obj.name = "MainLobby";
+        obj.layer = LayerMask.NameToLayer("UI");
         return obj.GetComponent<view.MainLobby>();
     }
 }
