@@ -8,9 +8,9 @@ namespace view
     public class MainLobby : MonoBehaviour
     {
         public Text lobbyTitleText_ = null;
-        public InputBasicButton newGameButton = null;
-        public InputBasicButton optionButton_ = null;
-        public InputBasicButton archiveButton_ = null;
+        private DefaultButton _newGameButton = null;
+        public DefaultButton optionButton_ = null;
+        public DefaultButton archiveButton_ = null;
 
         public void Awake()
         {
@@ -31,15 +31,15 @@ namespace view
 
         public void Initialize(System.Action<GameObject> NewGameStartFunc)
         {
-            newGameButton.Initialize(NewGameStartFunc, "cell_green", "New Game");
+            _newGameButton.Initialize(NewGameStartFunc, "cell_green", "New Game");
         }
 
         private void CreateNewGameButton()
         {
-            newGameButton = InstantiateBasicButton("NewGameStart", this.transform, Vector3.zero, Quaternion.identity, Vector3.one);
+            _newGameButton = InstantiateBasicButton("NewGameStart", this.transform, Vector3.zero, Quaternion.identity, Vector3.one);
         }
 
-        private InputBasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+        private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
             GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
             GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
@@ -48,7 +48,7 @@ namespace view
             obj.transform.localScale = localScale;
             obj.name = objName;
             obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<InputBasicButton>();
+            return obj.GetComponent<DefaultButton>();
         }
     }
 }

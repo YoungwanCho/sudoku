@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputBasicButton : MonoBehaviour
+public class DefaultButton : MonoBehaviour
 {
     [SerializeField]
     private Button _button = null;
@@ -22,5 +22,5 @@ public class InputBasicButton : MonoBehaviour
     public void UpdateButton(Color color)
     {
         _image.color = color;
-    } 
+    }
 } 
