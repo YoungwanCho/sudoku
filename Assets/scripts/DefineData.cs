@@ -28,4 +28,21 @@ public static class DefineData
 
     public static UnityEngine.Vector2 CELLSIZE = new UnityEngine.Vector2(100, 100);
     public static UnityEngine.Vector2 NUMBERSIZE = new UnityEngine.Vector2(100, 100);
+
+    public static string StreamingAssetsPath
+    {
+        get
+        {
+            string StreamingPath = string.Empty;
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    StreamingPath = "file://" + UnityEngine.Application.streamingAssetsPath + "/";
+#elif UNITY_ANDROID
+	StreamingPath = UnityEngine.Application.streamingAssetsPath + "/";
+#elif UNITY_IOS
+	StreamingPath = "file://" + UnityEngine.Application.streamingAssetsPath + "/";
+#endif
+            UnityEngine.Debug.Log(string.Format("streamingAssetsPath : {0}", StreamingPath));
+            return StreamingPath;
+        }
+   }
 }
