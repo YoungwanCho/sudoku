@@ -5,7 +5,6 @@ namespace view
 {
     public class SquareBoard : MonoBehaviour
     {
-
         private view.SquarePack[] _squarePacks = null;
 
         public void Awake()
@@ -13,7 +12,7 @@ namespace view
            _squarePacks = CreateSquarePack();
         }
 
-        public void Initialize(controller.GameController.OnClick onClickCell)
+        public void Initialize(System.Action<int, int> onClickCell)
         {
             for(int i=0; i< _squarePacks.Length; i++)
             {

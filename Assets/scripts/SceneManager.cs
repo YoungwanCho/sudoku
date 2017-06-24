@@ -4,25 +4,65 @@ using UnityEngine;
 
 public class SceneManager : MonoBehaviour
 {
-    public GameObject sceneRoot_;
+    public enum SCENE {MAINLOBBY = 0, LEVELSELECT, INGAME, RESULT, MAX_COUNT}
+    public Transform sceneParent_;
+
+    private SCENE _currentScene = SCENE.MAINLOBBY;
+    private IScene[] _scenes = new IScene[(int)SCENE.MAX_COUNT];
+    private GameObject[] _sceneObjects = new GameObject[(int)SCENE.MAX_COUNT];
+
+    public void Awake()
+    {
+        CreateAllScene();
+
+    }
 
     public void Start()
     {
-        this.Initialize();
+        Initialize();
+        ChangeScene(SCENE.MAINLOBBY);
     }
 
-    public void Initialize()
+    private void Initialize()
+    { 
+        for (int i=0; i<_scenes.Length; i++)
+        {
+            _scenes[i].Initialize(this);
+        }
+    }
+
+    public void ChangeScene(SCENE current)
     {
-        Debug.Log("Scene Init");
-        //일단 인게임 씬만 제어한다
+        int sceneIndex = (int)current;
+        for (int i = 0; i < _scenes.Length; i++)
+        {
+            _sceneObjects[i].SetActive(i == sceneIndex);
+        }
+    }
 
-        GameObject sceneObj = Instantiate(new GameObject(), sceneRoot_.transform) as GameObject;
-        sceneObj.transform.localPosition = Vector3.zero;
-        sceneObj.transform.localRotation = Quaternion.identity;
-        sceneObj.transform.localScale = Vector3.one;
-        sceneObj.name = "GameScene";
+    private void CreateAllScene()
+    { 
+        string[] prefabPaths = {
+            DefineData.PREFAB_SCENE_MAINLOBBY_PATH,
+            DefineData.PREFAB_SCENE_LEVELSELECT_PATH,
+            DefineData.PREFAB_SCENE_INGAME_PATH,
+            DefineData.PREFAB_SCENE_GAMERESULT_PATH
+        };
+        for(int i=0; i< _scenes.Length; i++)
+        {
+            _sceneObjects[i] = InstantiateScene(prefabPaths[i], sceneParent_);
+            _scenes[i] = _sceneObjects[i].GetComponent<IScene>();
+        }
+    }
 
-        sceneObj.transform.localPosition = Vector3.zero;
-        IScene scene = sceneObj.AddComponent<scene.Game>() as IScene;
+    private GameObject InstantiateScene(string prefabPath, Transform parent)
+    {
+        Debug.Log(string.Format("InstantiateScene : {0}", prefabPath));
+        GameObject prefab = Resources.Load<GameObject>(prefabPath) as GameObject;
+        GameObject obj = Instantiate(prefab, parent);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+        return obj;
     }
 }

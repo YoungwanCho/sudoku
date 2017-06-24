@@ -6,10 +6,8 @@ namespace controller
 {
     public class GameController : MonoBehaviour
     {
-        public delegate void OnClick(int n, int n2);
-        public delegate void OnClickInputPad(UnityEngine.Object obj);
         public delegate void DoStack(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo);
-        private scene.Game _game = null;
+        private scene.InGame _game = null;
 
         private controller.DoController _doCtrl = null;
 
@@ -55,21 +53,27 @@ namespace controller
             }
         }
 
-        public void Initialize(scene.Game game)
+        public void Initialize(scene.InGame game)
         {
             this._game = game;
             _modelBoard.Initialize(this._stageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
         }
 
-        public void OnClickDelete(UnityEngine.Object obj)
+        public void OnClickQuit(GameObject obj)
+        {
+            Debug.Log("OnClick Quit Button");
+            _game.OnClickQuit(obj);
+        } 
+
+        public void OnClickDelete(GameObject obj)
         {
             Debug.Log("OnClickDelete");
             OnClickInputNumberButton(new GameObject("0"));
         }
         
-        public void OnClickMemo(UnityEngine.Object obj)
+        public void OnClickMemo(GameObject obj)
         {
             Debug.Log("OnClickMemo");
             UpdateMemoMode(!_isMemoMode);  
@@ -81,7 +85,7 @@ namespace controller
             _modelBoard.OnSellectCell(column, row, this.UpdateView);
         }
 
-        public void OnClickInputNumberButton(UnityEngine.Object obj)
+        public void OnClickInputNumberButton(GameObject obj)
         {
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
             int number = System.Int32.Parse(obj.name);               
@@ -93,12 +97,13 @@ namespace controller
             {
                 if(_modelBoard.CheckGameSuccess())
                 {
+                    _game.ClearGame(null); //@TODO: 기록정보를 전달해준다!
                     Debug.Log("Game Clear");
                 }
             }
         }
 
-        public void OnClickDoAction(UnityEngine.Object obj)
+        public void OnClickDoAction(GameObject obj)
         {
             Debug.Log(string.Format("OnClick DoAction : {0}", obj.name));
             if (obj.name == "Undo")
