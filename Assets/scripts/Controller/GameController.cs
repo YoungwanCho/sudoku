@@ -11,7 +11,6 @@ namespace controller
 
         private controller.DoController _doCtrl = null;
 
-        private model.StageData _stageData = null;
         private model.SquareBoard _modelBoard = null;
         private view.SituationBoard _situationBoard = null;
         private view.SquareBoard _viewBoard = null;
@@ -22,7 +21,6 @@ namespace controller
         {
             _doCtrl = new controller.DoController();
             _modelBoard = new model.SquareBoard();
-            _stageData = LoadStageData("stage1");
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
             _situationBoard = CreateSituationBoard();
@@ -56,7 +54,7 @@ namespace controller
         public void Initialize(scene.InGame game)
         {
             this._game = game;
-            _modelBoard.Initialize(this._stageData);
+            _modelBoard.Initialize(_game.StageData);
             _viewBoard.Initialize(this.OnClickCell);
             _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
             _doCtrl.Initialize();
@@ -199,12 +197,6 @@ namespace controller
             obj.layer = LayerMask.NameToLayer("UI");
 
             return obj.AddComponent<InputPad>();
-        }
-
-        private model.StageData LoadStageData(string stageName)
-        {
-            controller.StageData data = new controller.StageData();
-            return data.LoadStageData(stageName);
         }
 
         private view.SituationBoard CreateSituationBoard()

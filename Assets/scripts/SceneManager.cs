@@ -5,21 +5,19 @@ using UnityEngine;
 public class SceneManager : MonoBehaviour
 {
     public enum SCENE {MAINLOBBY = 0, LEVELSELECT, INGAME, RESULT, MAX_COUNT}
-    public RectTransform sceneParent_;
 
-    private SCENE _currentScene = SCENE.MAINLOBBY;
     private IScene[] _scenes = new IScene[(int)SCENE.MAX_COUNT];
     private GameObject[] _sceneObjects = new GameObject[(int)SCENE.MAX_COUNT];
+    private LevelSelect levelSelectScene = null;
 
     public void Awake()
     {
         CreateAllScene();
-
     }
 
     public void Start()
     {
-        //Initialize();
+        Initialize();
         ChangeScene(SCENE.MAINLOBBY);
     }
 
@@ -45,7 +43,7 @@ public class SceneManager : MonoBehaviour
     }
 
     private void CreateAllScene()
-    { 
+    {
         string[] prefabPaths = {
             DefineData.PREFAB_SCENE_MAINLOBBY_PATH,
             DefineData.PREFAB_SCENE_LEVELSELECT_PATH,
