@@ -30,21 +30,21 @@ public class InputPad : MonoBehaviour
     {
         for(int i=0; i< _numberButton.Length; i++)
         {
-            _numberButton[i].Initialize(onClickNumberButton, "cell_red", (i+1).ToString());
+            _numberButton[i].Initialize(onClickNumberButton, Color.red, (i+1).ToString());
         }
 
-        _undoButton.Initialize(onClickDoAaction, "cell_black", "Undo");
-        _redoButton.Initialize(onClickDoAaction,"cell_black", "Redo");
-        _memoButton.Initialize(onClickMemo, "cell_green", "Memo");
-        _deleteButton.Initialize(onClickDelete, "cell_green", "Delete");
-        _quitButton.Initialize(onClickQuit, "cell_green", "Quit");
+        _undoButton.Initialize(onClickDoAaction, Color.black, "Undo");
+        _redoButton.Initialize(onClickDoAaction, Color.black, "Redo");
+        _memoButton.Initialize(onClickMemo, Color.green, "Memo");
+        _deleteButton.Initialize(onClickDelete, Color.green, "Delete");
+        _quitButton.Initialize(onClickQuit, Color.green, "Quit");
 
         this.UpdateMemoButton(false);
     }
 
     public void UpdateMemoButton(bool isOn)
     {
-        Color color = isOn ? Color.white : Color.gray;
+        Color color = isOn ? Color.green : Color.gray;
         _memoButton.UpdateButton(color);
     }
 

@@ -27,7 +27,7 @@ namespace view
         public void Initialize(System.Action<GameObject> quitFunc)
         {
             CreateQuitButton();
-            _quitButton.Initialize(quitFunc, "cell_green", "Quit");
+            _quitButton.Initialize(quitFunc, Color.green, "Quit");
         }
 
         public void UpdateClearTime(string time)

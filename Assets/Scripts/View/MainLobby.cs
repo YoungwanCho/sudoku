@@ -31,7 +31,7 @@ namespace view
 
         public void Initialize(System.Action<GameObject> NewGameStartFunc)
         {
-            _newGameButton.Initialize(NewGameStartFunc, "cell_green", "New Game");
+            _newGameButton.Initialize(NewGameStartFunc, Color.green, "New Game");
         }
 
         private void CreateNewGameButton()

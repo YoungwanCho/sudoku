@@ -12,10 +12,15 @@ public class DefaultButton : MonoBehaviour
     [SerializeField]
     private Text _text = null;
 
-    public void Initialize(System.Action<GameObject> onclick, string imageName, string text)
+    public void Awake()
+    {
+        _image.sprite = Resources.Load("Image/white", typeof(Sprite)) as Sprite;
+    }
+
+    public void Initialize(System.Action<GameObject> onclick, Color color, string text)
     {
         _button.onClick.AddListener(delegate { onclick(this.gameObject); });
-        _image.sprite = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
+        _image.color = color;
         _text.text = text;
     }
 
@@ -23,4 +28,4 @@ public class DefaultButton : MonoBehaviour
     {
         _image.color = color;
     }
-} 
+}

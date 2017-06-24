@@ -98,12 +98,10 @@ namespace view
 
         private void ChangeImage(Color color)
         {
-            //Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
-            //backGroundImage_.sprite = image;
             backGroundImage_.color = color;
         }
         
-        private void ChangeTextColor(Color32 color)
+        private void ChangeTextColor(Color color)
         {
             numberValue_.color = color;
         }  

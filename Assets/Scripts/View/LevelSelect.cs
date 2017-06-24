@@ -28,7 +28,7 @@ namespace view
         {
             for (int i = 0; i < _levelSelectButton.Length; i++)
             {
-                _levelSelectButton[i].Initialize(levelSelectFunc, "cell_green", i.ToString());
+                _levelSelectButton[i].Initialize(levelSelectFunc, Color.green, i.ToString());
             }
         }
 
