@@ -14,12 +14,12 @@ namespace view
         public void Awake()
         {
             _squareCells = CreateCells();
+            InitGrid();
             _collider = this.gameObject.AddComponent<BoxCollider2D>();
         }
 
         public void Initialize(System.Action<int, int> onClickCell, int orderIndex)
-        {
-            InitGrid();
+        { 
             _orderIndex = orderIndex;
             for(int i=0; i<_squareCells.Length; i++)
             {

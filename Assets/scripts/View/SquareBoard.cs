@@ -11,11 +11,11 @@ namespace view
         public void Awake()
         {
            _squarePacks = CreateSquarePack();
+            InitGrid();
         }
 
         public void Initialize(System.Action<int, int> onClickCell)
-        {
-            InitGrid();
+        { 
             for (int i=0; i< _squarePacks.Length; i++)
             {
                 _squarePacks[i].Initialize(onClickCell, i);
