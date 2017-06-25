@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 public static class DefineData
 {
     public const int MAX_CELL_COUNT = 9;
@@ -26,8 +27,20 @@ public static class DefineData
 
 
 
-    public static UnityEngine.Vector2 CELLSIZE = new UnityEngine.Vector2(100, 100);
-    public static UnityEngine.Vector2 NUMBERSIZE = new UnityEngine.Vector2(100, 100);
+    public static Vector2 CELLSIZE = new Vector2(100, 100);
+    public static Vector2 NUMBERSIZE = new Vector2(100, 100);
+
+    public static Vector2 CELL_INTERVAL = new Vector2(1, 1);
+
+    public static Vector2 PACKSIZE = new Vector2(
+        CELLSIZE.x * MAX_COLUMN_COUNT + (CELL_INTERVAL.x * 2),
+        CELLSIZE.y * MAX_ROW_COUNT + (CELL_INTERVAL.y * 2));
+
+    public static Vector2 PACK_INTERVAL = new Vector2(2, 2);
+
+    public static Vector2 BOARDSIZE = new Vector2(
+    PACKSIZE.x * MAX_COLUMN_COUNT + (PACK_INTERVAL.x * 2),
+    PACKSIZE.y * MAX_ROW_COUNT + (PACK_INTERVAL.y * 2));
 
     public static string StreamingAssetsPath
     {

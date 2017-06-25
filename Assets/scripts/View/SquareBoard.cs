@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace view
@@ -14,7 +15,8 @@ namespace view
 
         public void Initialize(System.Action<int, int> onClickCell)
         {
-            for(int i=0; i< _squarePacks.Length; i++)
+            InitGrid();
+            for (int i=0; i< _squarePacks.Length; i++)
             {
                 _squarePacks[i].Initialize(onClickCell, i);
             }
@@ -128,7 +130,19 @@ namespace view
             }
         }
 
-        
+        private void InitGrid()
+        {
+            this.GetComponent<RectTransform>().sizeDelta = DefineData.BOARDSIZE;
+
+            GridLayoutGroup grid = this.gameObject.AddComponent<GridLayoutGroup>();
+            grid.cellSize = DefineData.PACKSIZE;
+            grid.spacing = DefineData.PACK_INTERVAL;
+            grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
+            grid.startAxis = GridLayoutGroup.Axis.Horizontal;
+            grid.childAlignment = TextAnchor.UpperLeft;
+            grid.constraint = GridLayoutGroup.Constraint.Flexible;
+        }
+
         private view.SquarePack[] CreateSquarePack()
         {
             view.SquarePack[] squarePack = new view.SquarePack[DefineData.MAX_PACK_COUNT];
