@@ -32,5 +32,20 @@ namespace model
             this.previus = previus;
             this.current = current;
         }
+
+        public DoAction SwapDoAction()
+        {
+            int[] previusMemoArr = new int[this.previus.memoArray.Length];
+            int[] currentMemoArr = new int[this.current.memoArray.Length];
+            System.Array.Copy(this.previus.memoArray, previusMemoArr, this.previus.memoArray.Length);
+            System.Array.Copy(this.current.memoArray, currentMemoArr, this.current.memoArray.Length);
+
+            model.Do previus = new model.Do(this.previus.number, this.previus.isMemoMode, previusMemoArr);
+            model.Do current = new model.Do(this.current.number, this.current.isMemoMode, currentMemoArr);
+
+            model.DoAction doAction = new model.DoAction(this.boardCoordinate, current, previus);
+
+            return doAction;
+        }
     }
 }
