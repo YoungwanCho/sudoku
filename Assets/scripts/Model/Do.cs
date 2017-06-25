@@ -8,35 +8,29 @@ namespace model
 {
     public class Do
     {
-        public readonly model.BoardCoordinate boardCoordinate;
-        public readonly int previusNumber;
-        public readonly int currentNumber;
-        public readonly bool isPreviusMemoMode;
-        public readonly bool isCurrentMemoMode;
-        public readonly int[] previusMemoArray;
-        public readonly int[] currentMemoArray;
+        public readonly int number;
+        public readonly bool isMemoMode;
+        public readonly int[] memoArray;
 
-        public Do(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemoMode, bool isCurrentMemoMode, int[] previusMemo, int[] currentMemo)
+        public Do(int number, bool isMemoMode, int[] memoArray)
+        {
+            this.number = number;
+            this.isMemoMode = isMemoMode;
+            this.memoArray = memoArray;
+        }
+    }
+
+    public class DoAction
+    {
+        public readonly model.BoardCoordinate boardCoordinate;
+        public readonly Do previus;
+        public readonly Do current;
+
+        public DoAction(model.BoardCoordinate boardCoordinate, Do previus, Do current)
         {
             this.boardCoordinate = boardCoordinate;
-            this.previusNumber = previusNumber;
-            this.currentNumber = currentNumber;
-            this.isPreviusMemoMode = isPreviusMemoMode;
-            this.isCurrentMemoMode = isCurrentMemoMode;
-            this.previusMemoArray = previusMemo;
-            this.currentMemoArray = currentMemo;
-            PrintDo();
-        }
-
-        public void PrintDo()
-        {
-            string arrstr = string.Empty;
-            for(int i=0; i<previusMemoArray.Length; i++)
-            {
-                arrstr += string.Format("[{0}]", previusMemoArray[i]);
-            }            
-            Debug.Log(string.Format("[{0}, {1}] = pre : {2} cur : {3}, isMemoMode : {4}, memoArray : {5}", 
-                this.boardCoordinate.column, this.boardCoordinate.row, previusNumber, currentNumber, isPreviusMemoMode, arrstr));
+            this.previus = previus;
+            this.current = current;
         }
     }
 }
