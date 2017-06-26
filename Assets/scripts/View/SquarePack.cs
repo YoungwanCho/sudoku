@@ -14,19 +14,16 @@ namespace view
         public void Awake()
         {
             _squareCells = CreateCells();
+            InitGrid();
             _collider = this.gameObject.AddComponent<BoxCollider2D>();
         }
 
         public void Initialize(System.Action<int, int> onClickCell, int orderIndex)
-        {
+        { 
             _orderIndex = orderIndex;
-            SetPosition(orderIndex);
-
-            
             for(int i=0; i<_squareCells.Length; i++)
             {
                 _squareCells[i].Initialize(onClickCell, orderIndex, i);
-                //_squareCells[i].UpdateText(i);
             }
         }
 
@@ -51,26 +48,15 @@ namespace view
             return squareCells;
         }
 
-        private void SetPosition(int orderIndex)
+        private void InitGrid()
         {
-            int column = orderIndex % DefineData.MAX_COLUMN_COUNT;
-            int row = orderIndex / DefineData.MAX_ROW_COUNT;
-            
-            float packWdith = ((DefineData.CELLSIZE.x * DefineData.MAX_COLUMN_COUNT) + (DefineData.MAX_COLUMN_COUNT + 1));
-            float packHeight = ((DefineData.CELLSIZE.y * DefineData.MAX_ROW_COUNT) + (DefineData.MAX_ROW_COUNT + 1));
-
-            float totalWidth = packWdith * DefineData.MAX_COLUMN_COUNT;
-            float totalHeight = packHeight * DefineData.MAX_ROW_COUNT;
-
-            float startX = -totalWidth * 0.5f + (packWdith * 0.5f);
-            float startY = totalHeight * 0.5f - (packHeight * 0.5f);
-
-            float posX = startX + ((packWdith * column) + (column + 1));
-            float posY = startY - ((packHeight * row) - (row + 1));
-
-            this.transform.localPosition = new Vector3(posX, posY, 0);
-
+            GridLayoutGroup grid = this.gameObject.AddComponent<GridLayoutGroup>();
+            grid.cellSize = DefineData.CELLSIZE;
+            grid.spacing = DefineData.CELL_INTERVAL;
+            grid.startCorner = GridLayoutGroup.Corner.UpperLeft;
+            grid.startAxis = GridLayoutGroup.Axis.Horizontal;
+            grid.childAlignment = TextAnchor.UpperLeft;
+            grid.constraint = GridLayoutGroup.Constraint.Flexible;
         }
-
     }
 }

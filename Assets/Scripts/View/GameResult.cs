@@ -10,7 +10,7 @@ namespace view
         public Text title_ = null;
         public Text clearTime_ = null;
 
-        private InputBasicButton _quitButton = null;
+        private DefaultButton _quitButton = null;
 
         // Use this for initialization
         void Start()
@@ -27,7 +27,7 @@ namespace view
         public void Initialize(System.Action<GameObject> quitFunc)
         {
             CreateQuitButton();
-            _quitButton.Initialize(quitFunc, "cell_green", "Quit");
+            _quitButton.Initialize(quitFunc, Color.green, "Quit");
         }
 
         public void UpdateClearTime(string time)
@@ -40,7 +40,7 @@ namespace view
             _quitButton = InstantiateBasicButton("QuitButton", this.transform, Vector3.zero, Quaternion.identity, Vector3.one);
         }
 
-        private InputBasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+        private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
             GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
             GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
@@ -49,7 +49,7 @@ namespace view
             obj.transform.localScale = localScale;
             obj.name = objName;
             obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<InputBasicButton>();
+            return obj.GetComponent<DefaultButton>();
         }
     }
 }

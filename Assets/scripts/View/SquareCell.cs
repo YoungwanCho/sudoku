@@ -10,10 +10,8 @@ namespace view
         public Text numberValue_;
         public Image backGroundImage_;
 
-        [SerializeField]
         public Transform memoParent_;
 
-        [SerializeField]
         private Text[] memoTextArray_ = new Text[DefineData.MAX_CELL_COUNT]; 
 
         private model.BoardCoordinate _boardCoordinate = null;
@@ -29,7 +27,6 @@ namespace view
         {
             BoxCollider2D collider = this.gameObject.AddComponent<BoxCollider2D>();
             collider.size = DefineData.CELLSIZE;
-
             _button = this.gameObject.AddComponent<Button>();
         }
 
@@ -48,8 +45,6 @@ namespace view
             this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
             this._row = orderIndex / DefineData.MAX_ROW_COUNT;
             this._boardCoordinate = new model.BoardCoordinate(packIndex, this._column, this._row);
-            //Debug.Log(string.Format("Name :{0} -  [{1}, {2}]", name, _boardCoordinate.column, _boardCoordinate.row));
-            SetPosition(orderIndex);
         }
 
         public void UpdateCell(model.SquareCell modelCell)
@@ -78,9 +73,8 @@ namespace view
             numberValue_.gameObject.SetActive(true);
             memoParent_.gameObject.SetActive(false);            
             numberValue_.text = numberValue == 0 ? string.Empty : numberValue.ToString();
-            //numberValue_.text = string.Format("[{0}, {1}]", _boardCoordinate.column, _boardCoordinate.row);
         }
-                
+
         private void UpdateMemoText(int[] memoArray)
         {
             numberValue_.gameObject.SetActive(false);
@@ -94,38 +88,16 @@ namespace view
         private void ChangeScale(float scale)
         {
             this.transform.localScale = Vector3.one * scale;
-        } 
+        }
 
         private void ChangeImage(Color color)
         {
-            //Sprite image = Resources.Load(string.Format("Image/{0}", imageName), typeof(Sprite)) as Sprite;
-            //backGroundImage_.sprite = image;
             backGroundImage_.color = color;
         }
         
-        private void ChangeTextColor(Color32 color)
+        private void ChangeTextColor(Color color)
         {
             numberValue_.color = color;
-        }  
-
-        private void SetPosition(int orderIndex)
-        {
-            RectTransform imageRect = backGroundImage_.GetComponent<RectTransform>();
-            imageRect.sizeDelta = DefineData.CELLSIZE;
-
-            RectTransform textRect = numberValue_.GetComponent<RectTransform>();
-            textRect.sizeDelta = DefineData.CELLSIZE;
-
-            int column = _orderIdex % DefineData.MAX_COLUMN_COUNT;
-            int row = _orderIdex / DefineData.MAX_ROW_COUNT;
-
-            float startX = -((imageRect.sizeDelta.x * DefineData.MAX_COLUMN_COUNT) + (DefineData.MAX_COLUMN_COUNT + 1)) * 0.5f;
-            float startY = ((imageRect.sizeDelta.y * DefineData.MAX_ROW_COUNT) + (DefineData.MAX_ROW_COUNT + 1)) * 0.5f;
-
-            float posX = startX + (imageRect.sizeDelta.x * 0.5f) + ((imageRect.sizeDelta.x * column) + (column + 1));
-            float posY = startY - (imageRect.sizeDelta.y * 0.5f) - ((imageRect.sizeDelta.y * row) - (row + 1));
-
-            this.transform.localPosition = new Vector3(posX, posY, 0);
         }
     }
 }

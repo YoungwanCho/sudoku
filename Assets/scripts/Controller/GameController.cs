@@ -112,21 +112,11 @@ namespace controller
                 {
                     return;
                 }
-
-                model.Do peek = _doCtrl.UndoPop();
-                peek.PrintDo();
-                int column = peek.boardCoordinate.column;
-                int row = peek.boardCoordinate.row;
-                OnClickCell(column, row);
-                int previusNumber = peek.previusNumber;
-                int currentNumber = peek.currentNumber;
-                int[] previusMemoArr = new int[peek.previusMemoArray.Length];
-                int[] currentMemoArr = new int[peek.currentMemoArray.Length];
-                System.Array.Copy(peek.previusMemoArray, previusMemoArr, peek.previusMemoArray.Length);
-                System.Array.Copy(peek.currentMemoArray, currentMemoArr, peek.currentMemoArray.Length);
-                model.Do redo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isCurrentMemoMode, peek.isPreviusMemoMode, currentMemoArr, previusMemoArr);
+                model.DoAction peek = _doCtrl.UndoPop();
+                OnClickCell(peek.boardCoordinate.column, peek.boardCoordinate.row);
+                model.DoAction redo = peek.SwapDoAction();
                 _doCtrl.RedoPush(redo);
-                _modelBoard.InputNumber(peek.isPreviusMemoMode, previusNumber, peek.previusMemoArray, null);
+                _modelBoard.InputNumber(redo.current.isMemoMode, redo.current.number, redo.current.memoArray, null);
             }
             else if (obj.name == "Redo")
             {
@@ -135,20 +125,11 @@ namespace controller
                     return;
                 }
 
-                model.Do peek = _doCtrl.RedoPop();
-                peek.PrintDo();
-                int column = peek.boardCoordinate.column;
-                int row = peek.boardCoordinate.row;
-                OnClickCell(column, row);
-                int previusNumber = peek.previusNumber;
-                int currentNumber = peek.currentNumber;
-                int[] previusMemoArr = new int[peek.previusMemoArray.Length];
-                int[] currentMemoArr = new int[peek.currentMemoArray.Length];
-                System.Array.Copy(peek.previusMemoArray, previusMemoArr, peek.previusMemoArray.Length);
-                System.Array.Copy(peek.currentMemoArray, currentMemoArr, peek.currentMemoArray.Length);
-                model.Do undo = new model.Do(peek.boardCoordinate, currentNumber, previusNumber, peek.isCurrentMemoMode, peek.isPreviusMemoMode, currentMemoArr, previusMemoArr);
+                model.DoAction peek = _doCtrl.RedoPop();
+                OnClickCell(peek.boardCoordinate.column, peek.boardCoordinate.row);
+                model.DoAction undo = peek.SwapDoAction();
                 _doCtrl.UndoPush(undo);
-                _modelBoard.InputNumber(peek.isPreviusMemoMode, previusNumber, peek.previusMemoArray, null);        
+                _modelBoard.InputNumber(undo.current.isMemoMode, undo.current.number, undo.current.memoArray, null);
             }
             UpdateView();
         }
@@ -162,7 +143,10 @@ namespace controller
 
         public void UndoStackPush(model.BoardCoordinate boardCoordinate, int previusNumber, int currentNumber, bool isPreviusMemo, bool isCurrentMemo, int[] previusMemo, int[] currentMemo)
         {
-            model.Do undo = new model.Do(boardCoordinate, previusNumber, currentNumber, isPreviusMemo, isCurrentMemo, previusMemo, currentMemo);
+            model.Do previus = new model.Do(previusNumber, isPreviusMemo, previusMemo);
+            model.Do current = new model.Do(currentNumber, isCurrentMemo, currentMemo);
+
+            model.DoAction undo = new model.DoAction(boardCoordinate, previus, current);
             _doCtrl.UndoPush(undo);
         }
 
