@@ -5,6 +5,7 @@ namespace view
 {
     public class LevelSelect : MonoBehaviour
     {
+        public Transform buttonParent_ = null;
         private DefaultButton[] _levelSelectButton = new DefaultButton[6];
         // Use this for initialization
 
@@ -46,8 +47,7 @@ namespace view
 
             for (int i = 0; i < _levelSelectButton.Length; i++)
             {
-                localPos = new Vector3(startPosX + (intervalWidth * i) + (sizeWidth * i), 0.0f, 0.0f);
-                _levelSelectButton[i] = InstantiateBasicButton(i.ToString(), this.transform, localPos, Quaternion.identity, Vector3.one);
+                _levelSelectButton[i] = InstantiateBasicButton(i.ToString(), buttonParent_, Vector3.zero, Quaternion.identity, Vector3.one);
             }
         }
 
