@@ -8,7 +8,11 @@ public class SceneManager : MonoBehaviour
 
     private IScene[] _scenes = new IScene[(int)SCENE.MAX_COUNT];
     private GameObject[] _sceneObjects = new GameObject[(int)SCENE.MAX_COUNT];
-    private LevelSelect levelSelectScene = null;
+
+    private scene.LevelSelect _levelSelectScene = null;
+    private scene.MainLobby _mainLobbyScene = null;
+    private scene.InGame _inGameScene = null;
+    private scene.GameResult _gameResultScene = null;
 
     public void Awake()
     {
@@ -19,6 +23,11 @@ public class SceneManager : MonoBehaviour
     {
         Initialize();
         ChangeScene(SCENE.MAINLOBBY);
+    }
+
+    public int GetSelectStageIndex()
+    {
+        return _levelSelectScene.LevelSelectIndex;
     }
 
     private void Initialize()
@@ -54,6 +63,25 @@ public class SceneManager : MonoBehaviour
         {
             _sceneObjects[i] = InstantiateScene(prefabPaths[i], this.transform);
             _scenes[i] = _sceneObjects[i].GetComponent<IScene>();
+
+            switch((SCENE)i)
+            {
+                case SCENE.MAINLOBBY:
+                    _mainLobbyScene = _sceneObjects[i].GetComponent<scene.MainLobby>();
+                    break;
+
+                case SCENE.LEVELSELECT:
+                    _levelSelectScene = _sceneObjects[i].GetComponent<scene.LevelSelect>();
+                    break;
+
+                case SCENE.INGAME:
+                    _inGameScene = _sceneObjects[i].GetComponent<scene.InGame>();
+                    break;
+
+                case SCENE.RESULT:
+                    _gameResultScene = _sceneObjects[i].GetComponent<scene.GameResult>();
+                    break;
+            }
         }
     }
 
