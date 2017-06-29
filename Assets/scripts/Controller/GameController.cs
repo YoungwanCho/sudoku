@@ -26,18 +26,6 @@ namespace controller
             _situationBoard = CreateSituationBoard();
         }
 
-        // Use this for initialization
-        void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         //private void OnGUI()
         //{
         //    if(GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
@@ -97,7 +85,7 @@ namespace controller
             {
                 if(_modelBoard.CheckGameSuccess())
                 {
-                    _game.ClearGame(null); //@TODO: 기록정보를 전달해준다!
+                    _game.ClearGame(obj);
                     Debug.Log("Game Clear");
                 }
             }
@@ -132,6 +120,11 @@ namespace controller
                 _modelBoard.InputNumber(undo.current.isMemoMode, undo.current.number, undo.current.memoArray, null);
             }
             UpdateView();
+        }
+
+        public void UpdatePlayTime(string str)
+        {
+            _situationBoard.UpdatePlayerTime(str);
         }
 
         public void UpdateMemoMode(bool isOn)

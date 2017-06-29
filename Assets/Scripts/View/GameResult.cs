@@ -12,18 +12,6 @@ namespace view
 
         private DefaultButton _quitButton = null;
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void Initialize(System.Action<GameObject> quitFunc)
         {
             CreateQuitButton();
@@ -37,7 +25,7 @@ namespace view
 
         private void CreateQuitButton()
         {
-            _quitButton = InstantiateBasicButton("QuitButton", this.transform, Vector3.zero, Quaternion.identity, Vector3.one);
+            _quitButton = InstantiateBasicButton("QuitButton", this.transform, new Vector3(0, -500.0f, 0), Quaternion.identity, Vector3.one);
         }
 
         private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)

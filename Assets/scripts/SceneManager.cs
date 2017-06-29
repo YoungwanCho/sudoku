@@ -30,6 +30,11 @@ public class SceneManager : MonoBehaviour
         return _levelSelectScene.LevelSelectIndex;
     }
 
+    public string GetStageClearTime()
+    {
+        return string.Format("ClearTime {0}",_inGameScene.GetPlayTimeString());
+    }
+
     private void Initialize()
     { 
         for (int i=0; i<_scenes.Length; i++)

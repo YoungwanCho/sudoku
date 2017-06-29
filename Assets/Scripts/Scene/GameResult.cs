@@ -6,7 +6,7 @@ namespace scene
     public class GameResult : MonoBehaviour, IScene
     {
         private SceneManager _sceneManager = null;
-        view.GameResult _view = null;
+        private view.GameResult _view = null;
 
         public void Enter()
         {
@@ -20,22 +20,12 @@ namespace scene
         {
             _sceneManager = manager;
             _view.Initialize(OnClcikQuitButton);
+            _view.UpdateClearTime(_sceneManager.GetStageClearTime());
         }
 
         public void Awake()
         {
             _view = CreateGameResultView();
-        }
-
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void OnClcikQuitButton(GameObject obj)

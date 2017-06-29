@@ -11,21 +11,10 @@ namespace view
         public Image backGroundImage_ = null;
         public Text timeText = null;
         public Text emptyCellCountText_ = null;
-        private Stopwatch _stopWatch = new Stopwatch();
 
-        public void Start()
+        public void UpdatePlayerTime(string str)
         {
-            _stopWatch.Start();
-        }
-
-        public void OnEnable()
-        {
-            _stopWatch.Reset();
-        }
-
-        public void Update()
-        {
-            timeText.text = string.Format("{0}:{1}:{2}", _stopWatch.Elapsed.Hours.ToString("00"), _stopWatch.Elapsed.Minutes.ToString("00"), _stopWatch.Elapsed.Seconds.ToString("00"));
+            timeText.text = str;
         }
 
         public void UpdateEmptyCellCount(int count)
