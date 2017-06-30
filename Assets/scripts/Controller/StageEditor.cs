@@ -31,7 +31,7 @@ namespace controller
             string str = JsonUtility.ToJson(stageData, prettyPrint: true);
             Debug.Log(str);
 
-            using (FileStream fs = new FileStream("Assets/Resources/stage1.json", FileMode.Create))
+            using (FileStream fs = new FileStream("Assets/StreamingAssets/stage6.json", FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {

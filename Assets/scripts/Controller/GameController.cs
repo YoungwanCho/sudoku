@@ -26,18 +26,23 @@ namespace controller
             _situationBoard = CreateSituationBoard();
         }
 
-        //private void OnGUI()
-        //{
-        //    if(GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
-        //    {
-        //        new controller.StageEditor().MapSave(_modelBoard);                
-        //    }
+        private void OnGUI()
+        {
+            //if (GUI.Button(new Rect(200, 200, 200, 200), "StageData Save"))
+            //{
+            //    new controller.StageEditor().MapSave(_modelBoard);
+            //}
 
-        //    if(GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
-        //    {
-        //        LoadStageData("stage1");
-        //    }
-        //}
+            ////if (GUI.Button(new Rect(600, 200, 200, 200), "StageData Load"))
+            ////{
+            ////    LoadStageData("stage1");
+            ////}
+
+            //if (GUI.Button(new Rect(400, 200, 200, 200), "Clear Board Number"))
+            //{
+            //    ClearBoard();
+            //}
+        }
 
         public void Initialize(scene.InGame game)
         {
@@ -187,6 +192,23 @@ namespace controller
             obj.layer = LayerMask.NameToLayer("UI");
 
             return obj.GetComponent<view.SituationBoard>();
+        }
+
+        private void ClearBoard()
+        {
+            model.SquarePack targetPack = null;
+            model.SquareCell targetCell = null;
+            for (int i = 0; i < _modelBoard.SquarePack.Length; i++)
+            {
+                targetPack = _modelBoard.SquarePack[i];
+                for (int j = 0; j < targetPack.SquareCells.Length; j++)
+                {
+                    targetCell = targetPack.SquareCells[j];
+
+                    this.OnClickCell(targetCell.BoardCoorinate.column, targetCell.BoardCoorinate.row);
+                    this.OnClickInputNumberButton(new GameObject("0"));
+                }
+            }
         }
 
 
