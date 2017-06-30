@@ -54,6 +54,21 @@ namespace controller
             OnClickCell(4, 4);
         }
 
+        public void LoopAllSquareCell(model.SquareBoard board)
+        {
+            model.SquarePack targetPack = null;
+            model.SquareCell targetCell = null;
+
+            for(int i=0; i<board.SquarePack.Length; i++)
+            {
+                targetPack = board.SquarePack[i];
+                for(int j=0; j<targetPack.SquareCells.Length; j++)
+                {
+                    targetCell = targetPack.SquareCells[i];
+                }
+            }
+        }
+
         public void OnClickQuit(GameObject obj)
         {
             Debug.Log("OnClick Quit Button");
