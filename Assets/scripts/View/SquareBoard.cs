@@ -70,21 +70,23 @@ namespace view
                     isEqualRow = false;
                     isSelectCell = false;
 
+                    // 오픈 값이 아니면서 중복 된 값
                     if(!modelTargetCell.IsOpenValue &&( modelTargetCell.IsDuplicatePack || modelTargetCell.IsDuplicateColumn || modelTargetCell.IsDuplicateRow))
                     {
                         viewTargetCell.UpdateTrim(Color.black, modelTargetCell.GetTextColor());
                         continue;
                     }
 
+                    // 셀렉트 셀
                     if (modelSquareBoard.SelectCell.BoardCoorinate.column == viewTargetCell.BoardCoorinate.column
                         && modelSquareBoard.SelectCell.BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                     {
                         viewTargetCell.UpdateTrim(Color.magenta, modelSquareBoard.SelectCell.GetTextColor());
                         isSelectCell = true;
                     }
-
                     if (isSelectCell) continue;
 
+                    // 선택셀 셀과의 중복값
                     for (int k = 0; k < modelSquareBoard.EqaulValueCells.Count; k++)
                     {
                         if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
@@ -95,9 +97,9 @@ namespace view
                             break;
                         }
                     }
-
                     if (isEqualValue) continue;
 
+                    // 선택 셀과 같은 열의 셀
                     for (int k = 0; k < modelSquareBoard.EqualColumnCells.Length; k++)
                     {
                         if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
@@ -108,9 +110,9 @@ namespace view
                             break;
                         }
                     }
-
                     if (isEqualColumn) continue;
 
+                    // 같은 행의 셀
                     for (int k = 0; k < modelSquareBoard.EqaulRowCells.Length; k++)
                     {
                         if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
@@ -121,9 +123,9 @@ namespace view
                             break;
                         }
                     }
-
                     if (isEqualRow) continue;
 
+                    // 일반
                     viewTargetCell.UpdateTrim(Color.grey, modelTargetCell.GetTextColor());
                     
                 }
