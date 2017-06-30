@@ -59,11 +59,11 @@ namespace view
             }
         }
 
-        public void UpdateTrim(Color bgColor, bool isZooming, Color textColor)
+        public void UpdateTrim(Color bgColor, Color textColor)
         {
             ChangeImage(bgColor);
 
-            ChangeScale(isZooming ? 1.1f : 1.0f);
+            //ChangeScale(isZooming ? 1.1f : 1.0f);
 
             ChangeTextColor(textColor);
         }

@@ -72,14 +72,14 @@ namespace view
 
                     if(!modelTargetCell.IsOpenValue &&( modelTargetCell.IsDuplicatePack || modelTargetCell.IsDuplicateColumn || modelTargetCell.IsDuplicateRow))
                     {
-                        viewTargetCell.UpdateTrim(Color.black, false, modelTargetCell.GetTextColor());
+                        viewTargetCell.UpdateTrim(Color.black, modelTargetCell.GetTextColor());
                         continue;
                     }
 
                     if (modelSquareBoard.SelectCell.BoardCoorinate.column == viewTargetCell.BoardCoorinate.column
                         && modelSquareBoard.SelectCell.BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                     {
-                        viewTargetCell.UpdateTrim(Color.magenta, false, modelSquareBoard.SelectCell.GetTextColor());
+                        viewTargetCell.UpdateTrim(Color.magenta, modelSquareBoard.SelectCell.GetTextColor());
                         isSelectCell = true;
                     }
 
@@ -90,7 +90,7 @@ namespace view
                         if (modelSquareBoard.EqaulValueCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulValueCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim(Color.yellow, true, modelSquareBoard.EqaulValueCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.yellow, modelSquareBoard.EqaulValueCells[k].GetTextColor());
                             isEqualValue = true;
                             break;
                         }
@@ -103,7 +103,7 @@ namespace view
                         if (modelSquareBoard.EqualColumnCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqualColumnCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim(Color.magenta, true, modelSquareBoard.EqualColumnCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.magenta, modelSquareBoard.EqualColumnCells[k].GetTextColor());
                             isEqualColumn = true;
                             break;
                         }
@@ -116,7 +116,7 @@ namespace view
                         if (modelSquareBoard.EqaulRowCells[k].BoardCoorinate.column == viewTargetCell.BoardCoorinate.column &&
                             modelSquareBoard.EqaulRowCells[k].BoardCoorinate.row == viewTargetCell.BoardCoorinate.row)
                         {
-                            viewTargetCell.UpdateTrim(Color.magenta, true, modelSquareBoard.EqaulRowCells[k].GetTextColor());
+                            viewTargetCell.UpdateTrim(Color.magenta, modelSquareBoard.EqaulRowCells[k].GetTextColor());
                             isEqualRow = true;
                             break;
                         }
@@ -124,7 +124,7 @@ namespace view
 
                     if (isEqualRow) continue;
 
-                    viewTargetCell.UpdateTrim(Color.grey, false, modelTargetCell.GetTextColor());
+                    viewTargetCell.UpdateTrim(Color.grey, modelTargetCell.GetTextColor());
                     
                 }
             }
