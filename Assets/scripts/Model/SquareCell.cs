@@ -8,11 +8,17 @@ namespace model
         public int OrderIndex { get { return this._orderIndex; } }
         public int NumberValue { get { return this._numberValue; } }
         public int PackIndex { get { return this._packIndex; } }
+
         public bool IsMemoMode { get { return this._isMemoMode; } }
         public bool IsOpenValue { get { return this._isOpenValue; } }
         public bool IsDuplicatePack { get { return this._isDuplicatePack; } }
         public bool IsDuplicateColumn { get { return this._isDuplicateColumn; } }
         public bool IsDuplicateRow { get { return this._isDuplicateRow; } }
+        public bool IsSelectCell { get { return this._isSelectCell; } }
+        public bool IsEqualNumber { get { return this._isEqualNumber; } }
+        public bool IsEqualColumn { get { return this._isEqualColumn; } }
+        public bool IsEqualRow { get { return this._isEqualRow; } }
+
         public BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
 
         private readonly BoardCoordinate _boardCoordinate;
@@ -27,6 +33,10 @@ namespace model
         private bool _isDuplicateColumn = false;
         private bool _isDuplicateRow = false;
         private bool _isMemoMode = false;
+        private bool _isSelectCell = false;
+        private bool _isEqualNumber = false;
+        private bool _isEqualColumn = false;
+        private bool _isEqualRow = false;
         private int[] _memoArray = new int[9];
 
         public SquareCell(int packIndex, int orderIndex)
@@ -45,8 +55,29 @@ namespace model
             this._isDuplicatePack = false;
             this._isDuplicateColumn = false;
             this._isDuplicateRow = false;
-            InitMemoArray();
 
+            this._isSelectCell = false;
+            this._isEqualNumber = false;
+            this._isEqualColumn = false;
+            this._isEqualRow = false;
+
+            this._isMemoMode = false;
+
+            ClearMemoArray();
+
+        }
+
+        public void UpdateStateBasedOnSelectedCell(model.SquareCell selectCell)
+        {
+			this._isSelectCell = (selectCell.BoardCoorinate.column == this.BoardCoorinate.column && selectCell.BoardCoorinate.row == this.BoardCoorinate.row);
+            this._isEqualNumber = this._numberValue == 0 ? false : (selectCell.NumberValue == this._numberValue);
+            this._isEqualColumn = (selectCell.BoardCoorinate.column == this._boardCoordinate.column);
+            this._isEqualRow = (selectCell.BoardCoorinate.row == this._boardCoordinate.row);
+
+            if(this._isOpenValue)
+            {
+                return;
+            }
         }
 
         public void UpdateMemoArray(int number)
@@ -88,14 +119,16 @@ namespace model
         public void UpdateNumberValue(int number)
         {
             this._numberValue = number;
-
-            //if(!this.UpdateMemoMode())
-            //{
-            //    InitMemoArray();
-            //}
-            //InitMemoArray();
-            //UpdateMemoMode();
         }
+
+		public void ClearMemoArray()
+		{
+			for (int i = 0; i < _memoArray.Length; i++)
+			{
+				_memoArray[i] = 0;
+			}
+			_isMemoMode = false;
+		}
 
         public void UpdateDuplicatePack(bool isOn)
         {
@@ -182,24 +215,5 @@ namespace model
             return _isMemoMode;
         }
 
-        public void InitMemoArray()
-        {
-            for (int i = 0; i < _memoArray.Length; i++)
-            {
-                _memoArray[i] = 0;
-            }
-            _isMemoMode = false;
-        }
-
-        public Color GetTextColor()
-        {
-            if (_isOpenValue)
-                return Color.blue;
-
-            if (_isDuplicatePack || _isDuplicateColumn || _isDuplicateRow)
-                return Color.red;
-
-            return new Color(0, 100, 0);
-        }
     }
 }

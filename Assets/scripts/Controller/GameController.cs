@@ -165,8 +165,7 @@ namespace controller
 
         public void UpdateView()
         {
-            _viewBoard.UpdateBoardAim(this._modelBoard);
-            _viewBoard.UpdateBoardValue(this._modelBoard);
+            _viewBoard.UpdateBoard(this._modelBoard);
             _situationBoard.UpdateEmptyCellCount(_modelBoard.EmptyCellCount);
         }
 
