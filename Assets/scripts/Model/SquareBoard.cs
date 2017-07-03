@@ -114,7 +114,9 @@ namespace model
             }
 
             _selectCell.UpdateNumberValue(number);
-            UpdateCellData(_selectCell);
+            this.UpdateCellData(_selectCell);
+            _selectPack.UpdateDuplicateInPack();
+            this.UpdateDuplicateInAim(_selectCell);
 
             if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStack에 추가하지 않는다.
             {
@@ -122,9 +124,6 @@ namespace model
                 System.Array.Copy(_selectCell.MemoArray, currentMemoArr, _selectCell.MemoArray.Length);
                 UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue, isPreviusMemoMode, _selectCell.IsMemoMode, previusMemoArr, currentMemoArr);
             }
-
-            _selectPack.UpdateDuplicateInPack();
-            this.UpdateDuplicateInAim(_selectCell);
         }
 
         public bool CheckGameSuccess()
@@ -278,7 +277,7 @@ namespace model
             List<model.SquareCell> duplicateCells = new List<SquareCell>();
             bool isDuplicate = false;
             int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
-            int targetCellRow = boardColumn % DefineData.MAX_COLUMN_COUNT;
+            int targetCellRow = boardColumn % DefineData.MAX_ROW_COUNT;
 
             model.SquarePack[] packs = this.GetColumnPacks(targetPackColumn);
             model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
