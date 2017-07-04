@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System;
 using UnityEngine.UI;
-using System.Diagnostics;
-using Debug = UnityEngine.Debug;
 
 namespace view
 {
