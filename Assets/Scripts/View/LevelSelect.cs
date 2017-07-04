@@ -6,7 +6,7 @@ namespace view
     public class LevelSelect : MonoBehaviour
     {
         public Transform buttonParent_ = null;
-        private DefaultButton[] _levelSelectButton = new DefaultButton[6];
+        private BasicButton[] _levelSelectButton = new BasicButton[6];
         // Use this for initialization
 
         public void Awake()
@@ -51,16 +51,16 @@ namespace view
             }
         }
 
-        private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+        private BasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
+            GameObject prefab = Resources.Load(DefineData.PREFAB_BASIC_BUTTON_PATH) as GameObject;
             GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
             obj.transform.localPosition = localPos;
             obj.transform.localRotation = localRot;
             obj.transform.localScale = localScale;
             obj.name = objName;
             obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<DefaultButton>();
+            return obj.GetComponent<BasicButton>();
         }
     }
 }

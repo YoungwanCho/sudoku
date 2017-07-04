@@ -14,7 +14,7 @@ public static class DefineData
     public const string PREFAB_SITUATIONBOARD_PATH = "Prefab/SituationBoard";
 
     public const string PREFAB_INPUT_NUMBER_PAD_PATH = "Prefab/InputNumberButton";
-    public const string PREFAB_DEFAULT_BUTTON_PATH = "Prefab/DefaultButton";
+    public const string PREFAB_BASIC_BUTTON_PATH = "Prefab/BasicButton";
 
     public const string PREFAB_VIEW_MAINLOBBY_PATH = "Prefab/MainLobby";
     public const string PREFAB_VIEW_LEVELSELECT_PATH = "Prefab/LevelSelect";

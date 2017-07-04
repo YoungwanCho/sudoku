@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class InputPad : MonoBehaviour
 {
-    private DefaultButton[] _numberButton = new DefaultButton[DefineData.MAX_NUMBER_VALUE];
+    private BasicButton[] _numberButton = new BasicButton[DefineData.MAX_NUMBER_VALUE];
 
-    private DefaultButton _undoButton = null;
-    private DefaultButton _redoButton = null;
-    private DefaultButton _memoButton = null;
-    private DefaultButton _deleteButton = null;
-    private DefaultButton _quitButton = null;
+    private BasicButton _undoButton = null;
+    private BasicButton _redoButton = null;
+    private BasicButton _memoButton = null;
+    private BasicButton _deleteButton = null;
+    private BasicButton _quitButton = null;
 
     public void Awake()
     {
@@ -80,15 +80,15 @@ public class InputPad : MonoBehaviour
         _redoButton = InstantiateBasicButton("Redo", this.transform, new Vector3(350.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one);
     }
     
-    private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+    private BasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
     {
-        GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
+        GameObject prefab = Resources.Load(DefineData.PREFAB_BASIC_BUTTON_PATH) as GameObject;
         GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
         obj.transform.localPosition = localPos;
         obj.transform.localRotation = localRot;
         obj.transform.localScale = localScale;
         obj.name = objName;
         obj.layer = LayerMask.NameToLayer("UI");
-        return obj.GetComponent<DefaultButton>();
+        return obj.GetComponent<BasicButton>();
     }
 }
