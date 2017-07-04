@@ -7,10 +7,14 @@ namespace view
 {
     public class MainLobby : MonoBehaviour
     {
-        public Text lobbyTitleText_ = null;
+        [SerializeField]
+        private Text lobbyTitleText_ = null;
+        [SerializeField]
+        private BasicButton optionButton_ = null;
+        [SerializeField]
+        private BasicButton archiveButton_ = null;
+
         private BasicButton _newGameButton = null;
-        public BasicButton optionButton_ = null;
-        public BasicButton archiveButton_ = null;
 
         public void Awake()
         {

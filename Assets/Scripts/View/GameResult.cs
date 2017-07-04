@@ -7,8 +7,10 @@ namespace view
 {
     public class GameResult : MonoBehaviour
     {
-        public Text title_ = null;
-        public Text clearTime_ = null;
+        [SerializeField]
+        private Text title_ = null;
+        [SerializeField]
+        private Text clearTime_ = null;
 
         private BasicButton _quitButton = null;
 

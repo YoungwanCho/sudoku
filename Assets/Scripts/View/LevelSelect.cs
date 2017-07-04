@@ -5,24 +5,13 @@ namespace view
 {
     public class LevelSelect : MonoBehaviour
     {
-        public Transform buttonParent_ = null;
+        [SerializeField]
+        private Transform buttonParent_ = null;
         private BasicButton[] _levelSelectButton = new BasicButton[6];
-        // Use this for initialization
 
         public void Awake()
         {
             CreateLevelSelectButton();
-        }
-
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void Initialize(System.Action<GameObject> levelSelectFunc)
