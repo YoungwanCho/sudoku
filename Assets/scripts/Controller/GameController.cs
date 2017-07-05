@@ -171,42 +171,17 @@ namespace controller
 
         private view.SquareBoard CreateSquareBoard()
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_SQUAREBOARD_PATH) as GameObject;
-            GameObject obj = Instantiate(prefab, this.transform) as GameObject;
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "SquareBoard";
-            obj.layer = LayerMask.NameToLayer("UI");
-
-            return obj.GetComponent<view.SquareBoard>();
+            return FactoryManager.Instance.InstantiateGameObject<view.SquareBoard>(DefineData.PREFAB_SQUAREBOARD_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "SquareBoard", "UI");
         }
 
         private view.InputPad CreateInputPad()
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_PAD_PATH) as GameObject;
-            GameObject obj = Instantiate(prefab, this.transform);
-            obj.AddComponent<RectTransform>();
-            obj.transform.localPosition = new Vector3(0.0f, -600.0f, 0.0f);
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "InputPad";
-            obj.layer = LayerMask.NameToLayer("UI");
-
-            return obj.GetComponent<view.InputPad>();
+            return FactoryManager.Instance.InstantiateGameObject<view.InputPad>(DefineData.PREFAB_INPUT_PAD_PATH, this.transform, new Vector3(0.0f, -600.0f, 0.0f), Quaternion.identity, Vector3.one, "InputPad", "UI");
         }
 
         private view.SituationBoard CreateSituationBoard()
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_SITUATIONBOARD_PATH) as GameObject;
-            GameObject obj = Instantiate(prefab, this.transform) as GameObject;
-            obj.transform.localPosition = new Vector3(0.0f, -800, 0.0f);
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "SituationBoard";
-            obj.layer = LayerMask.NameToLayer("UI");
-
-            return obj.GetComponent<view.SituationBoard>();
+            return FactoryManager.Instance.InstantiateGameObject<view.SituationBoard>(DefineData.PREFAB_SITUATIONBOARD_PATH, this.transform, new Vector3(0.0f, -800.0f, 0.0f), Quaternion.identity, Vector3.one, "SituationBoard", "UI");
         }
 
         private void ClearBoard()

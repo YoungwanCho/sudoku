@@ -59,18 +59,10 @@ namespace view
         private view.SquarePack[] CreateSquarePack()
         {
             view.SquarePack[] squarePack = new view.SquarePack[DefineData.MAX_PACK_COUNT];
-            GameObject prefab = Resources.Load(DefineData.PREFAB_SQUAREPACK_PATH) as GameObject;
-            GameObject obj = null;
-            Vector3 pos = Vector3.zero;
             for (int i = 0; i < squarePack.Length; i++)
             {
-                obj = Instantiate(prefab, this.transform) as GameObject;
-                obj.transform.localPosition = pos;
-                obj.transform.localRotation = Quaternion.identity;
-                obj.transform.localScale = Vector3.one;
-                obj.name = string.Format("Pack {0}", i);
-                obj.layer = LayerMask.NameToLayer("UI");
-                squarePack[i] = obj.GetComponent<view.SquarePack>();
+                squarePack[i] = FactoryManager.Instance.InstantiateGameObject<view.SquarePack>
+                    (DefineData.PREFAB_SQUAREPACK_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, string.Format("Pack {0}", i), "UI");
             }
             return squarePack;
         }

@@ -30,20 +30,11 @@ namespace view
         private view.SquareCell[] CreateCells()
         {
             view.SquareCell[] squareCells = new view.SquareCell[DefineData.MAX_CELL_COUNT];
-            GameObject prefab = Resources.Load(DefineData.PREFAB_SQUARECELL_PATH) as GameObject;
-            GameObject obj = null;
-            Vector3 pos = Vector3.zero;
-            string imageName = string.Empty;
 
             for (int i = 0; i < squareCells.Length; i++)
             {
-                obj = Instantiate(prefab, this.transform) as GameObject;
-                obj.transform.localPosition = pos;
-                obj.transform.localRotation = Quaternion.identity;
-                obj.transform.localScale = Vector3.one;
-                obj.name = string.Format("Cell {0}", i);
-                obj.layer = LayerMask.NameToLayer("UI");
-                squareCells[i] = obj.GetComponent<view.SquareCell>();
+                squareCells[i] = FactoryManager.Instance.InstantiateGameObject<view.SquareCell>
+                    (DefineData.PREFAB_SQUARECELL_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, string.Format("Cell {0}", i), "UI");
             }
             return squareCells;
         }

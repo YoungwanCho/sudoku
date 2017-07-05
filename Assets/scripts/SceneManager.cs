@@ -66,7 +66,7 @@ public class SceneManager : MonoBehaviour
         };
         for(int i=0; i< _scenes.Length; i++)
         {
-            _sceneObjects[i] = InstantiateScene(prefabPaths[i], this.transform);
+            _sceneObjects[i] = FactoryManager.Instance.InstantiateGameobject(prefabPaths[i], this.transform, Vector3.zero, Quaternion.identity, Vector3.one, string.Empty, "UI");
             _scenes[i] = _sceneObjects[i].GetComponent<IScene>();
 
             switch((SCENE)i)
@@ -90,15 +90,4 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    private GameObject InstantiateScene(string prefabPath, Transform parent)
-    {
-        Debug.Log(string.Format("InstantiateScene : {0}", prefabPath));
-        GameObject prefab = Resources.Load<GameObject>(prefabPath) as GameObject;
-        GameObject obj = Instantiate(prefab, parent);
-        obj.transform.localPosition = Vector3.zero;
-        obj.transform.localRotation = Quaternion.identity;
-        obj.transform.localScale = Vector3.one;
-        obj.layer = LayerMask.NameToLayer("UI");
-        return obj;
-    }
 }

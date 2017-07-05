@@ -82,14 +82,7 @@ namespace scene
 
         private controller.GameController CreateGameController()
         {
-            GameObject obj = Instantiate(new GameObject(), this.transform) as GameObject;
-            obj.AddComponent<RectTransform>();
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "GameController";
-            obj.layer = LayerMask.NameToLayer("UI");
-            obj.AddComponent<RectTransform>();
+            GameObject obj = FactoryManager.Instance.InstantiateGameobject(new GameObject(), this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "GameController", "UI");
             return obj.AddComponent<controller.GameController>();
         }
 

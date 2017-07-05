@@ -51,43 +51,38 @@ namespace view
 
         private void CreateQuitButton()
         {
-            _quitButton = InstantiateBasicButton("Quit", this.transform, new Vector3(0.0f, -300.0f, 0.0f), Quaternion.identity, Vector3.one);
+            _quitButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(0.0f, -300.0f, 0.0f), Quaternion.identity, Vector3.one, "Quit", "UI");
         }
 
         private void CreateDeleteButton()
         {
-            _deleteButton = InstantiateBasicButton("Delete", this.transform, new Vector3(480.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one);
+            _deleteButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(480.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one, "Delete", "UI");
         }
 
         private void CreateMemoButton()
         {
-            _memoButton = InstantiateBasicButton("Memo", this.transform, new Vector3(-480.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one);
+            _memoButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(-480.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one, "Memo", "UI");
         }
 
         private void CreateNumberButton()
         {
             for (int i = 0; i < DefineData.MAX_NUMBER_VALUE; i++)
             {
-                _numberButton[i] = InstantiateBasicButton((i + 1).ToString(), numberButtonParent_, Vector3.zero, Quaternion.identity, Vector3.one);
+                _numberButton[i] = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                    (DefineData.PREFAB_BASIC_BUTTON_PATH, numberButtonParent_, Vector3.zero, Quaternion.identity, Vector3.one, (i + 1).ToString(), "UI");
             }
         }
 
         private void CreateDoActioButton()
         {
-            _undoButton = InstantiateBasicButton("Undo", this.transform, new Vector3(-350.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one);
-            _redoButton = InstantiateBasicButton("Redo", this.transform, new Vector3(350.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one);
-        }
+            _undoButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                    (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(-350.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one, "Undo", "UI");
 
-        private BasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
-        {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_BASIC_BUTTON_PATH) as GameObject;
-            GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
-            obj.transform.localPosition = localPos;
-            obj.transform.localRotation = localRot;
-            obj.transform.localScale = localScale;
-            obj.name = objName;
-            obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<BasicButton>();
+            _redoButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                    (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(350.0f, -200.0f, 0.0f), Quaternion.identity, Vector3.one, "Redo", "UI");
         }
     }
 }

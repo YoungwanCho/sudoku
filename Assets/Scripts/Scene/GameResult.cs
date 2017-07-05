@@ -35,15 +35,7 @@ namespace scene
 
         private view.GameResult CreateGameResultView()
         {
-            GameObject prefab = Resources.Load<GameObject>(DefineData.PREFAB_VIEW_GAMERESULT_PATH);
-            GameObject obj = null;
-            obj = Instantiate(prefab, this.transform);
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "LevelSelct";
-            obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<view.GameResult>();
+            return FactoryManager.Instance.InstantiateGameObject<view.GameResult>(DefineData.PREFAB_VIEW_GAMERESULT_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "LevelSelect", "UI");
         }
 
     }

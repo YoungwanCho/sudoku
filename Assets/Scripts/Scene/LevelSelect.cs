@@ -43,15 +43,7 @@ namespace scene
 
         private view.LevelSelect CreateLevelSelectView()
         {
-            GameObject prefab = Resources.Load<GameObject>(DefineData.PREFAB_VIEW_LEVELSELECT_PATH);
-            GameObject obj = null;
-            obj = Instantiate(prefab, this.transform);
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "LevelSelct";
-            obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<view.LevelSelect>();
+            return FactoryManager.Instance.InstantiateGameObject<view.LevelSelect>(DefineData.PREFAB_VIEW_LEVELSELECT_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "LevelSelect", "UI");
         }
     }
 }

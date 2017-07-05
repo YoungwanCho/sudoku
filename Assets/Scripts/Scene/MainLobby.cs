@@ -38,15 +38,7 @@ namespace scene
 
         private view.MainLobby CreateMainLobbyView()
         {
-            GameObject prefab = Resources.Load<GameObject>(DefineData.PREFAB_VIEW_MAINLOBBY_PATH);
-            GameObject obj = null;
-            obj = Instantiate(prefab, this.transform);
-            obj.transform.localPosition = Vector3.one;
-            obj.transform.localRotation = Quaternion.identity;
-            obj.transform.localScale = Vector3.one;
-            obj.name = "MainLobby";
-            obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<view.MainLobby>();
+            return FactoryManager.Instance.InstantiateGameObject<view.MainLobby>(DefineData.PREFAB_VIEW_MAINLOBBY_PATH, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "MainLobby", "UI");
         }
     }
 }
