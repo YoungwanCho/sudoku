@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 namespace view
 {
     public class SquarePack : MonoBehaviour
     {
         public SquareCell[] SquareCells { get { return _squareCells; } }
+
         private view.SquareCell[] _squareCells = null;
-        private int _orderIndex = 0; //@TODO: 생성자를 사용하지 않고 한번만 할당 하도록 수정
         private BoxCollider2D _collider = null;
+        private int _orderIndex = 0; //@TODO: 생성자를 사용하지 않고 한번만 할당 하도록 수정
 
         public void Awake()
         {

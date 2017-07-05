@@ -5,19 +5,12 @@ namespace model
 {
     public class SquareBoard
     {
-        public List<model.SquareCell> EqaulValueCells { get { return _equalValueCells; } }
-        public model.SquareCell[] EqualColumnCells { get { return _equalColumnCells; } }
-        public model.SquareCell[] EqaulRowCells { get { return _equalRowCells; } }
         public model.SquarePack[] SquarePack { get { return _squarePacks; } }
         public model.SquareCell SelectCell { get { return _selectCell; } }
         public int EmptyCellCount { get { return _emptyCellCount; } }
 
         private model.SquarePack _selectPack = null;
         private model.SquareCell _selectCell = null;
-        private model.SquareCell[] _equalColumnCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
-        private model.SquareCell[] _equalRowCells = new model.SquareCell[DefineData.MAX_CELL_COUNT - 1];
-        private List<model.SquareCell> _equalValueCells = new List<SquareCell>();
-        
         private model.SquarePack[] _squarePacks = new model.SquarePack[DefineData.MAX_PACK_COUNT];
 
         private int _emptyCellCount = 0;
@@ -52,14 +45,6 @@ namespace model
         {
             _selectCell = FindCellByCoordinates(column, row);
             UpdateSelectPack(_selectCell);
-            if (_selectCell.NumberValue == 0) // 빈칸을 선택한경우
-            {
-
-            }
-            else
-            {
-
-            }
             UpdateCellData(_selectCell);
             CallBack();
         }
@@ -85,7 +70,7 @@ namespace model
                     if (number == 0) //메모모드중 DeleteKey를 누른경우
                     {
                         Debug.Log("Input number Processing Delete");
-                        _selectCell.InitMemoArray();
+                        _selectCell.ClearMemoArray();
                     }
                     else
                     {
@@ -102,7 +87,7 @@ namespace model
             }
             else
             {
-                _selectCell.InitMemoArray();
+                _selectCell.ClearMemoArray();
             }
 
             Debug.Log(string.Format("-------------isMemoMode:{0}, previusNumber:{1}", isMemoMode, previusNumber));
@@ -129,7 +114,9 @@ namespace model
             }
 
             _selectCell.UpdateNumberValue(number);
-            UpdateCellData(_selectCell);
+            this.UpdateCellData(_selectCell);
+            _selectPack.UpdateDuplicateInPack();
+            this.UpdateDuplicateInAim(_selectCell);
 
             if (UndoStackPush != null) //Undo로 입력한 경우에는 UndoStack에 추가하지 않는다.
             {
@@ -137,25 +124,6 @@ namespace model
                 System.Array.Copy(_selectCell.MemoArray, currentMemoArr, _selectCell.MemoArray.Length);
                 UndoStackPush(_selectCell.BoardCoorinate, previusNumber, _selectCell.NumberValue, isPreviusMemoMode, _selectCell.IsMemoMode, previusMemoArr, currentMemoArr);
             }
-
-            _selectPack.UpdateDuplicateInPack();
-            this.UpdateDuplicateInAim(_selectCell);
-
-            //model.SquarePack pack = null;
-            //model.SquareCell cell = null;
-            //for (int i = 0; i < _squarePacks.Length; i++)
-            //{
-            //    pack = _squarePacks[i];
-            //    for (int j = 0; j < pack.SquareCells.Length; j++)
-            //    {
-            //        cell = pack.SquareCells[j];
-            //        if (cell.IsDuplicatePack)
-            //        {
-            //            Debug.Log(string.Format("Duplicate : [{0}, {1}] PackIndex : {2} Number : {3} ",
-            //                cell.BoardCoorinate.column, cell.BoardCoorinate.row, cell.PackIndex, cell.NumberValue));
-            //        }
-            //    }
-            //}            
         }
 
         public bool CheckGameSuccess()
@@ -218,41 +186,13 @@ namespace model
         {
             model.SquarePack targetPack = null;
             model.SquareCell targetCell = null;
-            int equalColumnCount = 0;
-            int equalRowCount = 0;
-            _equalValueCells.Clear();
-
             for (int i=0; i<_squarePacks.Length; i++)
             {
                 targetPack = _squarePacks[i];
                 for (int j=0; j<targetPack.SquareCells.Length; j++)
                 {
                     targetCell = targetPack.SquareCells[j];
-
-                    if(targetCell.BoardCoorinate.column == selectCell.BoardCoorinate.column && targetCell.BoardCoorinate.row == selectCell.BoardCoorinate.row) // 셀렉트셀 이라면 패스 (객체 이퀄연산하자)
-                    {
-                        continue;
-                    }
-                    
-                    if(targetCell.BoardCoorinate.column == selectCell.BoardCoorinate.column)
-                    {
-                        _equalColumnCells[equalColumnCount] = targetCell;
-                        equalColumnCount++;
-                    }
-                    else if(targetCell.BoardCoorinate.row == selectCell.BoardCoorinate.row)
-                    {
-                        _equalRowCells[equalRowCount] = targetCell;
-                        equalRowCount++;
-                    }
-                    
-                    if(selectCell.NumberValue == 0) // 빈칸이라면
-                    {
-                        continue;
-                    }
-                    else if(targetCell.NumberValue == selectCell.NumberValue)
-                    {
-                        _equalValueCells.Add(targetCell);
-                    }                      
+                    targetCell.UpdateStateBasedOnSelectedCell(selectCell);        
                 }
             }
         }
@@ -337,7 +277,7 @@ namespace model
             List<model.SquareCell> duplicateCells = new List<SquareCell>();
             bool isDuplicate = false;
             int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
-            int targetCellRow = boardColumn % DefineData.MAX_COLUMN_COUNT;
+            int targetCellRow = boardColumn % DefineData.MAX_ROW_COUNT;
 
             model.SquarePack[] packs = this.GetColumnPacks(targetPackColumn);
             model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];

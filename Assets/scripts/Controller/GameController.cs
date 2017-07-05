@@ -14,7 +14,7 @@ namespace controller
         private model.SquareBoard _modelBoard = null;
         private view.SituationBoard _situationBoard = null;
         private view.SquareBoard _viewBoard = null;
-        private InputPad _inputPad = null;
+        private view.InputPad _inputPad = null;
         private bool _isMemoMode = false;
         
         public void Awake()
@@ -52,6 +52,21 @@ namespace controller
             _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
             _doCtrl.Initialize();
             OnClickCell(4, 4);
+        }
+
+        public void LoopAllSquareCell(model.SquareBoard board)
+        {
+            model.SquarePack targetPack = null;
+            model.SquareCell targetCell = null;
+
+            for(int i=0; i<board.SquarePack.Length; i++)
+            {
+                targetPack = board.SquarePack[i];
+                for(int j=0; j<targetPack.SquareCells.Length; j++)
+                {
+                    targetCell = targetPack.SquareCells[i];
+                }
+            }
         }
 
         public void OnClickQuit(GameObject obj)
@@ -150,8 +165,7 @@ namespace controller
 
         public void UpdateView()
         {
-            _viewBoard.UpdateBoardAim(this._modelBoard);
-            _viewBoard.UpdateBoardValue(this._modelBoard);
+            _viewBoard.UpdateBoard(this._modelBoard);
             _situationBoard.UpdateEmptyCellCount(_modelBoard.EmptyCellCount);
         }
 
@@ -168,9 +182,10 @@ namespace controller
             return obj.GetComponent<view.SquareBoard>();
         }
 
-        private InputPad CreateInputPad()
+        private view.InputPad CreateInputPad()
         {
-            GameObject obj = Instantiate(new GameObject(), this.transform);
+            GameObject prefab = Resources.Load(DefineData.PREFAB_INPUT_PAD_PATH) as GameObject;
+            GameObject obj = Instantiate(prefab, this.transform);
             obj.AddComponent<RectTransform>();
             obj.transform.localPosition = new Vector3(0.0f, -600.0f, 0.0f);
             obj.transform.localRotation = Quaternion.identity;
@@ -178,13 +193,13 @@ namespace controller
             obj.name = "InputPad";
             obj.layer = LayerMask.NameToLayer("UI");
 
-            return obj.AddComponent<InputPad>();
+            return obj.GetComponent<view.InputPad>();
         }
 
         private view.SituationBoard CreateSituationBoard()
         {
-            GameObject prefabs = Resources.Load(DefineData.PREFAB_SITUATIONBOARD_PATH) as GameObject;
-            GameObject obj = Instantiate(prefabs, this.transform) as GameObject;
+            GameObject prefab = Resources.Load(DefineData.PREFAB_SITUATIONBOARD_PATH) as GameObject;
+            GameObject obj = Instantiate(prefab, this.transform) as GameObject;
             obj.transform.localPosition = new Vector3(0.0f, -800, 0.0f);
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;

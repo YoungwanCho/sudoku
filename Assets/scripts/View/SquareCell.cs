@@ -1,23 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 namespace view
 {
     public class SquareCell : MonoBehaviour
     {
         public model.BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
-        public Text numberValue_;
-        public Image backGroundImage_;
 
-        public Transform memoParent_;
-
-        private Text[] memoTextArray_ = new Text[DefineData.MAX_CELL_COUNT]; 
+		[SerializeField] private Text[] memoTextArray_ = new Text[DefineData.MAX_CELL_COUNT];
+        [SerializeField] private Text numberValue_;
+        [SerializeField] private Image backGroundImage_;
+        [SerializeField] private Transform memoParent_;
 
         private model.BoardCoordinate _boardCoordinate = null;
-
         private Button _button = null;
-
         private int _packIndex = 0;
         private int _orderIdex = 0;
         private int _column = 0;
@@ -49,29 +45,54 @@ namespace view
 
         public void UpdateCell(model.SquareCell modelCell)
         {
-            if(modelCell.IsMemoMode)
+            Color normalColor = new Color(0, 100, 0); //@TODO: 나중에 디파인 처리
+
+            Color imageColor = Color.black;
+            Color textColor = Color.white;
+
+            if (!modelCell.IsOpenValue && (modelCell.IsDuplicatePack || modelCell.IsDuplicateColumn || modelCell.IsDuplicateRow))
+            {
+                imageColor = Color.black;
+                textColor = Color.red;
+            }
+            else if (modelCell.IsSelectCell || modelCell.IsEqualColumn || modelCell.IsEqualRow)
+            {
+                imageColor = Color.magenta;
+                textColor = Color.blue;
+            }
+            else if (modelCell.IsEqualNumber)
+            {
+                imageColor = Color.yellow;
+                textColor = Color.black;
+            }
+            else
+            {
+                imageColor = Color.grey;
+                textColor = normalColor;
+            }
+
+            UpdateTrim(imageColor, textColor);
+
+            if (modelCell.IsMemoMode)
             {
                 this.UpdateMemoText(modelCell.MemoArray);
             }
             else
             {
-                this.UpdateText(modelCell.NumberValue);
+                this.UpdateNumberText(modelCell.NumberValue);
             }
         }
 
-        public void UpdateTrim(Color bgColor, Color textColor)
+        private void UpdateTrim(Color imageColor, Color textColor)
         {
-            ChangeImage(bgColor);
-
-            //ChangeScale(isZooming ? 1.1f : 1.0f);
-
-            ChangeTextColor(textColor);
+            backGroundImage_.color = imageColor;
+            numberValue_.color = textColor;
         }
 
-        private void UpdateText(int numberValue)
+        private void UpdateNumberText(int numberValue)
         {
             numberValue_.gameObject.SetActive(true);
-            memoParent_.gameObject.SetActive(false);            
+            memoParent_.gameObject.SetActive(false);
             numberValue_.text = numberValue == 0 ? string.Empty : numberValue.ToString();
         }
 
@@ -79,25 +100,11 @@ namespace view
         {
             numberValue_.gameObject.SetActive(false);
             memoParent_.gameObject.SetActive(true);
-            for(int i=0; i< memoTextArray_.Length; i++)
+            for (int i = 0; i < memoTextArray_.Length; i++)
             {
                 memoTextArray_[i].text = memoArray[i].ToString();
             }
         }
 
-        private void ChangeScale(float scale)
-        {
-            this.transform.localScale = Vector3.one * scale;
-        }
-
-        private void ChangeImage(Color color)
-        {
-            backGroundImage_.color = color;
-        }
-        
-        private void ChangeTextColor(Color color)
-        {
-            numberValue_.color = color;
-        }
     }
 }

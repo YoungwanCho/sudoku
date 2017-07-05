@@ -1,28 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+
 namespace view
 {
     public class LevelSelect : MonoBehaviour
     {
-        public Transform buttonParent_ = null;
-        private DefaultButton[] _levelSelectButton = new DefaultButton[6];
-        // Use this for initialization
+        [SerializeField]
+        private Transform buttonParent_ = null;
+        private BasicButton[] _levelSelectButton = new BasicButton[6];
 
         public void Awake()
         {
             CreateLevelSelectButton();
-        }
-
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void Initialize(System.Action<GameObject> levelSelectFunc)
@@ -51,16 +40,16 @@ namespace view
             }
         }
 
-        private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+        private BasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
+            GameObject prefab = Resources.Load(DefineData.PREFAB_BASIC_BUTTON_PATH) as GameObject;
             GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
             obj.transform.localPosition = localPos;
             obj.transform.localRotation = localRot;
             obj.transform.localScale = localScale;
             obj.name = objName;
             obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<DefaultButton>();
+            return obj.GetComponent<BasicButton>();
         }
     }
 }

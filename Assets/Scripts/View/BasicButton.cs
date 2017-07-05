@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class DefaultButton : MonoBehaviour
+public class BasicButton : MonoBehaviour
 {
     [SerializeField]
     private Button _button = null;

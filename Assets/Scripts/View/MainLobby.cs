@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace view
 {
     public class MainLobby : MonoBehaviour
     {
-        public Text lobbyTitleText_ = null;
-        private DefaultButton _newGameButton = null;
-        public DefaultButton optionButton_ = null;
-        public DefaultButton archiveButton_ = null;
+        [SerializeField]
+        private Text lobbyTitleText_ = null;
+        [SerializeField]
+        private BasicButton optionButton_ = null;
+        [SerializeField]
+        private BasicButton archiveButton_ = null;
+
+        private BasicButton _newGameButton = null;
 
         public void Awake()
         {
@@ -39,16 +41,16 @@ namespace view
             _newGameButton = InstantiateBasicButton("NewGameStart", this.transform, Vector3.zero, Quaternion.identity, Vector3.one);
         }
 
-        private DefaultButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
+        private BasicButton InstantiateBasicButton(string objName, Transform parent, Vector3 localPos, Quaternion localRot, Vector3 localScale)
         {
-            GameObject prefab = Resources.Load(DefineData.PREFAB_DEFAULT_BUTTON_PATH) as GameObject;
+            GameObject prefab = Resources.Load(DefineData.PREFAB_BASIC_BUTTON_PATH) as GameObject;
             GameObject obj = obj = Instantiate(prefab, parent) as GameObject;
             obj.transform.localPosition = localPos;
             obj.transform.localRotation = localRot;
             obj.transform.localScale = localScale;
             obj.name = objName;
             obj.layer = LayerMask.NameToLayer("UI");
-            return obj.GetComponent<DefaultButton>();
+            return obj.GetComponent<BasicButton>();
         }
     }
 }
