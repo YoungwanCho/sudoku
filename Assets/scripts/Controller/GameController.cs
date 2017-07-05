@@ -21,6 +21,7 @@ namespace controller
         {
             _doCtrl = new controller.DoController();
             _modelBoard = new model.SquareBoard();
+            CreateInGameView();
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
             _situationBoard = CreateSituationBoard();
@@ -167,6 +168,11 @@ namespace controller
         {
             _viewBoard.UpdateBoard(this._modelBoard);
             _situationBoard.UpdateEmptyCellCount(_modelBoard.EmptyCellCount);
+        }
+
+        private void CreateInGameView()
+        {
+            FactoryManager.Instance.InstantiateGameobject(DefineData.PREFAB_VIEW_INGAME, this.transform, Vector3.zero, Quaternion.identity, Vector3.one, "InGameView", "UI");
         }
 
         private view.SquareBoard CreateSquareBoard()

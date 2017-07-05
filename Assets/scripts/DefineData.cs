@@ -18,6 +18,7 @@ public static class DefineData
 
     public const string PREFAB_VIEW_MAINLOBBY_PATH = "Prefab/MainLobby";
     public const string PREFAB_VIEW_LEVELSELECT_PATH = "Prefab/LevelSelect";
+    public const string PREFAB_VIEW_INGAME = "Prefab/InGame";
     public const string PREFAB_VIEW_GAMERESULT_PATH = "Prefab/GameResult";
 
     public const string PREFAB_SCENE_MAINLOBBY_PATH = "Prefab/Scene/MainLobby";
