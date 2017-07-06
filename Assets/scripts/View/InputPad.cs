@@ -13,6 +13,7 @@ namespace view
         private BasicButton _memoButton = null;
         private BasicButton _deleteButton = null;
         private BasicButton _quitButton = null;
+        private BasicButton _saveButton = null;
 
         public void Awake()
         {
@@ -21,13 +22,15 @@ namespace view
             CreateMemoButton();
             CreateDeleteButton();
             CreateQuitButton();
+            CreateSaveButton();
         }
 
         public void Initialize(System.Action<GameObject> onClickNumberButton,
             System.Action<GameObject> onClickDoAaction,
             System.Action<GameObject> onClickMemo,
             System.Action<GameObject> onClickDelete,
-            System.Action<GameObject> onClickQuit)
+            System.Action<GameObject> onClickQuit,
+            System.Action<GameObject> onClickSave)
         {
             for (int i = 0; i < _numberButton.Length; i++)
             {
@@ -39,6 +42,7 @@ namespace view
             _memoButton.Initialize(onClickMemo, Color.green, "Memo");
             _deleteButton.Initialize(onClickDelete, Color.green, "Delete");
             _quitButton.Initialize(onClickQuit, Color.green, "Quit");
+            _saveButton.Initialize(onClickSave, Color.green, "Save");
 
             this.UpdateMemoButton(false);
         }
@@ -47,6 +51,12 @@ namespace view
         {
             Color color = isOn ? Color.green : Color.gray;
             _memoButton.UpdateButton(color);
+        }
+
+        private void CreateSaveButton()
+        {
+            _saveButton = FactoryManager.Instance.InstantiateGameObject<BasicButton>
+                (DefineData.PREFAB_BASIC_BUTTON_PATH, this.transform, new Vector3(-450.0f, 1200.0f, 0.0f), Quaternion.identity, Vector3.one, "Save", "UI");
         }
 
         private void CreateQuitButton()

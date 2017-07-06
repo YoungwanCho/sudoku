@@ -10,6 +10,7 @@ namespace controller
         private scene.InGame _game = null;
 
         private controller.DoController _doCtrl = null;
+        private controller.StageEditor _stageEditor = null;
 
         private model.SquareBoard _modelBoard = null;
         private view.SituationBoard _situationBoard = null;
@@ -20,7 +21,9 @@ namespace controller
         public void Awake()
         {
             _doCtrl = new controller.DoController();
+            _stageEditor = new controller.StageEditor();
             _modelBoard = new model.SquareBoard();
+
             CreateInGameView();
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
@@ -50,7 +53,7 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(_game.StageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit, this.OnClickSave);
             _doCtrl.Initialize();
             OnClickCell(4, 4);
         }
@@ -68,6 +71,12 @@ namespace controller
                     targetCell = targetPack.SquareCells[i];
                 }
             }
+        }
+
+        public void OnClickSave(GameObject obj)
+        {
+            Debug.Log("OnClick Save Button");
+            _stageEditor.MapSave(string.Empty, _modelBoard);
         }
 
         public void OnClickQuit(GameObject obj)

@@ -8,8 +8,11 @@ namespace controller
 {
     class StageEditor
     {
-        public void MapSave(model.SquareBoard board)
+        public void MapSave(string stageName, model.SquareBoard board)
         {
+            if (stageName == string.Empty)
+                return;
+
             model.StageData stageData = new model.StageData();
 
             model.SquarePack targetPack = null;
@@ -31,7 +34,9 @@ namespace controller
             string str = JsonUtility.ToJson(stageData, prettyPrint: true);
             Debug.Log(str);
 
-            using (FileStream fs = new FileStream("Assets/StreamingAssets/stage6.json", FileMode.Create))
+            string path = string.Format("Assets/StreamingAssets/{0}.json", stageName);
+
+            using (FileStream fs = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {

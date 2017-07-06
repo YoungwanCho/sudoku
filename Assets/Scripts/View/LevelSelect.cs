@@ -7,8 +7,7 @@ namespace view
     {
         [SerializeField]
         private Transform buttonParent_ = null;
-
-        private BasicButton[] _levelSelectButton = new BasicButton[6];
+        private BasicButton[] _levelSelectButton = new BasicButton[7];
 
         public void Awake()
         {
@@ -17,9 +16,15 @@ namespace view
 
         public void Initialize(System.Action<GameObject> levelSelectFunc)
         {
+            string buttonText = string.Empty;
             for (int i = 0; i < _levelSelectButton.Length; i++)
             {
-                _levelSelectButton[i].Initialize(levelSelectFunc, Color.green, i.ToString());
+                buttonText = i.ToString();
+                if(i == 0)
+                {
+                    buttonText = "Map Editor";
+                }
+                _levelSelectButton[i].Initialize(levelSelectFunc, Color.green, buttonText);
             }
         }
 
