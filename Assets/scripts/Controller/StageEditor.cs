@@ -53,7 +53,7 @@ namespace controller
             string str = JsonUtility.ToJson(stageData, prettyPrint: true);
             Debug.Log(str);
 
-            string path = string.Format("Assets/StreamingAssets/{0}.json", stageName);
+            string path = string.Format("{0}/{1}.json", UnityEngine.Application.streamingAssetsPath, stageName); //@TODO: file 붙이면 에러남" 유니티에디터에서만 사용가능 할듯;
 
             System.IO.FileInfo fi = new System.IO.FileInfo(path);
             if(fi.Exists)
@@ -77,5 +77,3 @@ namespace controller
         }
     }
 }
-
-
