@@ -73,10 +73,16 @@ namespace controller
             }
         }
 
+        public void OnClickSavePopupOK(object obj)
+        {
+            _stageEditor.SaveStageAs(obj, _modelBoard);
+        }
+
         public void OnClickSave(GameObject obj)
         {
             Debug.Log("OnClick Save Button");
-            _stageEditor.MapSave(string.Empty, _modelBoard);
+            PopupYesNoInputField popup = PopupManager.Instance.Open<PopupYesNoInputField>("PopupYesNoInputField") as PopupYesNoInputField;
+            popup.Initialize(this.OnClickSavePopupOK, null);
         }
 
         public void OnClickQuit(GameObject obj)

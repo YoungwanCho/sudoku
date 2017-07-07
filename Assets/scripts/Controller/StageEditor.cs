@@ -3,12 +3,31 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace controller
 {
     class StageEditor
     {
-        public void MapSave(string stageName, model.SquareBoard board)
+        public void SaveStageAs(object stageName, model.SquareBoard board)
+        {
+            if(stageName.GetType() == typeof(String))
+            {
+                if(IsEnglish(stageName.ToString()))
+                {
+                    MapSave(stageName.ToString(), board);
+                }
+            }
+        }
+
+        private bool IsEnglish(string str)
+        {
+            Debug.Log(string.Format("IsEnglish : {0}", str));
+            Regex engRegex = new Regex(@"[a-zA-Z]");
+            return engRegex.IsMatch(str);
+        }
+
+        private void MapSave(string stageName, model.SquareBoard board)
         {
             if (stageName == string.Empty)
                 return;
@@ -36,16 +55,24 @@ namespace controller
 
             string path = string.Format("Assets/StreamingAssets/{0}.json", stageName);
 
-            using (FileStream fs = new FileStream(path, FileMode.Create))
+            System.IO.FileInfo fi = new System.IO.FileInfo(path);
+            if(fi.Exists)
             {
-                using (StreamWriter writer = new StreamWriter(fs))
+                Debug.Log("StageName Exists");
+            }
+            else
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
-                    writer.Write(str);
-                    writer.Close();
-                    writer.Dispose();
+                    using (StreamWriter writer = new StreamWriter(fs))
+                    {
+                        writer.Write(str);
+                        writer.Close();
+                        writer.Dispose();
+                    }
+                    fs.Close();
+                    fs.Dispose();
                 }
-                fs.Close();
-                fs.Dispose();
             }
         }
     }
