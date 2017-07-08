@@ -75,5 +75,84 @@ namespace controller
                 }
             }
         }
+
+        public void RotationStage(model.SquareBoard sourceBoard)
+        {
+            int[,] sourceNumberArr = new int[9, 9];
+            int[,] resultNumberArr = new int[9, 9];
+
+            model.SquarePack sourcePack = null;
+            model.SquareCell sourceCell = null;
+
+            int sourceColumn = 0;
+            int sourceRow = 0;
+
+            int maxIndex;
+            int magicIndex;
+
+            //@Brief Make sourceNumberArr
+            for(int i=0; i<sourceBoard.SquarePack.Length; i++)
+            {
+                sourcePack = sourceBoard.SquarePack[i];
+                for(int j=0; j<sourcePack.SquareCells.Length; j++)
+                {
+                    sourceCell = sourcePack.SquareCells[j];
+                    sourceColumn = sourceCell.BoardCoorinate.column;
+                    sourceRow = sourceCell.BoardCoorinate.row;
+                    Debug.Log(string.Format("{0}, {1}", sourceRow, sourceColumn));
+                    sourceNumberArr[sourceRow, sourceColumn] = sourceCell.NumberValue;
+                }
+            }
+
+            //@Brief Log Print
+            StringBuilder log = new StringBuilder();
+            for (int i = 0; i < sourceNumberArr.GetLength(0); i++)
+            {
+                for (int j = 0; j < sourceNumberArr.GetLength(1); j++)
+                {
+                    log.Append("{0} ", sourceNumberArr[i, j]);
+      
+                }
+                log.Append("\n");
+            }
+            Debug.Log(log);
+
+            maxIndex = sourceNumberArr.GetLength(0) - 1; // maxIndex  = (9 - 1);
+
+            //@Brief Right 90 Rotation
+            for (int i=0; i<sourceNumberArr.GetLength(0); i++)
+            {
+                for(int j=0; j<sourceNumberArr.GetLength(1); j++)
+                {
+                    magicIndex = maxIndex - j;
+                    resultNumberArr[i, j] = sourceNumberArr[magicIndex, i];
+                }
+            }
+
+            //@Brief Log Print
+            log = new StringBuilder();
+            for (int i = 0; i < resultNumberArr.GetLength(0); i++)
+            {
+                for (int j = 0; j < resultNumberArr.GetLength(1); j++)
+                {
+                    log.Append("{0}", resultNumberArr[i, j]);
+                }
+                log.Append("\n");
+            }
+            Debug.Log(log);
+
+            //@Brief SourceBoard Update
+            for (int i = 0; i < sourceBoard.SquarePack.Length; i++)
+            {
+                sourcePack = sourceBoard.SquarePack[i];
+                for (int j = 0; j < sourcePack.SquareCells.Length; j++)
+                {
+                    sourceCell = sourcePack.SquareCells[j];
+                    sourceColumn = sourceCell.BoardCoorinate.column;
+                    sourceRow = sourceCell.BoardCoorinate.row;
+                    sourceCell.Initialize(resultNumberArr[sourceRow, sourceColumn]);
+                }
+            }
+        }
     }
 }

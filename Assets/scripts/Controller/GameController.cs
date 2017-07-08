@@ -53,7 +53,7 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(_game.StageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit, this.OnClickSave);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit, this.OnClickSave, this.OnClickRotationState);
             _doCtrl.Initialize();
             OnClickCell(4, 4);
         }
@@ -85,6 +85,19 @@ namespace controller
             popup.Initialize(this.OnClickSavePopupOK, null);
         }
 
+        public void OnClickRotationState(GameObject obj)
+        {
+            _stageEditor.RotationStage(_modelBoard);
+            UpdateView();
+            OnClickCell(4, 4);
+        }
+
+        public void OnClickMemo(GameObject obj)
+        {
+            Debug.Log("OnClickMemo");
+            UpdateMemoMode(!_isMemoMode);
+        }
+
         public void OnClickQuit(GameObject obj)
         {
             Debug.Log("OnClick Quit Button");
@@ -95,12 +108,6 @@ namespace controller
         {
             Debug.Log("OnClickDelete");
             OnClickInputNumberButton(new GameObject("0"));
-        }
-        
-        public void OnClickMemo(GameObject obj)
-        {
-            Debug.Log("OnClickMemo");
-            UpdateMemoMode(!_isMemoMode);  
         }
 
         public void OnClickCell(int column, int row)
