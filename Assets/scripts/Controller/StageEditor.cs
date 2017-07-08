@@ -110,7 +110,7 @@ namespace controller
             {
                 for (int j = 0; j < sourceNumberArr.GetLength(1); j++)
                 {
-                    log.Append("{0} ", sourceNumberArr[i, j]);
+                    log.AppendFormat("{0} ", sourceNumberArr[i, j]);
       
                 }
                 log.Append("\n");
@@ -135,7 +135,7 @@ namespace controller
             {
                 for (int j = 0; j < resultNumberArr.GetLength(1); j++)
                 {
-                    log.Append("{0}", resultNumberArr[i, j]);
+                    log.AppendFormat("{0} ", resultNumberArr[i, j]);
                 }
                 log.Append("\n");
             }
