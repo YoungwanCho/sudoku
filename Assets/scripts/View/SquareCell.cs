@@ -16,8 +16,8 @@ namespace view
         private Button _button = null;
         private int _packIndex = 0;
         private int _orderIdex = 0;
-        private int _column = 0;
         private int _row = 0;
+        private int _column = 0;
 
         public void Awake()
         {
@@ -32,15 +32,15 @@ namespace view
             (
                 delegate
                 {
-                    onClickCell(_boardCoordinate.column, _boardCoordinate.row);
+                    onClickCell(_boardCoordinate.row, _boardCoordinate.column);
                 }
             );
 
             this._packIndex = packIndex;
             this._orderIdex = orderIndex;
-            this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
             this._row = orderIndex / DefineData.MAX_ROW_COUNT;
-            this._boardCoordinate = new model.BoardCoordinate(packIndex, this._column, this._row);
+            this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
+            this._boardCoordinate = new model.BoardCoordinate(packIndex,this._row, this._column);
         }
 
         public void UpdateCell(model.SquareCell modelCell)

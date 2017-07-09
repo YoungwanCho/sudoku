@@ -3,16 +3,16 @@ namespace model
 {
     public class BoardCoordinate
     {
-        public readonly int column;
         public readonly int row;
+        public readonly int column;
 
-        public BoardCoordinate(int packIndex, int column, int row)
+        public BoardCoordinate(int packIndex, int row, int column)
         {
-            int packColumn = packIndex % DefineData.MAX_COLUMN_COUNT;
             int packRow = packIndex / DefineData.MAX_ROW_COUNT;
+            int packColumn = packIndex % DefineData.MAX_COLUMN_COUNT;
 
-            this.column = (packColumn * DefineData.MAX_COLUMN_COUNT) + column;
             this.row = (packRow * DefineData.MAX_ROW_COUNT) + row;
+            this.column = (packColumn * DefineData.MAX_COLUMN_COUNT) + column;
         }
     }
 }
