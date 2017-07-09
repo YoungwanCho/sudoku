@@ -143,9 +143,9 @@ namespace controller
                 {
                     return;
                 }
-                model.DoAction peek = _doCtrl.UndoPop();
-                OnClickCell(peek.boardCoordinate.row, peek.boardCoordinate.column);
-                model.DoAction redo = peek.SwapDoAction();
+                model.DoAction pop = _doCtrl.UndoPop();
+                OnClickCell(pop.boardCoordinate.row, pop.boardCoordinate.column);
+                model.DoAction redo = pop.SwapDoAction();
                 _doCtrl.RedoPush(redo);
                 _modelBoard.InputNumber(redo.current.isMemoMode, redo.current.number, redo.current.memoArray, null);
             }
@@ -156,9 +156,9 @@ namespace controller
                     return;
                 }
 
-                model.DoAction peek = _doCtrl.RedoPop();
-                OnClickCell(peek.boardCoordinate.row, peek.boardCoordinate.column);
-                model.DoAction undo = peek.SwapDoAction();
+                model.DoAction pop = _doCtrl.RedoPop();
+                OnClickCell(pop.boardCoordinate.row, pop.boardCoordinate.column);
+                model.DoAction undo = pop.SwapDoAction();
                 _doCtrl.UndoPush(undo);
                 _modelBoard.InputNumber(undo.current.isMemoMode, undo.current.number, undo.current.memoArray, null);
             }
