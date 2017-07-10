@@ -10,6 +10,7 @@ namespace controller
         private scene.InGame _game = null;
 
         private controller.DoController _doCtrl = null;
+        private controller.StageEditor _stageEditor = null;
 
         private model.SquareBoard _modelBoard = null;
         private view.SituationBoard _situationBoard = null;
@@ -20,7 +21,9 @@ namespace controller
         public void Awake()
         {
             _doCtrl = new controller.DoController();
+            _stageEditor = new controller.StageEditor();
             _modelBoard = new model.SquareBoard();
+
             CreateInGameView();
             _viewBoard = CreateSquareBoard();
             _inputPad = CreateInputPad();
@@ -50,7 +53,7 @@ namespace controller
             this._game = game;
             _modelBoard.Initialize(_game.StageData);
             _viewBoard.Initialize(this.OnClickCell);
-            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit);
+            _inputPad.Initialize(this.OnClickInputNumberButton, this.OnClickDoAction, this.OnClickMemo, this.OnClickDelete, this.OnClickQuit, this.OnClickSave, this.OnClickRotationState);
             _doCtrl.Initialize();
             OnClickCell(4, 4);
         }
@@ -70,6 +73,31 @@ namespace controller
             }
         }
 
+        public void OnClickSavePopupOK(object obj)
+        {
+            _stageEditor.SaveStageAs(obj, _modelBoard);
+        }
+
+        public void OnClickSave(GameObject obj)
+        {
+            Debug.Log("OnClick Save Button");
+            PopupYesNoInputField popup = PopupManager.Instance.Open<PopupYesNoInputField>("PopupYesNoInputField") as PopupYesNoInputField;
+            popup.Initialize(this.OnClickSavePopupOK, null);
+        }
+
+        public void OnClickRotationState(GameObject obj)
+        {
+            _stageEditor.RotationStage(_modelBoard);
+            UpdateView();
+            OnClickCell(4, 4);
+        }
+
+        public void OnClickMemo(GameObject obj)
+        {
+            Debug.Log("OnClickMemo");
+            UpdateMemoMode(!_isMemoMode);
+        }
+
         public void OnClickQuit(GameObject obj)
         {
             Debug.Log("OnClick Quit Button");
@@ -80,12 +108,6 @@ namespace controller
         {
             Debug.Log("OnClickDelete");
             OnClickInputNumberButton(new GameObject("0"));
-        }
-        
-        public void OnClickMemo(GameObject obj)
-        {
-            Debug.Log("OnClickMemo");
-            UpdateMemoMode(!_isMemoMode);  
         }
 
         public void OnClickCell(int column, int row)

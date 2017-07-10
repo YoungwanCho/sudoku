@@ -28,7 +28,7 @@ namespace scene
         {
             _sceneManager = manager;
 
-            string stageName = string.Format("stage{0}", _sceneManager.GetSelectStageIndex() + 1);
+            string stageName = string.Format("stage{0}", _sceneManager.GetSelectStageIndex());
 
             StartCoroutine(GameControllerInit(stageName));
             _timer.Reset();
