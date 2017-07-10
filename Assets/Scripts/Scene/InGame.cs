@@ -46,6 +46,18 @@ namespace scene
             UpdatePlayTime();
         }
 
+        public void OnApplicationFocus(bool focus)
+        {
+            if (focus)
+            {
+                _timer.Start();
+            }
+            else
+            {
+                _timer.Stop();
+            }
+        }
+
         public string GetPlayTimeString()
         {
             return string.Format("{0}:{1}:{2}", _timer.Elapsed.Hours.ToString("00"), _timer.Elapsed.Minutes.ToString("00"), _timer.Elapsed.Seconds.ToString("00"));
