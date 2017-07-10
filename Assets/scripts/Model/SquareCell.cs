@@ -12,20 +12,20 @@ namespace model
         public bool IsMemoMode { get { return this._isMemoMode; } }
         public bool IsOpenValue { get { return this._isOpenValue; } }
         public bool IsDuplicatePack { get { return this._isDuplicatePack; } }
-        public bool IsDuplicateColumn { get { return this._isDuplicateColumn; } }
         public bool IsDuplicateRow { get { return this._isDuplicateRow; } }
+        public bool IsDuplicateColumn { get { return this._isDuplicateColumn; } }
         public bool IsSelectCell { get { return this._isSelectCell; } }
         public bool IsEqualNumber { get { return this._isEqualNumber; } }
-        public bool IsEqualColumn { get { return this._isEqualColumn; } }
         public bool IsEqualRow { get { return this._isEqualRow; } }
+        public bool IsEqualColumn { get { return this._isEqualColumn; } }
 
         public BoardCoordinate BoardCoorinate { get { return this._boardCoordinate; } }
 
         private readonly BoardCoordinate _boardCoordinate;
         private readonly int _packIndex;
         private readonly int _orderIndex;
-        private readonly int _column;
         private readonly int _row;
+        private readonly int _column;
 
         private int _numberValue = 0;
         private bool _isOpenValue = false;
@@ -43,9 +43,9 @@ namespace model
         {
             this._packIndex = packIndex;
             this._orderIndex = orderIndex;
-            this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
             this._row = orderIndex / DefineData.MAX_ROW_COUNT;
-            this._boardCoordinate = new BoardCoordinate(packIndex, this._column, this._row);
+            this._column = orderIndex % DefineData.MAX_COLUMN_COUNT;
+            this._boardCoordinate = new BoardCoordinate(packIndex, this._row, this._column);
         }
 
         public void Initialize(int number)
@@ -53,13 +53,13 @@ namespace model
             this.UpdateNumberValue(number);
             this._isOpenValue = number != 0;
             this._isDuplicatePack = false;
-            this._isDuplicateColumn = false;
             this._isDuplicateRow = false;
+            this._isDuplicateColumn = false;
 
             this._isSelectCell = false;
             this._isEqualNumber = false;
-            this._isEqualColumn = false;
             this._isEqualRow = false;
+            this._isEqualColumn = false;
 
             this._isMemoMode = false;
 
@@ -71,9 +71,9 @@ namespace model
         {
 			this._isSelectCell = (selectCell.BoardCoorinate.column == this.BoardCoorinate.column && selectCell.BoardCoorinate.row == this.BoardCoorinate.row);
             this._isEqualNumber = this._numberValue == 0 ? false : (selectCell.NumberValue == this._numberValue);
-            this._isEqualColumn = (selectCell.BoardCoorinate.column == this._boardCoordinate.column);
             this._isEqualRow = (selectCell.BoardCoorinate.row == this._boardCoordinate.row);
-
+            this._isEqualColumn = (selectCell.BoardCoorinate.column == this._boardCoordinate.column);
+ 
             if(this._isOpenValue)
             {
                 return;
@@ -150,7 +150,7 @@ namespace model
             if(_isDuplicatePack)
             {
                 Debug.Log(string.Format("Pack DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
-                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
+                    this.PackIndex, isOn, _boardCoordinate.row, _boardCoordinate.column, this._numberValue));
             }
         }
 
@@ -173,7 +173,7 @@ namespace model
             if(_isDuplicateColumn)
             {
                 Debug.Log(string.Format("Column DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
-                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
+                    this.PackIndex, isOn, _boardCoordinate.row, _boardCoordinate.column, this._numberValue));
             }
         }
 
@@ -196,7 +196,7 @@ namespace model
             if (_isDuplicateRow)
             {
                 Debug.Log(string.Format("Row DuplicateState - PackIndex :{0}, State : {1},  [{2}, {3}] Number : {4}",
-                    this.PackIndex, isOn, _boardCoordinate.column, _boardCoordinate.row, this._numberValue));
+                    this.PackIndex, isOn, _boardCoordinate.row, _boardCoordinate.column, this._numberValue));
             }
         }
 
@@ -208,7 +208,7 @@ namespace model
                 if (_memoArray[i] != 0)
                 {
                     _isMemoMode = true;
-                    Debug.Log(string.Format("Memo Mode Cell : [{0}, {1}]", this._boardCoordinate.column, _boardCoordinate.row));
+                    Debug.Log(string.Format("Memo Mode Cell : [{0}, {1}]", this._boardCoordinate.row, _boardCoordinate.column));
                     break;    
                 }
             }

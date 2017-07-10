@@ -110,16 +110,16 @@ namespace controller
             OnClickInputNumberButton(new GameObject("0"));
         }
 
-        public void OnClickCell(int column, int row)
+        public void OnClickCell(int row, int column)
         {
-            UnityEngine.Debug.Log(string.Format("OnClick : [{0}, {1}]", column, row));
-            _modelBoard.OnSellectCell(column, row, this.UpdateView);
+            UnityEngine.Debug.Log(string.Format("OnClick : [{0}, {1}]", row, column));
+            _modelBoard.OnSellectCell(row, column, this.UpdateView);
         }
 
         public void OnClickInputNumberButton(GameObject obj)
         {
             Debug.Log(string.Format("InputValueButton : {0}", obj.name));
-            int number = System.Int32.Parse(obj.name);               
+            int number = System.Int32.Parse(obj.name);
             _modelBoard.InputNumber(_isMemoMode, number, null, this.UndoStackPush);
             this.UpdateMemoMode(_isMemoMode);
             UpdateView();
@@ -143,9 +143,9 @@ namespace controller
                 {
                     return;
                 }
-                model.DoAction peek = _doCtrl.UndoPop();
-                OnClickCell(peek.boardCoordinate.column, peek.boardCoordinate.row);
-                model.DoAction redo = peek.SwapDoAction();
+                model.DoAction pop = _doCtrl.UndoPop();
+                OnClickCell(pop.boardCoordinate.row, pop.boardCoordinate.column);
+                model.DoAction redo = pop.SwapDoAction();
                 _doCtrl.RedoPush(redo);
                 _modelBoard.InputNumber(redo.current.isMemoMode, redo.current.number, redo.current.memoArray, null);
             }
@@ -156,9 +156,9 @@ namespace controller
                     return;
                 }
 
-                model.DoAction peek = _doCtrl.RedoPop();
-                OnClickCell(peek.boardCoordinate.column, peek.boardCoordinate.row);
-                model.DoAction undo = peek.SwapDoAction();
+                model.DoAction pop = _doCtrl.RedoPop();
+                OnClickCell(pop.boardCoordinate.row, pop.boardCoordinate.column);
+                model.DoAction undo = pop.SwapDoAction();
                 _doCtrl.UndoPush(undo);
                 _modelBoard.InputNumber(undo.current.isMemoMode, undo.current.number, undo.current.memoArray, null);
             }
@@ -223,7 +223,7 @@ namespace controller
                 {
                     targetCell = targetPack.SquareCells[j];
 
-                    this.OnClickCell(targetCell.BoardCoorinate.column, targetCell.BoardCoorinate.row);
+                    this.OnClickCell(targetCell.BoardCoorinate.row, targetCell.BoardCoorinate.column);
                     this.OnClickInputNumberButton(new GameObject("0"));
                 }
             }

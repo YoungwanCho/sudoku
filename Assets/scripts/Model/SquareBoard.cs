@@ -41,9 +41,9 @@ namespace model
             Debug.Log(string.Format("Init EmptyCellCount : {0}", this._emptyCellCount));
         }
 
-        public void OnSellectCell(int column, int row, System.Action CallBack)
+        public void OnSellectCell(int row, int column, System.Action CallBack)
         {
-            _selectCell = FindCellByCoordinates(column, row);
+            _selectCell = FindCellByCoordinates(row, column);
             UpdateSelectPack(_selectCell);
             UpdateCellData(_selectCell);
             CallBack();
@@ -276,8 +276,8 @@ namespace model
         {
             List<model.SquareCell> duplicateCells = new List<SquareCell>();
             bool isDuplicate = false;
-            int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
             int targetCellRow = boardColumn % DefineData.MAX_ROW_COUNT;
+            int targetPackColumn = boardColumn / DefineData.MAX_COLUMN_COUNT;
 
             model.SquarePack[] packs = this.GetColumnPacks(targetPackColumn);
             model.SquareCell[] cells = new model.SquareCell[DefineData.MAX_CELL_COUNT];
@@ -344,25 +344,24 @@ namespace model
            _selectPack = _squarePacks[cell.PackIndex]; 
         }
 
-        private SquareCell FindCellByCoordinates(int column, int row)
+        private SquareCell FindCellByCoordinates(int row, int column)
         {
             SquareCell cell = null;
 
-            int packColumn = column / DefineData.MAX_COLUMN_COUNT;
             int packRow = row / DefineData.MAX_ROW_COUNT;
+            int packColumn = column / DefineData.MAX_COLUMN_COUNT;
 
             int packOrderIndex = (packRow * DefineData.MAX_ROW_COUNT) + packColumn;
 
-            int cellColumn = column % DefineData.MAX_COLUMN_COUNT;
             int cellRow = row % DefineData.MAX_ROW_COUNT;
+            int cellColumn = column % DefineData.MAX_COLUMN_COUNT;
 
             int cellOrderIndex = (cellRow * DefineData.MAX_ROW_COUNT) + cellColumn;
-
 
             cell = _squarePacks[packOrderIndex].SquareCells[cellOrderIndex];
 
             Debug.Log(string.Format("parameter : [{0}, {1}] - Cell Coordinate : [{2}, {3}]", 
-                column, row, cell.BoardCoorinate.column, cell.BoardCoorinate.row));
+                row, column, cell.BoardCoorinate.row, cell.BoardCoorinate.column));
             
             return cell;
         }
